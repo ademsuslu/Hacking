@@ -1,1 +1,24 @@
+Tarayıcı Güvenlik Özellikleri:
++ Same-Origin Policy (SOP) nedir?
++ Content Security Policy (CSP) nedir?
++ cors
 
+2.2 XSS Örneklerini İncele
+ + Gerçek hayattan XSS açıkları ve CVE raporlarını incele.
+ + OWASP XSS Cheat Sheet’e göz at.
+ + Büyük güvenlik bloglarından (PortSwigger, HackerOne) XSS ile ilgili makaleleri oku.
+
+
+
+CTF Platformları:
+PicoCTF, OverTheWire gibi platformlarda XSS pratikleri yap.
+
+
+
+4.2 Güvenlik Önlemleri ve Bypass Teknikleri
+ + CSP Bypass:
+    - CSP’nin nasıl çalıştığını ve nasıl aşılacağını öğren.  
+ + Input Sanitization Bypass:
+    - Giriş doğrulamasını aşmak için kullanılan teknikler.
+ + WAF Bypass:
+    - Web Application Firewall (WAF) sistemlerini kandırma yöntemleri.
