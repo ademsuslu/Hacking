@@ -80,7 +80,11 @@ Sonuç
 Content Security Policy, web uygulamalarında güvenliği artırmak için oldukça etkili bir yöntemdir. Doğru yapılandırıldığında, XSS gibi yaygın saldırılara karşı güçlü bir koruma sağlar. Ancak, düzgün çalışması için detaylı planlama ve test süreci gerektirir.
 
 
-+ cors
+ # CORS Nedir ne işe yarar 
+
+CORS (Cross-Origin Resource Sharing), web uygulamalarında farklı kökenlerden (origin) gelen kaynaklara erişim için kullanılan bir tarayıcı güvenlik mekanizmasıdır. CORS, bir web sayfasının kendi kökeni dışında (örneğin başka bir domain, port veya protokol) bulunan kaynaklara erişmesine izin verirken, aynı zamanda bu erişimi kontrol altına almayı sağlar.
+
+Bypass için:  cors-anywhere 
 
 2.2 XSS Örneklerini İncele
  + Gerçek hayattan XSS açıkları ve CVE raporlarını incele.
