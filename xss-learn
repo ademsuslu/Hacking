@@ -1,5 +1,29 @@
 Tarayıcı Güvenlik Özellikleri:
-+ Same-Origin Policy (SOP) nedir?
+# Same-Origin Policy (SOP) nedir?
+Same-Origin Policy (SOP), web güvenliği açısından önemli bir tarayıcı güvenlik mekanizmasıdır. Bu politika, bir kaynağın (örneğin bir web sayfasının) başka bir kaynağın verilerine yalnızca aynı kökene (origin) sahip olması durumunda erişmesine izin verir. Origin; protokol (örneğin HTTP veya HTTPS), domain (örneğin example.com) ve port numarasının birleşiminden oluşur.
+
+SOP'un Temel Amacı
+Same-Origin Policy, kötü niyetli web sitelerinin kullanıcıya ait hassas verilere (örneğin çerezlere, oturum bilgilerine veya tarayıcıda depolanan verilere) erişmesini önlemek için tasarlanmıştır. Örneğin, bir site kullanıcının banka hesabına ait oturum çerezlerini ele geçirmeye çalışıyorsa SOP devreye girer ve farklı bir kökene sahip olduğu için bu erişimi engeller.
+
+SOP Nasıl Çalışır?
+Bir tarayıcıda yüklü bir web sayfası, aşağıdaki koşullarda başka bir kaynağa erişebilir:
+
+Protokol aynı olmalı (örneğin, her iki site de https kullanıyor olmalı).
+Domain aynı olmalı (örneğin, www.example.com ile example.com farklıdır).
+Port numarası aynı olmalı (örneğin, https://example.com:443 ile https://example.com:8080 farklıdır).
+Örneğin:
+
+https://example.com/page1 sayfası, https://example.com/page2'ye erişebilir çünkü kökenler aynıdır.
+Ancak https://example.com sayfası, http://example.com ya da https://anotherdomain.com üzerindeki kaynaklara SOP nedeniyle doğrudan erişemez.
+
+SOP'u Aşmanın Yolları
+Bazı durumlarda SOP'nin katı kuralları esnetilmek istenir. Bunun için güvenli yöntemler kullanılır:
+
+CORS (Cross-Origin Resource Sharing): Bir sunucu, başka bir kökenden gelen isteklere izin verebilir. Bu, yanıt başlıklarında gerekli izinleri tanımlayarak yapılır.
+JSONP: SOP'un devrede olmadığı eski durumlar için kullanılan bir tekniktir, ancak artık pek güvenli değildir ve modern projelerde tercih edilmez.
+Özetle:
+Same-Origin Policy, web uygulamalarında güvenliğin temel taşlarından biridir ve tarayıcıların zararlı çapraz site işlemlerini engellemesine yardımcı olur. Ancak, belirli durumlarda CORS gibi yöntemlerle bu kısıtlamalar kontrollü bir şekilde aşılabilir.
+
 + Content Security Policy (CSP) nedir?
 + cors
 
