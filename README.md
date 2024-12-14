@@ -1,0 +1,1 @@
+xxe açıklarıda öğrenmem gerekiyor. 
