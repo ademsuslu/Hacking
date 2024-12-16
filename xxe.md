@@ -16,9 +16,25 @@ Aşağıdaki XML, basit bir XXE saldırısı örneğidir.
 </stockCheck>
 ```
 
-**Açıklama:**
-- `<!ENTITY xxe SYSTEM "file:///etc/passwd">`: `xxe` isimli bir harici varlık tanımlar ve sistemden `/etc/passwd` dosyasını yüklemeye çalışır.
-- `<productId>&xxe;</productId>`: Tanımlanan harici varlığı çağırır ve sunucuda belirtilen dosyanın içeriğini XML yanıtına ekler.
+### Açıklama
+
+#### 1. `<!DOCTYPE foo>`
+- **DOCTYPE (Document Type Definition):** XML belgesinin yapısını tanımlamak için kullanılır.
+- `foo`: Bu bir isimdir ve genelde anlamlı olması gerekmez. XML belgesine bir "tip" vermek için kullanılır.
+
+#### 2. `<!ENTITY xxe SYSTEM "file:///etc/passwd">`
+- **ENTITY (Varlık Tanımı):** XML içinde kullanılacak bir varlığı (entity) tanımlamak için kullanılır.
+  - `xxe`: Bu, tanımlanan varlığın adıdır. Daha sonra `&xxe;` ile çağrılır.
+- **SYSTEM:** Harici bir kaynağı işaret eder. 
+  - Burada `file:///etc/passwd` belirtilmiştir. Bu, saldırganın sunucunun dosya sistemindeki hassas bir dosyaya erişmeye çalıştığı anlamına gelir (Linux sistemlerinde `/etc/passwd`, kullanıcı bilgilerini içerir).
+
+#### 3. `<productId>&xxe;</productId>`
+- `&xxe;`: Yukarıda tanımlanan harici varlık burada çağrılıyor. Bu, `/etc/passwd` dosyasının içeriğini alıp XML çıktısına eklemeye çalışır.
+
+### Neden Gerekli?
+Bu yapı, kötü niyetli bir saldırganın XML işlemcisini istismar edebilmesi için gereklidir:
+- `DOCTYPE` ve `ENTITY` olmadan harici bir varlık tanımlanamaz.
+- `SYSTEM` olmadan, sunucunun dosya sistemine veya harici kaynaklara erişim mümkün değildir.
 
 **Beklenen Etki:**
 Sunucu, `/etc/passwd` dosyasının içeriğini döndürebilir, böylece saldırgan hassas bilgiler elde eder.
