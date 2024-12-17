@@ -16,6 +16,35 @@ Aşağıdaki XML, basit bir XXE saldırısı örneğidir.
 </stockCheck>
 ```
 
+```xml
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'file:///invalid/%file;'>">
+%eval;
+%exfil;
+```
+### Açıklama
+Bu XML kodu, XXE saldırısında kullanılan bir "payload"dır. Şimdi bunu satır satır inceleyelim:
+
+1. Satır: <!ENTITY % file SYSTEM "file:///etc/passwd">
+
+Burada file adında bir harici entity tanımlanıyor.
+SYSTEM anahtar kelimesi ile yerel bir dosya olan /etc/passwd dosyasına erişim sağlanıyor.
+file:///etc/passwd: Unix/Linux sistemlerde kullanıcı bilgilerinin yer aldığı dosyadır.
+2. Satır: <!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'file:///invalid/%file;'>">
+
+Burada eval adında bir entity tanımlanıyor.
+eval entity'si, %file içeriğini bir başka entity'ye geçiriyor.
+%: Bu hexadecimal değeri % karakterini temsil eder.
+Böylece %file entity'sinin değeri (file:///etc/passwd'deki veri) exfil adlı yeni entity'ye dahil edilmiş olur.
+3. Satır: %eval;
+
+%eval; ile yukarıda tanımlanan eval entity'si tetiklenir.
+Bu işlem sonucu %file entity'si exfil adında yeni bir entity'ye aktarılır.
+4. Satır: %exfil;
+
+%exfil; entity'si çağrılarak file:///etc/passwd dosyasındaki veriler XML işlemcisi tarafından okunmaya çalışılır.
+
+
 ### Açıklama
 
 #### 1. `<!DOCTYPE foo>`
