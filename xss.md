@@ -74,8 +74,9 @@ Header set Content-Security-Policy "default-src 'self'; script-src 'self' https:
 HTML Dosyasında Kullanım: HTML'de <meta> etiketiyle CSP tanımlanabilir:
 
 html
-``````
+```
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+```
 Sonuç
 Content Security Policy, web uygulamalarında güvenliği artırmak için oldukça etkili bir yöntemdir. Doğru yapılandırıldığında, XSS gibi yaygın saldırılara karşı güçlü bir koruma sağlar. Ancak, düzgün çalışması için detaylı planlama ve test süreci gerektirir.
 
@@ -105,3 +106,10 @@ PicoCTF, OverTheWire gibi platformlarda XSS pratikleri yap.
     - Giriş doğrulamasını aşmak için kullanılan teknikler.
  + WAF Bypass:
     - Web Application Firewall (WAF) sistemlerini kandırma yöntemleri.
+
+
+#xss another dom manipulation
+```
+<script>document.querySelector('#thm-title').textContent = 'I am a hacker'</script>
+```
+
