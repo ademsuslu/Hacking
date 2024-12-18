@@ -110,6 +110,6 @@ PicoCTF, OverTheWire gibi platformlarda XSS pratikleri yap.
 
 #xss another dom manipulation
 ```
-<script>document.querySelector('#thm-title').textContent = 'I am a hacker'</script>
+<script>document.querySelector('#some-id or .class').textContent = 'I am a hacker'</script>
 ```
 
