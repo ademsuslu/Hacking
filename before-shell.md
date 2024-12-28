@@ -32,4 +32,10 @@ sudo -l
 
 Komut , geçerli kullanıcının sistemde ayrıcalıklarla sudo -lçalıştırmasına izin verilen komutların listesini görüntüler.
 
+Her zaman kontrol etmeniz gereken env dosyasında key PWD => passwd bulunabilir
+``` bash
+env
+```
+
+
 
