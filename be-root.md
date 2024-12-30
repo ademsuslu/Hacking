@@ -111,3 +111,39 @@ sudo -l
 feedback.sh betiğini inceledim ve komut enjeksiyonu yaparak sudoers dosyasını düzenledim.
 Son olarak, root yetkileriyle bir shell açarak tam kontrol sağladım.
 Bu çözüm, hem CTF çözümleme pratiği hem de gerçek dünyada güvenlik açıklarını anlamak için oldukça öğreticidir.
+/
+Reverse shell aldıktan sonra root yetkisine ulaşmak (privilige escalation) için izleyebileceğiniz birkaç adım bulunmaktadır. İşte izleyebileceğiniz bir yol haritası:
+
+*1. Sistem Bilgilerini Toplama*
+Öncelikle sistem hakkında bilgi toplamanız gerekmektedir:
+- *Kernel Versiyonu*: `uname -a`
+- *İşletim Sistemi ve Dağıtımı*: `cat /etc/os-release` veya `cat /etc/issue`
+- *Kullanıcı Bilgileri*: `id` ve `whoami`
+
+*2. Konfigürasyon Dosyalarını Kontrol Etme*
+Sistem konfigürasyon dosyalarını kontrol ederek potansiyel zafiyetleri belirleyin:
+- *Sudoers Dosyası*: `cat /etc/sudoers` ve `sudo -l` komutlarını kullanarak, sudo yetkilerine sahip olup olmadığınızı kontrol edin.
+- *Setuid Bit*: `find / -perm -4000 -type f 2>/dev/null` komutu ile Setuid bit'ine sahip dosyaları arayın.
+
+*3. Yaygın Güvenlik Zafiyetlerini Araştırma*
+Yaygın güvenlik zafiyetlerini kontrol edin:
+- *Sudo İstismarları*: `sudo -l` komutunu kullanarak sudo yetkilerine sahip olduğunuz programları kontrol edin. Bu programlar üzerinden zafiyet olup olmadığını araştırın.
+- *Cron Job'lar*: `cat /etc/crontab` ve `ls -la /etc/cron.*` komutları ile cron job'larını kontrol edin.
+- *Zayıf Dosya İzinleri*: Kritik konfigürasyon dosyalarında zayıf dosya izinlerini kontrol edin. (örneğin, `/etc/passwd` ve `/etc/shadow`)
+
+*4. Local Exploitler*
+Kernel exploitleri ve local exploitleri kullanarak yetki yükseltme işlemi gerçekleştirebilirsiniz:
+- *Exploit DB*: [Exploit DB](https://www.exploit-db.com/) üzerinde işletim sisteminiz ve kernel versiyonunuz için uygun exploitleri araştırın.
+- *GTFOBins*: [GTFOBins](https://gtfobins.github.io/) üzerinde setuid bit'ine sahip dosyalar veya sudo yetkisine sahip programlar için uygun exploit tekniklerini araştırın.
+
+*5. Otomatik Araçlar Kullanma*
+Yetki yükseltme işlemlerini otomatik olarak gerçekleştirebilecek araçlar:
+- *LinPEAS*: [LinPEAS](https://github.com/carlospolop/PEASS-ng) aracını kullanarak sistemdeki potansiyel zafiyetleri tarayın.
+- *Les (Linux Exploit Suggester)*: [Linux Exploit Suggester](https://github.com/mzet-/linux-exploit-suggester) aracını kullanarak kernel exploitlerini tespit edin.
+
+*Örnek Bir Exploit Kullanma*
+Örneğin, `sudo` yetkisine sahip bir program üzerinden yetki yükseltme:
+```bash
+sudo <program> /bin/sh
+```
+
