@@ -1,3 +1,4 @@
+# XSS https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
 Tarayıcı Güvenlik Özellikleri:
 # Same-Origin Policy (SOP) nedir?
 Same-Origin Policy (SOP), web güvenliği açısından önemli bir tarayıcı güvenlik mekanizmasıdır. Bu politika, bir kaynağın (örneğin bir web sayfasının) başka bir kaynağın verilerine yalnızca aynı kökene (origin) sahip olması durumunda erişmesine izin verir. Origin; protokol (örneğin HTTP veya HTTPS), domain (örneğin example.com) ve port numarasının birleşiminden oluşur.
