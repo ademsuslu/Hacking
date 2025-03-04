@@ -28,3 +28,8 @@ smbclient //[IP]/[SHARE]
 Followed by the tags:
 -U [name] : to specify the user
 -p [port] : to specify the port
+
+suit kullanıcısından secreti alma işlemi
+```bash
+smbclient //10.10.10.2/secret -U suit -p 445
+```
