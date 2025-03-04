@@ -37,3 +37,7 @@ smb client içine girdiğimizde buldugumuz bır text yada pdf vb dosyayı okuma
 ```
 > more dosya_name
 ```
+smb client içine girdiğimizde buldugumuz bır text yada pdf vb dosyayı indirme 
+```
+> get dosya_name
+```
