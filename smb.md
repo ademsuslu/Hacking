@@ -1,43 +1,81 @@
-SMB protokoli tcp/ip olarak calısır req ve res protokolüdür , 
+SMB Protokolü ve Enum4Linux Kullanımı
 
+SMB Protokolü Nedir?
 
-The syntax of Enum4Linux is nice and simple: "enum4linux [options] ip"
+SMB (Server Message Block) protokolü, TCP/IP üzerinde çalışan bir istek ve yanıt (request-response) protokolüdür.
 
-TAG            FUNCTION
+Enum4Linux Kullanımı
 
--U             get userlist
--M             get machine list
--N             get namelist dump (different from -U and-M)
--S             get sharelist
--P             get password policy information
--G             get group and member list
--a             all of the above (full basic enumeration)
+Enum4Linux aracının temel kullanım sözdizimi:
 
-örnek bir tarama sonucunda aşağıdakilere erişimimiz var.
+enum4linux [seçenekler] [IP]
 
-                                                                                                                                            
-        Sharename       Type      Comment
-        ---------       ----      -------
-        netlogon        Disk      Network Logon Service
-        profiles        Disk      Users profiles
-        print$          Disk      Printer Drivers
-        IPC$            IPC       IPC Service (polosmb server (Samba, Ubuntu))
+Kullanılabilir Seçenekler
 
-eğer bunları buluyorsak sıradaki adım şu olmalı
+TAG
+
+FONKSİYON
+
+-U
+
+Kullanıcı listesini al
+
+-M
+
+Makine listesini al
+
+-N
+
+Ad listesini dök ( -U ve -M'den farklıdır)
+
+-S
+
+Paylaşılan dizinleri listele
+
+-P
+
+Parola politikası bilgilerini al
+
+-G
+
+Grup ve üye listesini al
+
+-a
+
+Yukarıdaki tüm işlemleri yap (tam temel enumarasyon)
+
+Örnek Tarama Sonucu
+
+Bir tarama sonucunda aşağıdaki bilgileri elde edebiliriz:
+
+Sharename       Type      Comment
+---------       ----      -------
+netlogon        Disk      Network Logon Service
+profiles        Disk      Users profiles
+print$          Disk      Printer Drivers
+IPC$            IPC       IPC Service (polosmb server (Samba, Ubuntu))
+
+Eğer bu bilgileri bulduysak, bir sonraki adım olarak SMB istemcisine bağlanabiliriz:
+
 smbclient //[IP]/[SHARE]
-Followed by the tags:
--U [name] : to specify the user
--p [port] : to specify the port
 
-suit kullanıcısından secreti alma işlemi
-```bash
+Bağlanma için kullanılan temel etiketler:
+
+-U [kullanıcı_adı] : Kullanıcı adı belirtmek için kullanılır.
+
+-p [port] : Bağlanılacak portu belirtmek için kullanılır.
+
+SMB İstemcisi Kullanarak Dosya Alma
+
+Suit kullanıcısından "secret" paylaşım dizinine erişim:
+
 smbclient //10.10.10.2/secret -U suit -p 445
-```
-smb client içine girdiğimizde buldugumuz bır text yada pdf vb dosyayı okuma 
-```
-> more dosya_name
-```
-smb client içine girdiğimizde buldugumuz bır text yada pdf vb dosyayı indirme 
-```
-> get dosya_name
-```
+
+SMB Client İçinde Bulunan Dosyayı Okuma
+
+> more dosya_adı
+
+SMB Client İçinde Bulunan Dosyayı İndirme
+
+> get dosya_adı
+
