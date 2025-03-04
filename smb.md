@@ -22,3 +22,9 @@ TAG            FUNCTION
         profiles        Disk      Users profiles
         print$          Disk      Printer Drivers
         IPC$            IPC       IPC Service (polosmb server (Samba, Ubuntu))
+
+eğer bunları buluyorsak sıradaki adım şu olmalı
+smbclient //[IP]/[SHARE]
+Followed by the tags:
+-U [name] : to specify the user
+-p [port] : to specify the port
