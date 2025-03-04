@@ -1,0 +1,24 @@
+SMB protokoli tcp/ip olarak calısır req ve res protokolüdür , 
+
+
+The syntax of Enum4Linux is nice and simple: "enum4linux [options] ip"
+
+TAG            FUNCTION
+
+-U             get userlist
+-M             get machine list
+-N             get namelist dump (different from -U and-M)
+-S             get sharelist
+-P             get password policy information
+-G             get group and member list
+-a             all of the above (full basic enumeration)
+
+örnek bir tarama sonucunda aşağıdakilere erişimimiz var.
+
+                                                                                                                                            
+        Sharename       Type      Comment
+        ---------       ----      -------
+        netlogon        Disk      Network Logon Service
+        profiles        Disk      Users profiles
+        print$          Disk      Printer Drivers
+        IPC$            IPC       IPC Service (polosmb server (Samba, Ubuntu))
