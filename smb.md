@@ -33,3 +33,7 @@ suit kullanıcısından secreti alma işlemi
 ```bash
 smbclient //10.10.10.2/secret -U suit -p 445
 ```
+smb client içine girdiğimizde buldugumuz bır text yada pdf vb dosyayı okuma 
+```
+> more dosya_name
+```
