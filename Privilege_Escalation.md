@@ -51,3 +51,25 @@ Env variables
 env
 ```
 PATH değişkeni, hedef sistemde kod çalıştırmak veya ayrıcalık yükseltme için kullanılabilecek bir derleyiciye veya betik diline (örneğin Python) sahip olabilir.
+---
+
+```bash
+sudo -l
+```
+
+Hedef sistem, kullanıcıların bazı (veya tüm) komutları kök ayrıcalıklarıyla çalıştırmasına izin verecek şekilde yapılandırılabilir. sudo -l Komut, kullanıcınızın . kullanarak çalıştırabileceği tüm komutları listelemek için kullanılabilir sudo.
+
+---
+
+İD
+Komut, id kullanıcının ayrıcalık düzeyi ve grup üyelikleri hakkında genel bir bakış sağlayacaktır.
+```bash
+id
+```
+id Aşağıda görüldüğü gibi komutun başka bir kullanıcı için de aynı bilgiyi almak amacıyla kullanılabileceğini hatırlatmakta fayda var .
+---
+
+```bash
+cat /etc/passwd
+```
+Dosyayı okumak /etc/passwd sistemdeki kullanıcıları keşfetmenin kolay bir yolu olabilir.
