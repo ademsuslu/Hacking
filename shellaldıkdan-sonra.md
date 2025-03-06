@@ -6,6 +6,9 @@
    Eğer bir reverse shell açmak istiyorsanız, aşağıdaki komutu kullanabilirsiniz:
    ```bash
    python3 -c 'import pty; pty.spawn("/bin/bash")'
+ctrl+z
+stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
+   
     ```
 
 Shell Kapatılması Durumu: Eğer açtığınız reverse shell kapanırsa veya yanlışlıkla kapanırsa, yeni bir shell açmak için şu adımları izleyebilirsiniz:
