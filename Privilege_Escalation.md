@@ -72,4 +72,23 @@ id Aşağıda görüldüğü gibi komutun başka bir kullanıcı için de aynı 
 ```bash
 cat /etc/passwd
 ```
+veya 
+ Başka bir yaklaşım da "home" için grep yapmak olabilir, çünkü gerçek kullanıcıların klasörleri büyük ihtimalle "home" dizini altında olacaktır.
 Dosyayı okumak /etc/passwd sistemdeki kullanıcıları keşfetmenin kolay bir yolu olabilir.
+
+```bash
+cat /etc/passwd | grep home
+```
+---
+
+
+
+
+
+
+
+
+
+
+
+
