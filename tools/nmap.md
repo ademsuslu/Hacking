@@ -1,5 +1,14 @@
 # Nmap Kullanımı ve Port Taramaları
 
+
+## 0. **Hızlı biraz detaylı tarama**
+```bash
+nmap 10.10.1.0 p -sVC -T4 -oN nmap.txt
+```
+Bu komut, hedefte açık olan portların hızlıca tarar.
+---
+
+
 ## 1. **Temel Tarama**
 ```bash
 nmap 10.10.137.90
