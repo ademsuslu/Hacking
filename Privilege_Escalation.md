@@ -43,7 +43,11 @@ Komut, Linuxps  sisteminde çalışan işlemleri görmenin etkili bir yoludur . 
 ```bash
 ps aux
 ```
+---
+Env variables
+![image](https://github.com/user-attachments/assets/ea6b8963-10a4-4940-9c0b-0621abda5a43)
 
-
-
-
+```bash
+env
+```
+PATH değişkeni, hedef sistemde kod çalıştırmak veya ayrıcalık yükseltme için kullanılabilecek bir derleyiciye veya betik diline (örneğin Python) sahip olabilir.
