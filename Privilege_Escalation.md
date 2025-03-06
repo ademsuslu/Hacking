@@ -81,9 +81,53 @@ cat /etc/passwd | grep home
 ```
 ---
 
+``` bash
+history
+```
+Komutla ilgili daha önceki komutlara bakmak  history bize hedef sistem hakkında fikir verebilir ve nadiren de olsa şifreler veya kullanıcı adları gibi saklanmış bilgiler içerebilir.
 
+---
 
+netstat
+Mevcut arayüzler ve ağ rotaları için ilk kontrolün ardından, mevcut iletişimlere bakmakta fayda vardır. netstatKomut, mevcut bağlantılar hakkında bilgi toplamak için birkaç farklı seçenekle birlikte kullanılabilir.
 
+``` bash
+netstat
+```
+
+netstat -a: tüm dinleme portlarını ve kurulan bağlantıları gösterir.
+netstat -atveya sırasıyla TCP veya UDP protokollerini netstat -aulistelemek için de kullanılabilir .
+netstat -l: “dinleme” modunda portları listeler. Bu portlar açıktır ve gelen bağlantıları kabul etmeye hazırdır. Bu, yalnızca TCP protokolünü (aşağıda) kullanarak dinleyen portları listelemek için “t” seçeneğiyle kullanılabilir
+
+---
+Komutu bul
+Hedef sistemde önemli bilgiler ve potansiyel ayrıcalık yükseltme vektörleri aramak verimli olabilir. Dahili "find" komutu kullanışlıdır ve cephaneliğinizde bulundurmaya değer.
+
+Aşağıda “find” komutu için bazı yararlı örnekler verilmiştir.
+hataları "/dev/null"a yönlendirmek ve daha temiz bir çıktı elde etmek için "find" komutunu "-type f 2>/dev/null" ile kullanmak akıllıca olacaktır 
+Dosyaları bul:
+find / -writable -type d 2>/dev/null 
+find . -name flag1.txt: geçerli dizinde “flag1.txt” adlı dosyayı bulun
+find /home -name flag1.txt: /home dizinindeki “flag1.txt” dosya adlarını bulun
+find / -type d -name config: “/” altında config adlı dizini bulun
+find / -type f -perm 0777: 777 izinlerine sahip dosyaları bul (tüm kullanıcılar tarafından okunabilir, yazılabilir ve çalıştırılabilir dosyalar)
+find / -perm a=x: çalıştırılabilir dosyaları bul
+find /home -user frank: “frank” kullanıcısına ait tüm dosyaları “/home” altında bul
+find / -mtime 10: Son 10 günde değiştirilen dosyaları bul
+find / -atime 10: Son 10 günde erişilen dosyaları bul
+find / -cmin -60: Son bir saat (60 dakika) içinde değiştirilen dosyaları bul
+find / -amin -60: Son bir saat (60 dakika) içinde erişilen dosyaları bul
+find / -size 50M: 50 MB boyutundaki dosyaları bul
+Bu komut, belirtilen boyuttan daha büyük veya daha küçük bir dosyayı belirtmek için (+) ve (-) işaretleriyle birlikte de kullanılabilir.
+
+``` bash
+find . -name flag1.txt
+```
+Dosyayı geçerli kullanıcıdan daha yüksek bir ayrıcalık seviyesiyle çalıştırmamızı sağlayan SUID bitine sahip dosyaları bulun.
+``` bash
+find / -perm -u=s -type f 2>/dev/null
+```
+---
 
 
 
