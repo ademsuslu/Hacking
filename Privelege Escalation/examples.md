@@ -58,7 +58,15 @@ tmp içinde olmalı
 sonra 
 
 
-![image](https://github.com/user-attachments/assets/95393a6b-8542-43de-b917-86ad585d9bd5)
+SUID bitlerini ayarlayabildiğimiz için hedef sistemde /bin/bash'i çalıştıracak basit bir çalıştırılabilir dosya işimizi görecektir.
+
+![image](https://github.com/user-attachments/assets/dde4845c-94af-41e1-a82c-d190484f33e3)
+
+Kodu derlediğimizde SUID bitini ayarlayacağız.
+
+![image](https://github.com/user-attachments/assets/2f97d0c4-0266-4fca-97a3-251db79a799f)
+
+
 
 
 
