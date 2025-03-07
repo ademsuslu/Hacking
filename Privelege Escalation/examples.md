@@ -35,6 +35,28 @@ Eğer backup.sh executable değil ise yürütülebilir yapıp yürütmeliyiz.
 
 ---
 
+# NFS (Ağ Dosya Paylaşımı) yapılandırması /etc/exports dosyasında tutulur.
+```bash
+cat /etc/exports
+```
+![image](https://github.com/user-attachments/assets/c82d3b7f-06d5-41d1-bd36-5a4486cac6fd)
+
+Saldıran makinemizden bağlanabilir paylaşımları sayarak başlayacağız.
+
+```bash
+showmount -e [hedef_ip]
+```
+![image](https://github.com/user-attachments/assets/196a0842-5170-4d3f-be99-1369d61cb9a1)
+
+Saldıracağımız makineye “no_root_squash” paylaşımlarından birini bağlayıp çalıştırılabilir dosyamızı oluşturmaya başlayacağız.
+tmp içinde olmalı
+![image](https://github.com/user-attachments/assets/0944424d-1742-40d7-9a31-3415a11af785)
+sonra 
+![image](https://github.com/user-attachments/assets/95393a6b-8542-43de-b917-86ad585d9bd5)
+
+
+
+
 
 
 
