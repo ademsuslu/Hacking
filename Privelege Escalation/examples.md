@@ -28,6 +28,9 @@ cat /etc/crontab
 ![image](https://github.com/user-attachments/assets/0b0a0f38-b9c8-4955-9df3-fb418ce0768a)
 backup.sh'ı görebiliyoruz içindekileri silip reverse bash shellimizi koyuyorzu ve nc ile dinliyoruz cronjob çalıştığı zaman shell gelicektir
 
+Eğer backup.sh executable değil ise yürütülebilir yapıp yürütmeliyiz.
+
 ![image](https://github.com/user-attachments/assets/3f5f374f-507a-4f6e-89c7-aedca770a237)
  
 
+---
