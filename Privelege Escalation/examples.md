@@ -1,4 +1,8 @@
-Ayrıcalık Yükseltme Yetenekleri
+Ayrıcalık Yükseltme Yetenekleri:
+
+*** getcap ile priv esc ***
+
+
 ```bash
 getcap -r / 2>/dev/null
 ``` 
