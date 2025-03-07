@@ -1,1 +1,2 @@
 - Ayrıcalık Yükseltmesi: SUID 
+- Ayrıcalık Yükseltmesi: PATH
