@@ -74,6 +74,10 @@ Kodu derlediğimizde SUID bitini ayarlayacağız.
 ![image](https://github.com/user-attachments/assets/2f97d0c4-0266-4fca-97a3-251db79a799f)
 
 
+hedef sisteme atıyoruz nfs dosyasını 
+
+daha sonra ./nfs olarak calıstıyoruz
+
 
 
 
