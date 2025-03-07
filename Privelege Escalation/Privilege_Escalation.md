@@ -51,6 +51,8 @@ Env variables
 env
 ```
 PATH değişkeni, hedef sistemde kod çalıştırmak veya ayrıcalık yükseltme için kullanılabilecek bir derleyiciye veya betik diline (örneğin Python) sahip olabilir.
+
+
 ---
 
 ```bash
@@ -67,6 +69,7 @@ Komut, id kullanıcının ayrıcalık düzeyi ve grup üyelikleri hakkında gene
 id
 ```
 id Aşağıda görüldüğü gibi komutun başka bir kullanıcı için de aynı bilgiyi almak amacıyla kullanılabileceğini hatırlatmakta fayda var .
+
 ---
 
 ```bash
