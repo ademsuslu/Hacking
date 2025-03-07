@@ -34,3 +34,15 @@ Eğer backup.sh executable değil ise yürütülebilir yapıp yürütmeliyiz.
  
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+
