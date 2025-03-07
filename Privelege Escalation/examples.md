@@ -50,8 +50,14 @@ showmount -e [hedef_ip]
 
 Saldıracağımız makineye “no_root_squash” paylaşımlarından birini bağlayıp çalıştırılabilir dosyamızı oluşturmaya başlayacağız.
 tmp içinde olmalı
+
+
 ![image](https://github.com/user-attachments/assets/0944424d-1742-40d7-9a31-3415a11af785)
+
+
 sonra 
+
+
 ![image](https://github.com/user-attachments/assets/95393a6b-8542-43de-b917-86ad585d9bd5)
 
 
