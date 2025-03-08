@@ -105,7 +105,7 @@ missy:$6$BjOlWE21$HwuDvV1iSiySCNpA3Z9LxkxQEqUAdZvObTxJxMoCp/9zRVCi6/zrlMlAQPAxfw
 ```
 daha sonra shadowu kaldırmamız lazım 
 ``` bash
-nshadow passwd.txt shadow.txt > cracked.txt
+unshadow passwd.txt shadow.txt > cracked.txt
 john --wordlist=/usr/share/wordlists/rockyou.txt cracked.txt
 ```
 şifreyi kırdık 
