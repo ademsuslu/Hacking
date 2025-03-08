@@ -79,6 +79,41 @@ hedef sisteme atıyoruz nfs dosyasını
 
 daha sonra ./nfs olarak calıstıyoruz
 
+---
+
+
+# farklı kullanıcalara shadow ve passwd üzerinden erişim sağlama:
+
+/etc/shadow ve /etc/passwd okuyabiliyorsak şu adımları izlemeliyiz
+
+```bash
+# cat /etc/shadow
+# cat /etc/passwd
+```
+mesela missy kullanıcısına ait passwordu kırıcaz
+
+okuduğumuz shadow ve passwdleri  passwd.txt ve shadow.txt içine atıyoruz
+örn  
+``` bash
+# cat  passwd.txt   
+missy:x:1001:1001::/home/missy:/bin/bash
+```
+
+``` bash
+#cat shadow.txt 
+missy:$6$BjOlWE21$HwuDvV1iSiySCNpA3Z9LxkxQEqUAdZvObTxJxMoCp/9zRVCi6/zrlMlAQPAxfwaD2JCUypk4HaNzI3rPVqKHb/:18785:0:99999:7:::
+```
+daha sonra shadowu kaldırmamız lazım 
+``` bash
+nshadow passwd.txt shadow.txt > cracked.txt
+john --wordlist=/usr/share/wordlists/rockyou.txt cracked.txt
+```
+şifreyi kırdık 
+
+
+
+
+
 
 
 
