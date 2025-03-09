@@ -8,3 +8,9 @@
 | `-v` | Ayrıntılı çıktı (isteğe bağlı, ancak hataları keşfetmek için kullanışlı) |
 | `-vv` | Çok Ayrıntılı (isteğe bağlı) |
 | `-k` | İstemci bağlantısı kesildikten sonra dinlemeye devam edin|
+
+
+#EXAMPLE 
+```bash
+nc -vnlp 1234
+```
