@@ -10,7 +10,7 @@
 | `-k` | İstemci bağlantısı kesildikten sonra dinlemeye devam edin|
 
 
-#EXAMPLE 
+# Example 
 ```bash
 nc -vnlp 1234
 ```
