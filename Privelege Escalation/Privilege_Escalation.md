@@ -58,6 +58,11 @@ PATH değişkeni, hedef sistemde kod çalıştırmak veya ayrıcalık yükseltme
 ```bash
 sudo -l
 ```
+Çıktıda LD_PRELOAD ortam değişkeni varsa bunu aşağıda sudo yetkileri ile kullanabiliriz 
+
+![image](https://github.com/user-attachments/assets/697839cf-1b9a-45f0-99ec-bb563e0dd90c)
+
+
 
 Hedef sistem, kullanıcıların bazı (veya tüm) komutları kök ayrıcalıklarıyla çalıştırmasına izin verecek şekilde yapılandırılabilir. sudo -l Komut, kullanıcınızın . kullanarak çalıştırabileceği tüm komutları listelemek için kullanılabilir sudo.
 
