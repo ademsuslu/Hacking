@@ -55,6 +55,8 @@ PATH değişkeni, hedef sistemde kod çalıştırmak veya ayrıcalık yükseltme
 
 ---
 
+#Yetki aramaları
+
 ```bash
 sudo -l
 ```
