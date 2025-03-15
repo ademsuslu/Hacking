@@ -67,6 +67,24 @@ nmap --script http-vuln* 10.10.137.90
 ```
 
 ---
+## 8. **Operatig system scan**
+hedefin kullandığı işletim sistemini bulmak için:
+```bash
+nmap -O [ip]
+```
 
-Elde edilen sonuçlara göre bulgular üzerinden özelleştirilmiş komutlarla devam edebilirsin.
 
+---
+## 9. **Service version scan**
+hedefte çalışan servislerin sürümünü algılamak için bir anahtar sağlar:
+```bash
+nmap -Sv [ip]
+```
+
+---
+## 10. **Port aralıklarını tarama**
+hedefte çalışan port aralığını taramayı sağlar:
+```bash
+nmap -p 100-300 [ip]
+```
+---
