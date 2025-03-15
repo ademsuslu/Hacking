@@ -88,3 +88,10 @@ hedefte çalışan port aralığını taramayı sağlar:
 nmap -p 100-300 [ip]
 ```
 ---
+
+## 10. **script kullanımı**
+"Vuln" kategorisindeki tüm scriptleri nasıl aktifleştirirsiniz?:
+```bash
+nmap --script=vuln [ip]
+```
+---
