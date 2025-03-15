@@ -65,6 +65,12 @@ Nmap'in script motoruyla daha spesifik testler yapabilirsin. Örneğin, HTTP ser
 ```bash
 nmap --script http-vuln* 10.10.137.90
 ```
+script, kullanma :
+```bash
+nmap --script=ftp-anon -p 21 10.10.72.54 -Pn -vv
+```
+
+
 
 ---
 ## 8. **Operatig system scan**
