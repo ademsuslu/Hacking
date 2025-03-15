@@ -89,9 +89,15 @@ nmap -p 100-300 [ip]
 ```
 ---
 
-## 10. **script kullanımı**
+## 11. **script kullanımı**
 "Vuln" kategorisindeki tüm scriptleri nasıl aktifleştirirsiniz?:
 ```bash
 nmap --script=vuln [ip]
+```
+---
+## 12. **script bulma**
+Scriptleri nereden buluruz?:
+```bash
+ls -l /usr/share/nmap/scripts/*ftp*
 ```
 ---
