@@ -2,12 +2,13 @@
 
 ## SMB Protokolü Nedir?
 SMB (Server Message Block) protokolü, TCP/IP üzerinde çalışan bir istek ve yanıt (request-response) protokolüdür.
-
-## Enum4Linux Kullanımı
-Enum4Linux aracının temel kullanım sözdizimi:
+Smb dynamic script arama:
 ```sh
 nmap -p 445 --script=smb-enum-shares.nse,smb-enum-users.nse 10.10.103.254
 ```
+## Enum4Linux Kullanımı
+Enum4Linux aracının temel kullanım sözdizimi:
+
 ```sh
 enum4linux [seçenekler] [IP]
 ```
