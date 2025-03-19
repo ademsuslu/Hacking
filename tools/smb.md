@@ -5,7 +5,9 @@ SMB (Server Message Block) protokolü, TCP/IP üzerinde çalışan bir istek ve 
 
 ## Enum4Linux Kullanımı
 Enum4Linux aracının temel kullanım sözdizimi:
-
+```sh
+nmap -p 445 --script=smb-enum-shares.nse,smb-enum-users.nse 10.10.103.254
+```
 ```sh
 enum4linux [seçenekler] [IP]
 ```
