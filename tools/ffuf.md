@@ -8,5 +8,5 @@ ffuf -u "http://team.thm" -w /usr/share/wordlists/dirbuster/directory-list-2.3-m
 
 . -fs 11366 => size boyutu sadece 11336 haricindekileri al
 ``` bash
-└─# ffuf -u "http://team.thm" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -H 'Host: FUZZ.team.thm' -fs 11366
+ ffuf -u "http://team.thm" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -H 'Host: FUZZ.team.thm' -fs 11366
 ```
