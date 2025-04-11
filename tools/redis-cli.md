@@ -17,3 +17,12 @@ example
 ```bash
 GET internal flag
 ```
+Get çalışmaz ise alternative kullanımlar
+
+```bash
+get "authlist"
+---
+type "authlist"
+---
+lrange "authlist" 0 10
+```
