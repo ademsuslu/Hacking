@@ -2,6 +2,9 @@ hedef site üzerinde kullanıcı bulma
 ```bash
 wpscan --url http://hedefsite.com -e u
 ```
+```bash
+/ bunları siledebiliriz boşluk bırakıyor onlar !!!
+```
 
 Brute Force Şifre Denemesi
 ```bash
