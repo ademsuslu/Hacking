@@ -1,4 +1,10 @@
+hedef site üzerinde kullanılan pluginleri bulma
+
+```bash
+wpscan --url http://<site-adresi> --enumerate p
+```
 hedef site üzerinde kullanıcı bulma
+
 ```bash
 wpscan --url http://hedefsite.com -e u
 ```
