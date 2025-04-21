@@ -10,3 +10,7 @@ ffuf -u "http://team.thm" -w /usr/share/wordlists/dirbuster/directory-list-2.3-m
 ``` bash
  ffuf -u "http://team.thm" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -H 'Host: FUZZ.team.thm' -fs 11366
 ```
+. parametre fuzzlama 
+```bash
+ffuf -u "http://snopy.htb/contact.php?FUZZ=whoami" -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt
+```
