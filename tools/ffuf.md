@@ -1,3 +1,13 @@
+.LFI Fuzzing;
+```
+-ic: Büyük/küçük harf duyarsız (ignore case).
+-c: Renkli çıktı (color).
+-mc parametresi: -mc 200,301,302
+```
+```bash
+ffuf -u http://snoopy.htb/download?file=FUZZ -w /usr/share/wordlists/seclists/Fuzzing/LFI/LFI-etc-files-of-all-linux-packages.txt -ic -c -fs 0
+```
+
 *** ffuf ile subdomain scan ***
 . -fc 404,200 => sadece 404 ve 200 status kodlarına sahip olanları al
 
