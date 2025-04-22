@@ -4,4 +4,6 @@ The target system’s environment will influence the tool you will be able to us
    - LinEnum: https://github.com/rebootuser/LinEnum
    - LES (Linux Exploit Suggester): https://github.com/mzet-/linux-exploit-suggester
    - Linux Smart Enumeration: https://github.com/diego-treitos/linux-smart-enumeration
-   - Linux Priv Checker: https://github.com/linted/linuxprivchecker 
+   - Linux Priv Checker: https://github.com/linted/linuxprivchecker
+   - Linux Priv for web  https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/
+   - Some Streamers https://infosecstreams.com/
