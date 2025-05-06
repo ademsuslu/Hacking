@@ -141,6 +141,7 @@ Hedef sistemde önemli bilgiler ve potansiyel ayrıcalık yükseltme vektörleri
 
 Aşağıda “find” komutu için bazı yararlı örnekler verilmiştir.
 hataları "/dev/null"a yönlendirmek ve daha temiz bir çıktı elde etmek için "find" komutunu "-type f 2>/dev/null" ile kullanmak akıllıca olacaktır 
+
 Dosyaları bul:
 -  find / -user root -perm /4000  2>/dev/null
 - find / -type f -perm -04000 -ls 2>/dev/null (***oldukça öenmli)
