@@ -1,3 +1,5 @@
+https://docs.aws.amazon.com/cli/latest/userguide/cli-services-s3-commands.html#using-s3-commands-listing-buckets
+
 ilk olarak configrasyon
 ![image](https://github.com/user-attachments/assets/496b91aa-3d62-4811-996d-c0ff41e392fb)
 
