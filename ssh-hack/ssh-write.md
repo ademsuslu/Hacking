@@ -14,6 +14,7 @@ eğer buradaki benim_priv_key.pub  keyini hedef makinanın authorized_key.pub do
 normal yani oluşturduğu diğer my_priv_keyi kullanarak giriş yapabiliriz
 
 buradaki jake hedef makinada kimin auth keyine yazdıysak odur.
+
 ```bash  
-ssh jake@localhost -i benim_priv_key
+ssh jake@hedef_ip -i benim_priv_key
 ```
