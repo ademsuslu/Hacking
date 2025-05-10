@@ -148,6 +148,8 @@ Dosyaları bul:
   ```
   # (***oldukça öenmli)
 - ``` bash find / -type f -perm -04000 -ls 2>/dev/null ```
+- groups sogrusu 
+  - ``` bash find / -type f -group bugtracker 2> /dev/null ```
 - ``` bash find / -writable -type d 2>/dev/null ```
   # : geçerli dizinde “flag1.txt” adlı dosyayı bulun
 - ``` bash find . -name flag1.txt```
