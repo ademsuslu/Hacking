@@ -1,38 +1,42 @@
 /* Senaryo:
 Bir web sitesine veya uygulamaya kayıt (register) olurken, sistem genellikle kullanıcıdan sadece temel bilgileri (email/username ve password) alır.
-Arka planda ise kullanıcının subscription (abonelik) durumu gibi ekstra bilgiler varsayılan bir değerle (örneğin inactive) otomatik ayarlanır.
+Arka planda ise kullanıcının abonelik durumu (subscription) gibi ekstra bilgiler varsayılan bir değerle (örneğin "inactive") otomatik olarak ayarlanır.
 */
-```json  
+
+// Kullanıcıdan alınan örnek istek:
 {
   "username": "test@test.com",
   "password": "test"
 }
-```
-# Arka planda sistem şu şekilde kaydeder:
+
+// Arka planda sistemin kaydettiği veri:
 {
   "username": "test@test.com",
   "password": "test",
-  "subscription": "inactive"  // Default olarak eklenir
+  "subscription": "inactive"  // Varsayılan olarak eklenir
 }
 
 /* 
   İstisna Durum:
-  Eğer API, kullanıcının subscription alanını manuel olarak göndermesine izin veriyorsa, siz şöyle bir istek yapabilirsiniz:
+  Eğer API, kullanıcının subscription alanını manuel olarak göndermesine izin veriyorsa, aşağıdaki gibi bir istek yapılabilir:
 */
 {
-"username":"test@test.com",
-"password":"test",
-  // biz burauya subscription kendimiz ekleyebiliriz
-  "subscription":"active"
+  "username": "test@test.com",
+  "password": "test",
+  "subscription": "active"  // Kullanıcı tarafından manuel olarak ekleniyor
 }
+
 /*
 Önemli Noktalar:
-Default Değerler:
-Çoğu sistem, subscription gibi alanları güvenlik nedeniyle kullanıcının belirlemesine izin vermez. Örneğin, ücretsiz kayıt olan biri subscription: active göndererek premium özelliklere sızmaya çalışabilir.
 
-API Dökümantasyon Kontrolü:
-Eğer subscription alanını gönderebiliyorsanız, bu API'nin dökümantasyonunda belirtilmiş olmalıdır. Aksi takdirde bu bir güvenlik açığı olabilir.
+1. Default Değerler:
+   Çoğu sistem, "subscription" gibi alanların kullanıcı tarafından belirlenmesine izin vermez. Örneğin, ücretsiz kayıt olan bir kullanıcı
+   "subscription: active" göndererek premium özelliklere erişmeye çalışabilir. Bu bir güvenlik açığı oluşturabilir.
 
-Backend Logic:
-Genellikle subscription durumu, kullanıcı ödeme yaptıktan sonra backend tarafından active olarak güncellenir.
+2. API Dokümantasyonu Kontrolü:
+   Eğer "subscription" alanını gönderebiliyorsanız, bu durum API'nin dökümantasyonunda belirtilmiş olmalıdır.
+   Belirtilmemişse, bu bir güvenlik açığına işaret edebilir.
+
+3. Backend Mantığı:
+   Genellikle "subscription" durumu, kullanıcı ödeme yaptıktan sonra backend tarafından "active" olarak güncellenir.
 */
