@@ -7,7 +7,7 @@ cat /etc/passwd
 ```
 eğer cıktısın da:
 
-![Resim](https://0xb0b.gitbook.io/~gitbook/image?url=https%3A%2F%2F2148487935-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FoqaFccsCrwKo1CHmLRKW%252Fuploads%252FxG9xN[...])
+![Resim](https://0xb0b.gitbook.io/~gitbook/image?url=https%3A%2F%2F2148487935-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FoqaFccsCrwKo1CHmLRKW%252Fuploads%252FxG9xNZl0ZlMWD5jr0AJS%252Fgrafik.png%3Falt%3Dmedia%26token%3D0a3cad89-c497-4fac-9156-e103f2af3ae7&width=768&dpr=4&quality=100&sign=bc4a778&sv=2[...])
 
 bu resimdeki gibi ise 
 
