@@ -40,3 +40,4 @@ Arka planda ise kullanıcının abonelik durumu (subscription) gibi ekstra bilgi
 3. Backend Mantığı:
    Genellikle "subscription" durumu, kullanıcı ödeme yaptıktan sonra backend tarafından "active" olarak güncellenir.
 */
+fed5c695a46340ae48e3ea6601734951
