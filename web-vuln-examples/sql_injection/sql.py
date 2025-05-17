@@ -1,3 +1,7 @@
+/*
+eğer username inputunda sql çalışırsa yada password kısmında çalışırsa kullanılıcak ve buradaki herşey değişkendir.
+
+*/
 import requests
 
 probe = '+-{}(), abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
