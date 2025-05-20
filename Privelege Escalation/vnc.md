@@ -1,4 +1,14 @@
-shell aldıkdan sonra
+shell aldıkdan sonra 
+
+
+```bash
+ps -aux
+```
+output:
+```
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+vncuser   1234  0.5  2.1 123456 78900 ?        Sl   May20   5:30 /usr/bin/Xvnc :1 -geometry 1920x1080 -depth 24 -rfbauth /home/vncuser/.vnc/passwd -rfbport 5901
+```
 
 eğer vnc açık ise localden yani kendi pcmizden terminalden 
 
