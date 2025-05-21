@@ -12,4 +12,4 @@ https://website.thm/article?id=admin123' UNION SELECT SLEEP(5);--
 ```
 bu işlemlere aşağıdaki gibi devam etmemiz gerekiyor
 
-[Dosya Açıklaması](./Tryhackme_In-Band_SQL.md)
+[Dosya Açıklaması](./Tryhackme_Blind-SQLi-Boolean_Based.md)
