@@ -31,7 +31,9 @@ Aynı hatayı tekrarlayalım, bir sütun daha ekleyelim:
 ```bash
 https://website.thm/article?id=1 UNION SELECT 1,2,3
 ```
-Başarılı, hata mesajı gitti ve makale görüntüleniyor, ancak şimdi makale yerine verilerimizi görüntülemek istiyoruz. Makale görüntüleniyor çünkü web sitesinin kodunda bir yerde döndürülen ilk sonucu alıyor ve onu gösteriyor. Bunu aşmak için ilk sorgunun hiçbir sonuç üretmemesi gerekiyor. Bu, makale kimliğini 1'den 0'a değiştirerek kolayca yapılabilir.
+Başarılı, hata mesajı gitti ve makale görüntüleniyor, ancak şimdi makale yerine verilerimizi görüntülemek istiyoruz.
+Makale görüntüleniyor çünkü web sitesinin kodunda bir yerde döndürülen ilk sonucu alıyor ve onu gösteriyor.
+Bunu aşmak için ilk sorgunun hiçbir sonuç üretmemesi gerekiyor. Bu, makale kimliğini 1'den 0'a değiştirerek kolayca yapılabilir.
 ```bash
 https://website.thm/article?id=0 UNION SELECT 1,2,3
 ```
