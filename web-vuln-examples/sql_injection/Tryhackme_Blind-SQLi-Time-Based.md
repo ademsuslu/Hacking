@@ -10,4 +10,6 @@ SLEEP() yöntemi yalnızca başarılı bir UNION SELECT ifadesi üzerine yürüt
 ```bash
 https://website.thm/article?id=admin123' UNION SELECT SLEEP(5);--
 ```
+bu işlemlere aşağıdaki gibi devam etmemiz gerekiyor
 
+[Dosya Açıklaması](./Tryhackme_In-Band_SQL.md)
