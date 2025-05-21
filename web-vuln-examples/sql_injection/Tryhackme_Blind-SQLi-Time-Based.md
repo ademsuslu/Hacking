@@ -8,6 +8,6 @@ SLEEP() yöntemi yalnızca başarılı bir UNION SELECT ifadesi üzerine yürüt
 Örneğin, bir tablodaki sütun sayısını belirlemeye çalışırken aşağıdaki sorguyu kullanırsınız:
 
 ```bash
-admin123' UNION SELECT SLEEP(5);--
+https://website.thm/article?id=admin123' UNION SELECT SLEEP(5);--
 ```
 
