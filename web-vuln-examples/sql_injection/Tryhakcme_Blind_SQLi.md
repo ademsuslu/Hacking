@@ -24,6 +24,5 @@ SQL Enjeksiyonu örneklerinin İkinci Seviyesi tam olarak bu örneği gösterir.
 
 ```bash
 select * from users where username='%username%' and password='%password%' LIMIT 1;
-#NB  %username%  ve  %password%  değerleri oturum açma formu alanlarından alınmıştır. SQL Sorgu kutusundaki başlangıç ​​değerleri, bu alanlar şu anda boş olduğundan boş olacaktır.
 ```
-
+***#NB  %username%  ve  %password%  değerleri oturum açma formu alanlarından alınmıştır. SQL Sorgu kutusundaki başlangıç ​​değerleri, bu alanlar şu anda boş olduğundan boş olacaktır.***
