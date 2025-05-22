@@ -1,4 +1,5 @@
-2 adet item ekledik ve duruma göre listeletmemiz gerekiyorki flagı veya istediğimiz bilgileri çekelim;
+2 adet item ekledik ve duruma  shorted özelliği var bunu kullanabiliriz mesela:
+
 
 http://example.com/order?=(CASE WHEN (SELECT SUBSTRING(flag,1,1) FROM flag)="C" THEN title ELSE date END)
 
