@@ -166,5 +166,52 @@ C:.
 ├───Saved Games
 └───Videos
 ```
+ ---
+ dosya silme 
+```bash
+C:\>del dosya_name
+```
+ ---
+ dosya silme 
+```bash
+C:\>erase dosya_name
+```
 ---
+ dosya taşıma 
+```bash
+C:\>move dosya_name
+```
+---
+Çalışan işlemleri görebiliriz
+```bash
+C:\>tasklist
+```
+çıktı
+```
+Image Name                     PID Session Name        Session#    Mem Usage 
+========================= ======== ================ =========== ============
+System Idle Process              0 Services                   0          8 K
+System                           4 Services                   0         88 K
+Registry                        84 Services                   0     50,700 K
+smss.exe                       276 Services                   0      1,132 K
+```
+filter ile task list kullanımı
+```bash
+C:\>tasklist /FI "imagename eq sshd.exe"
+```
+Çıktı
+```
+Image Name                     PID Session Name        Session#    Mem Usage
+========================= ======== ================ =========== ============
+sshd.exe                      2116 Services                   0      6,992 K
+sshd.exe                      2712 Services                   0      7,668 K
+sshd.exe                      4752 Services                   0      7,372 K
+```
+işlemi durdurma
+```bash
+taskkill /PID target_pid
+```
+
+---
+
 
