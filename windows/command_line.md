@@ -6,6 +6,7 @@ C:\>set
 ```
 Microsoft Windows [Version 10.0.17763.1821]
 ```
+---
 Windowsun versionunu verir
 
 ```bash
@@ -15,7 +16,7 @@ C:\>ver
 ```
 Microsoft Windows [Version 10.0.17763.1821]
 ```
-
+---
 systeminfo Komutu çalıştırarak sistem hakkında işletim sistemi bilgileri
 
 ```bash
