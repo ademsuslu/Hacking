@@ -82,6 +82,59 @@ Ethernet adapter Ethernet 3:
    NetBIOS over Tcpip. . . . . . . . : Enabled
 ```
 ---
+Bir ana bilgisayarı veya etki alanını arar ve IP adresini döndürür. Sözdizimi varsayılan ad sunucusunu kullanarak nslookup example.comarayacaktır ; ancak, ad sunucusunu kullanacaktır . 
+```bash
+C:\>nslookup example.com
+```
+Çıktı
+```
+Server:  ip-10-0-0-2.eu-west-1.compute.internal
+Address:  10.0.0.2
+
+Non-authoritative answer:
+Name:    example.com
+Addresses:  2606:2800:21f:cb07:6820:80da:af6b:8b2c
+          93.184.215.14
+
+C:>nslookup example.com 1.1.1.1
+Server:  one.one.one.one
+Address:  1.1.1.1
+
+Non-authoritative answer:
+Name:    example.com
+Addresses:  2606:2800:21f:cb07:6820:80da:af6b:8b2c
+          93.184.215.14
+```
+
+---
+
+Bu komut, geçerli ağ bağlantılarını ve dinleme portlarını görüntüler. netstat
+```bash
+netstat -abon
+```
+çıktı:
+```
+Active Connections
+
+  Proto  Local Address          Foreign Address        State           PID 
+  TCP    0.0.0.0:22             0.0.0.0:0              LISTENING       2116
+ [sshd.exe]
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       820
+  RpcSs 
+ [svchost.exe]
+[...]
+  TCP    0.0.0.0:49669          0.0.0.0:0              LISTENING       2036
+ [spoolsv.exe]
+  TCP    0.0.0.0:49670          0.0.0.0:0              LISTENING       584 
+ Can not obtain ownership information
+  TCP    0.0.0.0:49686          0.0.0.0:0              LISTENING       592
+ [lsass.exe]
+  TCP    10.10.230.237:22       10.11.81.126:53486     ESTABLISHED     2116 
+ [sshd.exe]
+ [...]
+
+```
+
 
 
 
