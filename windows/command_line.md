@@ -134,7 +134,37 @@ Active Connections
  [...]
 
 ```
+---
 
+- Gizli ve sistem dosyalarını da görüntüler.
 
+```bash
+dir /a
 
+```
+- Mevcut dizindeki ve tüm alt dizinlerdeki dosyaları görüntüler.
+
+```bash
+dir /s
+```
+---
+```bash
+tree
+```
+Çıktı:
+```
+Folder PATH listing
+Volume serial number is A8A4-C362
+C:.
+├───Desktop
+├───Documents
+├───Downloads
+├───Favorites
+├───Links
+├───Music
+├───Pictures
+├───Saved Games
+└───Videos
+```
+---
 
