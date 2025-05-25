@@ -211,7 +211,19 @@ işlemi durdurma
 ```bash
 taskkill /PID target_pid
 ```
-
+---
+dosya sistemini ve disk birimlerini hatalar ve bozuk sektörler açısından denetler.
+```bash
+chkdsk
+```
+yüklü aygıt sürücülerinin listesini görüntüler.
+```bash
+driverquery
+```
+ Sistem dosyalarını bozulmalara karşı tarar ve mümkünse onarır.
+```bash
+sfc /scannow
+```
 ---
 
 
