@@ -62,3 +62,22 @@ Bunlar bazı yaygın Active Directory bağlantı noktaları ve protokolleridir:
 | 445    | SMB            | Modern SMB erişimi, sayım için kritik      |
 | 464    | Kerberos (kpassvd) | Parola ile ilgili Kerberos hizmeti       |
 
+
+DC'yi tanımlamaya yardımcı olmak için bu belirli portlarla bir servis sürümü taraması çalıştırabiliriz :
+```bash
+nmap -p 88,135,139,389,445 -sV -sC -iL hosts.txt
+```
+-sV: Bu sürüm algılamayı etkinleştirir. Nmap açık portlarda çalışan servislerin sürümünü belirlemeye çalışacaktır.
+-sC: Varsayılan kategorideki Nmap Scripting Engine (NSE) betiklerini çalıştırır .
+-iL: Bu, Nmap'e hedef ana bilgisayarların listesini dosyadan okumasını söyler hosts.txt. Bu dosyadaki her satır tek bir IP adresi veya ana bilgisayar adı içermelidir.
+
+Etki Alanı Denetleyicisini, nmap komutumuzun çıktısında 88 ( Kerberos ), 389 (LDAP) ve 445 ( SMB ) portlarının açık olması ve 'Windows Server' gibi başlıkların veya hatta etki alanı adlarının gösterilmesinden tespit edebiliriz .
+
+Daha kapsamlı bir değerlendirme yapıyorsak veya alışılmadık ortamlarla uğraşıyorsak, tam bir port taramasıyla başlamak, standart olmayan portlarda çalışan kritik hizmetleri kaçırmamamızı sağlar. Tüm açık portları taramak için bu komutu kullanabiliriz:
+
+-sS: Tam bağlantı taramasından daha gizli olan TCP SYN taraması
+-p-: 65.535 TCP portunun tamamını tarar .
+-T3: Hız ve gizliliği dengelemek için zamanlama şablonunu "normal" olarak ayarlar.
+-iL hosts.txt: Önceki nmap komutundan canlı bilgisayarların listesini girer .
+-oN full_port_scan.txt: Sonuçları bir dosyaya çıktı olarak verir.
+---
