@@ -118,6 +118,8 @@ ldapsearch -x -H ldap://10.211.11.10 -b "dc=tryhackme,dc=loc" "(objectClass=pers
 
 ---
 enum4linux 
-[enum4linux](../enum4linux.md)
+[enum4linux](../enum4linux.md) bilgi topla kullanıcılar vb.
+---
+
 
 
