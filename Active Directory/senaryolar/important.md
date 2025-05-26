@@ -81,3 +81,38 @@ Daha kapsamlı bir değerlendirme yapıyorsak veya alışılmadık ortamlarla u�
 -iL hosts.txt: Önceki nmap komutundan canlı bilgisayarların listesini girer .
 -oN full_port_scan.txt: Sonuçları bir dosyaya çıktı olarak verir.
 ---
+
+
+#Domain Enumeration:
+
+Anonim LDAP bağlantısının etkin olup olmadığını şu şekilde test edebiliriz ldapsearch:
+```bash
+ldapsearch -x -H ldap://10.211.11.10 -s base
+```
+-x: Basit kimlik doğrulama, bizim durumumuzda anonim kimlik doğrulama.
+-H: LDAP sunucusunu belirtir.
+-s: Sorguyu yalnızca temel nesneyle sınırlar ve alt ağaçları veya alt nesneleri aramaz.
+Etkinleştirildiğinde, aşağıdaki çıktıya benzer çok sayıda veri görmeliyiz:
+çıktı:
+```
+dn:
+domainFunctionality: 6
+forestFunctionality: 6
+domainControllerFunctionality: 7
+rootDomainNamingContext: DC=tryhackme,DC=loc
+ldapServiceName: tryhackme.loc:dc$@TRYHACKME.LOC
+isGlobalCatalogReady: TR
+dsServiceName: CN=NTDS Settings,CN=DC,CN=Servers,CN=Default-First-Site-Name,CN
+ =Sites,CN=Configuration,DC=tryhackme,DC=loc
+dnsHostName: DC.tryhackme.loc
+defaultNamingContext: DC=tryhackme,DC=loc
+currentTime: 20250514173531.0Z
+configurationNamingContext: CN=Configuration,DC=tryhackme,DC=loc
+search result
+search: 2
+result: 0 Success
+```
+```bash
+ldapsearch -x -H ldap://10.211.11.10 -b "dc=tryhackme,dc=loc" "(objectClass=person)"
+```
+
