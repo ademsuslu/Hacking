@@ -119,7 +119,22 @@ ldapsearch -x -H ldap://10.211.11.10 -b "dc=tryhackme,dc=loc" "(objectClass=pers
 ---
 enum4linux 
 [enum4linux](../enum4linux.md) bilgi topla kullanıcılar vb.
+
 ---
+RPC Enumeration (Null Sessions):
+Microsoft Uzaktan Prosedür Çağrısı (MSRPC), bir bilgisayarda çalışan bir programın, ağın altta yatan ayrıntılarını anlaması gerekmeden, başka bir bilgisayardaki bir programdan hizmet talep etmesini sağlayan bir protokoldür. RPC hizmetlerine SMB protokolü üzerinden erişilebilir. SMB, kimlik doğrulaması gerektirmeyen boş oturumlara izin verecek şekilde yapılandırıldığında, kimliği doğrulanmamış bir kullanıcı IPC $ paylaşımına bağlanabilir ve sistemden veya etki alanından kullanıcıları, grupları, paylaşımları ve diğer hassas bilgileri sıralayabilir.
+
+Boş oturum erişimini doğrulamak için aşağıdaki komutu çalıştırabiliriz:
+```bash
+rpcclient -U "" 10.211.11.10 -N 
+```
+bu rpcclient içine girer ve enumdomusers çalıştırdığımızda kullanıcıların listesini verir
+-U: Kullanıcı adını belirtmek için kullanılır, bizim durumumuzda anonim oturum açma için boş bir dize kullanıyoruz.
+-N: RPC'ye bize parola sormamasını söyler.
+
+Başarılı olursa kullanıcıları şu şekilde sıralayabiliriz:
+enumdomusers
+
 
 
 
