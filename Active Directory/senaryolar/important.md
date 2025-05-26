@@ -116,3 +116,8 @@ result: 0 Success
 ldapsearch -x -H ldap://10.211.11.10 -b "dc=tryhackme,dc=loc" "(objectClass=person)"
 ```
 
+---
+enum4linux 
+[enum4linux](../enum4linux.md)
+
+
