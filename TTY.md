@@ -12,7 +12,16 @@
    stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
    
     ```
-
+2. **Script**:
+   ```bash
+   SHELL=/bin/bash script -q /dev/null
+   ```
+   ctrl+z
+   ```bash
+   stty raw -echo && fg
+   
+   ```
+ 
 Shell Kapatılması Durumu: Eğer açtığınız reverse shell kapanırsa veya yanlışlıkla kapanırsa, yeni bir shell açmak için şu adımları izleyebilirsiniz:
 
 İlk olarak, TERM ortam değişkenini ayarlayın:
