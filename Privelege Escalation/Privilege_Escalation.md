@@ -143,6 +143,11 @@ Aşağıda “find” komutu için bazı yararlı örnekler verilmiştir.
 hataları "/dev/null"a yönlendirmek ve daha temiz bir çıktı elde etmek için "find" komutunu "-type f 2>/dev/null" ile kullanmak akıllıca olacaktır 
 
 Dosyaları bul:
+Dosyayı geçerli kullanıcıdan daha yüksek bir ayrıcalık seviyesiyle çalıştırmamızı sağlayan SUID bitine sahip dosyaları bulun.
+``` bash
+find / -perm -u=s -type f 2>/dev/null
+```
+
 - ```bash 
   find / -user root -perm /4000  2>/dev/null
   ```
@@ -178,8 +183,5 @@ Bu komut, belirtilen boyuttan daha büyük veya daha küçük bir dosyayı belir
 ``` bash
 find . -name flag1.txt
 ```
-Dosyayı geçerli kullanıcıdan daha yüksek bir ayrıcalık seviyesiyle çalıştırmamızı sağlayan SUID bitine sahip dosyaları bulun.
-``` bash
-find / -perm -u=s -type f 2>/dev/null
-```
+
 ---
