@@ -7,3 +7,6 @@ The target system’s environment will influence the tool you will be able to us
    - Linux Priv Checker: https://github.com/linted/linuxprivchecker
    - Linux Priv for web  https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/
    - Some Streamers https://infosecstreams.com/
+
+Docker for:
+https://github.com/stealthcopter/deepce/blob/main/deepce.sh
