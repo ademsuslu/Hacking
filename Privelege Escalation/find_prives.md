@@ -1,57 +1,126 @@
-Komutu bul
-Hedef sistemde önemli bilgiler ve potansiyel ayrıcalık yükseltme vektörleri aramak verimli olabilir. Dahili "find" komutu kullanışlıdır ve cephaneliğinizde bulundurmaya değer.
+# Linux `find` Komutları Rehberi
 
+Bu belge, CTF ortamlarında ve sistem keşfi sırasında kullanabileceğiniz güçlü `find` komutlarının bir derlemesidir. Hataları bastırmak ve temiz çıktı almak için genellikle `2>/dev/null` kullanılır.
 
-Aşağıda “find” komutu için bazı yararlı örnekler verilmiştir.
-Dosyaları bul:
-Dosyayı geçerli kullanıcıdan daha yüksek bir ayrıcalık seviyesiyle çalıştırmamızı sağlayan SUID bitine sahip dosyaları bulun.
-``` bash
+---
+
+## 🔐 SUID Bitli Dosyaları Bul
+
+SUID bitine sahip dosyalar, ayrıcalık yükseltme için potansiyel vektörlerdir:
+
+```bash
 find / -perm -u=s -type f 2>/dev/null
+find / -user root -perm /4000 2>/dev/null
+find / -type f -perm -04000 -ls 2>/dev/null
 ```
 
+---
 
-hataları "/dev/null"a yönlendirmek ve daha temiz bir çıktı elde etmek için "find" komutunu "-type f 2>/dev/null" ile kullanmak akıllıca olacaktır 
+## 👥 Belirli Grup Sahipliğine Göre Dosya Bul
 
+Örneğin, "bugtracker" grubuna ait tüm dosyaları bulmak için:
 
+```bash
+find / -type f -group bugtracker 2>/dev/null
+```
 
-- ```bash 
-  find / -user root -perm /4000  2>/dev/null
-  ```
-  # (***oldukça öenmli)
-- ``` find / -type f -perm -04000 -ls 2>/dev/null ```
-- groups sogrusu 
-  - ```  find / -type f -group bugtracker 2> /dev/null ```
-- ``` bash
-   find / -writable -type d 2>/dev/null
- ```
-  # : geçerli dizinde “flag1.txt” adlı dosyayı bulun
-- ``` bash
-  find . -name flag1.txt
-  ```
-  #: /home dizinindeki “flag1.txt” dosya adlarını bulun
- ``` bash
- find /home -name flag1.txt
-- ```
-   #: “/” altında config adlı dizini bulun
-- ``` bash find / -type d -name config```
-   # : 777 izinlerine sahip dosyaları bul (tüm kullanıcılar tarafından okunabilir, yazılabilir ve çalıştırılabilir dosyalar)
-- ``` bash find / -type f -perm 0777```
-  # : çalıştırılabilir dosyaları bul
-- ``` bash find / -perm a=x ```
-  #: “frank” kullanıcısına ait tüm dosyaları “/home” altında bul 
-- ``` bash find /home -user frank ```
-  # : Son 10 günde değiştirilen dosyaları bul
-- ``` bash find / -mtime 10 ```
-  #: Son 10 günde erişilen dosyaları bul
-- ``` bash find / -atime 10 ```
-  #: Son bir saat (60 dakika) içinde değiştirilen dosyaları bul
-- ``` bash find / -cmin -60 ```
-  #: Son bir saat (60 dakika) içinde erişilen dosyaları bul
-- ``` bash find / -amin -60 ```
-  #: 50 MB boyutundaki dosyaları bul
-- ``` bash find / -size 50M  ```
-Bu komut, belirtilen boyuttan daha büyük veya daha küçük bir dosyayı belirtmek için (+) ve (-) işaretleriyle birlikte de kullanılabilir.
+---
 
-``` bash
+## ✍️ Yazılabilir Dizinleri Bul
+
+Sistemde yazılabilir tüm dizinleri listelemek:
+
+```bash
+find / -writable -type d 2>/dev/null
+```
+
+---
+
+## 📄 Belirli Dosya veya Dizinleri Bul
+
+Geçerli dizinde veya tüm sistemde belirli adlara sahip dosya/dizinleri bulmak:
+
+```bash
 find . -name flag1.txt
+find /home -name flag1.txt
+find / -type d -name config
 ```
+
+---
+
+## 🧷 İzinlere Göre Dosya Arama
+
+### 1. 777 (tam erişimli) dosyaları bul:
+```bash
+find / -type f -perm 0777
+```
+
+### 2. Tüm kullanıcılar tarafından çalıştırılabilir dosyalar:
+```bash
+find / -perm a=x
+```
+
+---
+
+## 👤 Kullanıcıya Ait Dosyaları Bul
+
+Örneğin "frank" kullanıcısına ait tüm dosyalar:
+
+```bash
+find /home -user frank
+```
+
+---
+
+## ⏳ Zaman Bazlı Dosya Arama
+
+### 1. Son 10 günde **değiştirilen** dosyalar:
+```bash
+find / -mtime -10
+```
+
+### 2. Son 10 günde **erişilen** dosyalar:
+```bash
+find / -atime -10
+```
+
+### 3. Son 60 dakika içinde **değiştirilen** dosyalar:
+```bash
+find / -cmin -60
+```
+
+### 4. Son 60 dakika içinde **erişilen** dosyalar:
+```bash
+find / -amin -60
+```
+
+---
+
+## 📦 Boyuta Göre Dosya Arama
+
+### 1. Tam olarak 50MB olan dosyalar:
+```bash
+find / -size 50M
+```
+
+### 2. 50MB'dan büyük dosyalar:
+```bash
+find / -size +50M
+```
+
+### 3. 50MB'dan küçük dosyalar:
+```bash
+find / -size -50M
+```
+
+---
+
+## 🧩 Ekstra: Daha Temiz Çıktı için
+
+Hataları bastırmak amacıyla komutların sonuna genellikle `2>/dev/null` eklenir.
+
+Örnek:
+```bash
+find / -type f -perm -04000 -ls 2>/dev/null
+```
+
