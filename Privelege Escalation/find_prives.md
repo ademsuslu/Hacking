@@ -18,14 +18,20 @@ hataları "/dev/null"a yönlendirmek ve daha temiz bir çıktı elde etmek için
   find / -user root -perm /4000  2>/dev/null
   ```
   # (***oldukça öenmli)
-- ``` bash find / -type f -perm -04000 -ls 2>/dev/null ```
+- ``` find / -type f -perm -04000 -ls 2>/dev/null ```
 - groups sogrusu 
-  - ``` bash find / -type f -group bugtracker 2> /dev/null ```
-- ``` bash find / -writable -type d 2>/dev/null ```
+  - ```  find / -type f -group bugtracker 2> /dev/null ```
+- ``` bash
+   find / -writable -type d 2>/dev/null
+ ```
   # : geçerli dizinde “flag1.txt” adlı dosyayı bulun
-- ``` bash find . -name flag1.txt```
+- ``` bash
+  find . -name flag1.txt
+  ```
   #: /home dizinindeki “flag1.txt” dosya adlarını bulun
-- ``` bash find /home -name flag1.txt```
+ ``` bash
+ find /home -name flag1.txt
+- ```
    #: “/” altında config adlı dizini bulun
 - ``` bash find / -type d -name config```
    # : 777 izinlerine sahip dosyaları bul (tüm kullanıcılar tarafından okunabilir, yazılabilir ve çalıştırılabilir dosyalar)
