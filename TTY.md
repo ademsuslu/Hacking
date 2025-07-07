@@ -9,7 +9,7 @@
    ```
    ctrl+z
    ```
-   stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
+   stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=xterm; stty rows 38 columns 116; reset;
    
     ```
 2. **Script**:
