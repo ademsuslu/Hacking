@@ -1,0 +1,45 @@
+
+Host Name:                 WIN-QBA94KB3IOF
+OS Name:                   Microsoft Windows Server 2019 Standard Evaluation
+OS Version:                10.0.17763 N/A Build 17763
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Standalone Server
+OS Build Type:             Multiprocessor Free
+Registered Owner:          Windows User
+Registered Organization:
+Product ID:                00431-10000-00000-AA021
+Original Install Date:     6/4/2020, 6:11:31 PM
+System Boot Time:          5/21/2023, 3:24:43 AM
+System Manufacturer:       Xen
+System Model:              HVM domU
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 63 Stepping 2 GenuineIntel ~2400 Mhz
+BIOS Version:              Xen 4.11.amazon, 8/24/2006
+Windows Directory:         C:\Windows
+System Directory:          C:\Windows\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              en-us;English (United States)
+Time Zone:                 (UTC-08:00) Pacific Time (US & Canada)
+Total Physical Memory:     2,048 MB
+Available Physical Memory: 1,092 MB
+Virtual Memory: Max Size:  3,200 MB
+Virtual Memory: Available: 2,237 MB
+Virtual Memory: In Use:    963 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    WORKGROUP
+Logon Server:              \\WIN-QBA94KB3IOF
+Hotfix(s):                 3 Hotfix(s) Installed.
+                           [01]: KB4514366
+                           [02]: KB4512577
+                           [03]: KB4512578
+Network Card(s):           1 NIC(s) Installed.
+                           [01]: AWS PV Network Device
+                                 Connection Name: Ethernet
+                                 DHCP Enabled:    Yes
+                                 DHCP Server:     10.10.0.1
+                                 IP address(es)
+                                 [01]: 10.10.12.35
+                                 [02]: fe80::156d:319c:c5bc:99a8
+Hyper-V Requirements:      A hypervisor has been detected. Features required for Hyper-V will not be displayed.

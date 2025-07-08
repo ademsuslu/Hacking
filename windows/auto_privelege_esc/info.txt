@@ -1,0 +1,44 @@
+
+Host Name:                 TCM-PC
+OS Name:                   Microsoft Windows 7 Professional 
+OS Version:                6.1.7601 Service Pack 1 Build 7601
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Standalone Workstation
+OS Build Type:             Multiprocessor Free
+Registered Owner:          TCM
+Registered Organization:   
+Product ID:                00371-221-2693053-06399
+Original Install Date:     4/15/2020, 9:38:13 AM
+System Boot Time:          5/21/2023, 7:03:53 AM
+System Manufacturer:       Xen
+System Model:              HVM domU
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 79 Stepping 1 GenuineIntel ~2300 Mhz
+BIOS Version:              Xen 4.11.amazon, 8/24/2006
+Windows Directory:         C:\Windows
+System Directory:          C:\Windows\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              en-us;English (United States)
+Time Zone:                 (UTC-05:00) Eastern Time (US & Canada)
+Total Physical Memory:     2,048 MB
+Available Physical Memory: 1,393 MB
+Virtual Memory: Max Size:  4,095 MB
+Virtual Memory: Available: 3,399 MB
+Virtual Memory: In Use:    696 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    WORKGROUP
+Logon Server:              \\TCM-PC
+Hotfix(s):                 3 Hotfix(s) Installed.
+                           [01]: KB2534111
+                           [02]: KB2999226
+                           [03]: KB976902
+Network Card(s):           1 NIC(s) Installed.
+                           [01]: AWS PV Network Device
+                                 Connection Name: Local Area Connection 2
+                                 DHCP Enabled:    Yes
+                                 DHCP Server:     10.10.0.1
+                                 IP address(es)
+                                 [01]: 10.10.81.129
+                                 [02]: fe80::d189:fe89:4c33:e8dd
