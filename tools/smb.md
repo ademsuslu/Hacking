@@ -53,7 +53,9 @@ Suit kullanıcısından "secret" paylaşım dizinine erişim:
 ```sh
 smbclient //10.10.10.2/secret -U suit -p 445
 ```
-
+```bash
+smbclient -L //$IP -N
+```
 ### SMB Client İçinde Bulunan Dosyayı Okuma
 ```sh
 > more dosya_adı
