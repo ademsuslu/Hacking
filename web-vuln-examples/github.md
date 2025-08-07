@@ -1,7 +1,7 @@
 
 wget ile bütün logları çekme
 ```bash
-wget http://some.thm/some/.git --recursive --continue
+wget http://some.thm/some/.git/ --recursive --continue
 ```
 
 
