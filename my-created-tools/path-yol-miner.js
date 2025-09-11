@@ -1,3 +1,4 @@
+// usage -> hedef sitenin console e yapıştır ve çalıştır
 javascript: (function() {
     var scripts = document.getElementsByTagName("script"),
         regex = /(?<=(\"|\%27|\`))\/[a-zA-Z0-9_?&=\/\-\#\.]*(?=(\"|\'|\%60))/g;
