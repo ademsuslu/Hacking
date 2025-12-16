@@ -13,6 +13,11 @@ ffuf -u http://snoopy.htb/download?file=FUZZ -w /usr/share/wordlists/seclists/Fu
 
 ``` bash
 ffuf -u "http://team.thm" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -H 'Host: FUZZ.team.thm' -fc 404,200
+
+# yada diğer payloads
+
+ffuf -u "http://team.thm" -w /usr/share/SecLists/Discovery/DNS/subdomains-top1million-5000.txt s-H 'Host: FUZZ.team.thm' -fc 404,200
+
 ```
 
 
