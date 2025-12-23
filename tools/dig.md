@@ -51,3 +51,36 @@ Bu çıktıda **google.com** alan adının **142.250.74.206** IP adresine çöz�
 
 Eğer daha fazla detaylı inceleme yapmak istiyorsan, belirli bir DNS sunucusunu kullanarak sorgular yapabilir veya `+trace` seçeneğini deneyebilirsin.
 
+# Linux'ta Avanced `dig` Komutu
+
+**zone transfer ile transfer edileni görürüz**
+
+```bash
+dig -t TXT key.z.hackycorp.com
+
+; <<>> DiG 9.20.15-2-Debian <<>> -t TXT key.z.hackycorp.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 2794
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;key.z.hackycorp.com.           IN      TXT
+
+;; ANSWER SECTION:
+key.z.hackycorp.com.    43200   IN      TXT     "9f883f22-6ea5-4631-bbe8-95841ad63f56"
+
+;; Query time: 144 msec
+;; SERVER: 192.168.1.1#53(192.168.1.1) (UDP)
+;; WHEN: Tue Dec 23 14:00:49 +03 2025
+;; MSG SIZE  rcvd: 97
+```
+
+**Şirketlerin gizleyebileceği verileri görmek için**
+```bash
+dig AXFR z.hackerone.com # => fail
+dig -t SOA z.hackerone.com # => z.hackerone.com görürsek
+dig -t AXFR z.hackerone.com @z.hackerone.com # => z.hackerone.com 
+```
