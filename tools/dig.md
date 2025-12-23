@@ -81,6 +81,6 @@ key.z.hackycorp.com.    43200   IN      TXT     "9f883f22-6ea5-4631-bbe8-95841ad
 **Şirketlerin gizleyebileceği verileri görmek için**
 ```bash
 dig AXFR z.hackerone.com # => fail
-dig -t SOA z.hackerone.com # => z.hackerone.com görürsek
+dig -t SOA z.hackerone.com # => ;z.hackycorp.com.               IN      SOA
 dig -t AXFR z.hackerone.com @z.hackerone.com # => z.hackerone.com 
 ```
