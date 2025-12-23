@@ -84,3 +84,9 @@ dig AXFR z.hackerone.com # => fail
 dig -t SOA z.hackerone.com # => ;z.hackycorp.com.               IN      SOA
 dig -t AXFR z.hackerone.com @z.hackerone.com # => z.hackerone.com 
 ```
+**araştır**
+```bash
+dig -t NS z.hackycorp.com
+dig AXFR int @z.hackycorp.com
+
+```
