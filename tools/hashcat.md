@@ -1,16 +1,10 @@
-# hashcat ile hash cracking
+# Hashcat ile hash passwd cracking
 
+## önce formatını öğren
 
 ```bash
 hashid jsabhsbasbsahbhasbhabshabhsbahsbabsah
-
 # forexample output: SHA-1
-
-```
-
-
-```bash
-echo 'jsabhsbasbsahbhasbhabshabhsbahsbabsah' > admin.hash
 ```
 
 ```bash
