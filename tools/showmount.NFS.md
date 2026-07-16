@@ -1,3 +1,12 @@
+#NFS 
+### Açık portları 
+
++ 111
++ 635
++ 2049
++ 4045
++ 4049
+
 ## targette paylaşılanları gösterir 
 ```bash
 showmount -e $TARGET_IP
