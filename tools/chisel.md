@@ -62,20 +62,12 @@ chisel client <server_ip>:8080 9000:172.16.5.10:80
 Senin `localhost:9000` → hedefin ağındaki `172.16.5.10:80`'e gider.
 **Faydalı Bayraklar**
 
-┌──────────────────┬──────────────────────────────────────────────────────────────────┐
-│      Bayrak      │                             Açıklama                             │
-├──────────────────┼──────────────────────────────────────────────────────────────────┤
-│ --reverse        │ Server'ın reverse tünellere izin vermesi (zorunlu, reverse için) │
-├──────────────────┼──────────────────────────────────────────────────────────────────┤
-│ --socks5         │ SOCKS5 desteği                                                   │
-├──────────────────┼──────────────────────────────────────────────────────────────────┤
-│ --auth user:pass │ Kimlik doğrulama (server ve client aynı olmalı)                  │
-├──────────────────┼──────────────────────────────────────────────────────────────────┤
-│ --keepalive 25s  │ Bağlantıyı canlı tut (NAT timeout'a karşı)                       │
-├──────────────────┼──────────────────────────────────────────────────────────────────┤
-│ -v               │ Verbose / debug logları                                          │
-├──────────────────┼──────────────────────────────────────────────────────────────────┤
-│ --pid            │ PID dosyası yaz                                                  │
-├──────────────────┼──────────────────────────────────────────────────────────────────┤
-│ R:socks          │ Reverse SOCKS proxy                                              │
-└──────────────────┴──────────────────────────────────────────────────────────────────┘
+| Bayrak | Açıklama |
+|--------|----------|
+| `--reverse` | Server'ın reverse tünellere izin vermesi (zorunlu, reverse için) |
+| `--socks5` | SOCKS5 desteği |
+| `--auth user:pass` | Kimlik doğrulama (server ve client aynı olmalı) |
+| `--keepalive 25s` | Bağlantıyı canlı tut (NAT timeout'a karşı) |
+| `-v` | Verbose / debug logları |
+| `--pid` | PID dosyası yaz |
+| `R:socks` | Reverse SOCKS proxy |
