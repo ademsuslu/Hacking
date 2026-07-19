@@ -1,3 +1,4 @@
+### `kdigger` hazır tool
 # İlk Shell Sonrası: Konteyner & Kubernetes Checklist (Genel / Makineden Bağımsız)
 
 > Bu, belirli bir makineye özel değildir. Bir web zafiyetiyle **ilk shell'i aldığın** her
