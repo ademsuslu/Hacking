@@ -162,3 +162,9 @@ ve buradan bağlanıyoruz
 ```bash
 docker exec -it php-lab bash
 ```
+
+## duran docker'ı yeniden başlatmak
+
+```bash
+docker start php-lab
+```
