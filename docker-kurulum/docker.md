@@ -168,3 +168,11 @@ docker exec -it php-lab bash
 ```bash
 docker start php-lab
 ```
+
+
+
+# docker silme
+
+```bash
+docker rm -f lab-name
+```
