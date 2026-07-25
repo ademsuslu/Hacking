@@ -51,6 +51,7 @@ USER node                      # 9. root DEĞİL, sınırlı kullanıcı (güven
 EXPOSE 8080                    # 10. hangi port dinleniyor (dokümantasyon)
 
 CMD ["node", "dist/index.js"]  # 11. container başlarken çalışacak komut
+```
 
 En yaygın hatalar
 | **ARG** | Build sırasında değişken |
