@@ -1,10 +1,3 @@
-
-# Örnek Dockerfile - Node.js uygulaması için
-
-
-
-## tablo of Dockerfile
-
 # Dockerfile Notları
 
 ## Dockerfile nedir?
