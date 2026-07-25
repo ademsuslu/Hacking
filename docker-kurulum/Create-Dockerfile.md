@@ -1,56 +1,98 @@
 
 # Örnek Dockerfile - Node.js uygulaması için
 
-# 1. TEMEL IMAGE (ZORUNLU)
-FROM node:18-alpine
 
-# 2. ÇALIŞMA DİZİNİNİ BELİRLE
-WORKDIR /app
-
-# 3. BAĞIMLILIK DOSYALARINI KOPYALA (cache optimizasyonu için önce package.json)
-COPY package*.json ./
-
-# 4. BAĞIMLILIKLARI KUR (build-time)
-RUN npm ci --only=production
-
-# 5. UYGULAMA KODUNU KOPYALA
-COPY . .
-
-# 6. ORTAM DEĞİŞKENİ (isteğe bağlı)
-ENV NODE_ENV=production
-ENV PORT=8080
-
-# 7. UYGULAMAYI DERLE (build)
-RUN npm run build
-
-# 8. HANGİ KULLANICI İLE ÇALIŞSIN (güvenlik)
-USER node
-
-# 9. HANGİ PORT DİNLENİYOR (dokümantasyon)
-EXPOSE 8080
-
-# 10. BAŞLANGIÇ KOMUTU (container çalıştığında)
-CMD ["node", "dist/index.js"]
 
 ## tablo of Dockerfile
 
-## Dockerfile Komutları Tablosu
+# Dockerfile Notları
 
-| **Talimat** | **Açıklama** |
-|-------------|--------------|
-| **FROM** | Temel image'i belirtir. **ZORUNLU** ve ilk satırda olmalıdır. |
-| **WORKDIR** | Çalışma dizinini ayarlar. Yoksa otomatik oluşturur. Sonraki tüm komutlar bu dizinde çalışır. |
-| **COPY** | Dosya ve klasörleri host'tan container'a kopyalar. |
-| **ADD** | COPY'ye ek olarak URL'den dosya indirebilir, tar.gz dosyalarını otomatik açar. **Genelde COPY tercih edilir.** |
-| **RUN** | Build aşamasında çalıştırılan komutlar (bağımlılık kurma, derleme, vs.). Yeni bir image katmanı oluşturur. |
-| **ENV** | Ortam değişkeni tanımlar. Container çalışırken bu değişkenler kullanılabilir. |
-| **ARG** | Build sırasında `docker build --build-arg` ile dışarıdan değer alabilen değişkenler. |
-| **EXPOSE** | Container'ın hangi portu dinlediğini **belgeler**. Portu AÇMAZ! `docker run -p` ile yönlendirme yapılmalıdır. |
-| **USER** | Container'ın hangi kullanıcı ile çalışacağını belirler. Varsayılan root'tur. Güvenlik için önerilir. |
-| **CMD** | Container başlatıldığında çalışacak varsayılan komut. **Dockerfile'da sadece 1 tane olabilir.** `docker run` ile override edilebilir. |
-| **ENTRYPOINT** | Container başlatıldığında çalışacak ana komut. CMD'den farkı, `docker run` ile gelen argümanlar ENTRYPOINT'e eklenir, değiştirilmez. |
-| **VOLUME** | Container'da kalıcı veri saklanacak dizinleri belirtir. |
-| **LABEL** | Image'e metadata (versiyon, yazar, açıklama, vs.) eklemek için kullanılır. |
-| **HEALTHCHECK** | Container'ın sağlık durumunu kontrol eden komut tanımlar. |
-| **SHELL** | Varsayılan shell'i değiştirir (Linux'ta varsayılan `/bin/sh -c`). |
+## Dockerfile nedir?
+Image'i inşa eden **tarif**. Her satır bir adım (layer). `docker build -t isim .` ile çalışır.
+Sonuç: `docker run` ile başlatılabilen bir image.
 
+## Talimatlar (instructions)
+
+| Talimat | İşi |
+|---|---|
+| **FROM** | Temel image (ZORUNLU, ilk satır) |
+| **WORKDIR** | Çalışma dizini (kalıcı `cd`) |
+| **COPY** | Senin makinenden → image'e dosya kopyalar |
+| **ADD** | COPY gibi ama url indirir / tar açar (genelde COPY tercih edilir) |
+| **RUN** | **Build sırasında** komut çalıştırır (kurulum, derleme) |
+| **ENV** | Ortam değişkeni |
+| **EXPOSE** | "Şu port dinleniyor" — sadece dokümantasyon, portu AÇMAZ |
+| **USER** | Hangi kullanıcıyla çalışsın (varsayılan: root) |
+| **ARG** | Build sırasında değişken |
+| **CMD / ENTRYPOINT** | Container **başlarken** çalışacak komut |
+
+## 🔑 En kritik ayrım: RUN vs CMD
+
+| | Ne zaman | Örnek |
+|---|---|---|
+| **RUN** | Build sırasında (image'e pişer) | `npm run build` |
+| **CMD** | Container başlarken (her `docker run`) | `node dist/index.js` |
+
+## Örnek Dockerfile (Node.js — doğru sıra)
+
+```dockerfile
+FROM node:18-alpine            # 1. TEMEL IMAGE (zorunlu, ilk satır)
+
+WORKDIR /app                   # 2. ÇALIŞMA DİZİNİ
+
+COPY package*.json ./          # 3. önce bağımlılık dosyaları (cache optimizasyonu)
+
+RUN npm ci                     # 4. TÜM bağımlılıkları kur (build araçları dev'de!)
+
+COPY . .                       # 5. UYGULAMA KODUNU KOPYALA
+
+RUN npm run build              # 6. DERLE (build araçları burada gerekli)
+
+RUN npm prune --omit=dev       # 7. derleme bitti → dev bağımlılıklarını at (image küçülür)
+
+ENV NODE_ENV=production        # 8. ÇALIŞMA-ZAMANI ortam değişkeni
+ENV PORT=8080
+
+USER node                      # 9. root DEĞİL, sınırlı kullanıcı (güvenlik)
+
+EXPOSE 8080                    # 10. hangi port dinleniyor (dokümantasyon)
+
+CMD ["node", "dist/index.js"]  # 11. container başlarken çalışacak komut
+
+En yaygın hatalar
+| **ARG** | Build sırasında değişken |
+| **CMD / ENTRYPOINT** | Container **başlarken** çalışacak komut |
+
+## 🔑 En kritik ayrım: RUN vs CMD
+
+| | Ne zaman | Örnek |
+|---|---|---|
+| **RUN** | Build sırasında (image'e pişer) | `npm run build` |
+| **CMD** | Container başlarken (her `docker run`) | `node dist/index.js` |
+
+## Örnek Dockerfile (Node.js — doğru sıra)
+
+```dockerfile
+FROM node:18-alpine            # 1. TEMEL IMAGE (zorunlu, ilk satır)
+
+WORKDIR /app                   # 2. ÇALIŞMA DİZİNİ
+
+COPY package*.json ./          # 3. önce bağımlılık dosyaları (cache optimizasyonu)
+
+RUN npm ci                     # 4. TÜM bağımlılıkları kur (build araçları dev'de!)
+
+COPY . .                       # 5. UYGULAMA KODUNU KOPYALA
+
+RUN npm run build              # 6. DERLE (build araçları burada gerekli)
+
+RUN npm prune --omit=dev       # 7. derleme bitti → dev bağımlılıklarını at (image küçülür)
+
+ENV NODE_ENV=production        # 8. ÇALIŞMA-ZAMANI ortam değişkeni
+ENV PORT=8080
+
+USER node                      # 9. root DEĞİL, sınırlı kullanıcı (güvenlik)
+
+EXPOSE 8080                    # 10. hangi port dinleniyor (dokümantasyon)
+
+CMD ["node", "dist/index.js"]  # 11. container başlarken çalışacak komut
+```
