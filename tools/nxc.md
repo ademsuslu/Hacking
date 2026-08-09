@@ -1,5 +1,5 @@
 # nxc
-[nxc_usage](https://www.netexec.wiki/smb-protocol/scan-for-vulnerabilities)
+[www.netexec.wiki/smb-protocol/scan-for-vulnerabilities](https://www.netexec.wiki/smb-protocol/scan-for-vulnerabilities)
 
 
 ```bash
