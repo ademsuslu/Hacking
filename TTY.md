@@ -14,12 +14,13 @@
     ```
 2. **Script**:
    ```bash
-   SHELL=/bin/bash script -q /dev/null
+   script /dev/null -qc /bin/bash
    ```
+
    ctrl+z
-   ```bash
-   stty raw -echo && fg
    
+   ```bash
+   stabilize
    ```
  
 Shell Kapatılması Durumu: Eğer açtığınız reverse shell kapanırsa veya yanlışlıkla kapanırsa, yeni bir shell açmak için şu adımları izleyebilirsiniz:
