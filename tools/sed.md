@@ -1,4 +1,4 @@
-# satır başına yada sonuna birşeyler eklemek için kullanılır
+# Satır başına yada sonuna birşeyler eklemek için kullanılır
 
 
 ## satır başına birşeyler ekleme
@@ -18,4 +18,11 @@ echo -n "welcome" | sed 's/$/john/'
 + `^` → satırın başlangıcı
 + `$` → satırın sonuna 
 + `john` → başlangıca hello ekle
+
+## Bu, hacker kelimesini dosyanın ilk satırına ekler.
+
+```bash
+sed -i '1i hacker' wordlist.txt
+```
++ burada `-i` değişebilir 1,2,3 yada istediğimiz satırda kullanabiliriz   
 
