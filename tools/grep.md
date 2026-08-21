@@ -34,3 +34,9 @@ https://matlab.mathworks.com/matlab/23.2.0.2436196/window.html?winId=9bc7cac4-41
 ```bash
 grep -oP 'winId=\K[^&]*' tum_arsiv_linkleri.txt
 ```
+
+**ve bu kesileni direk kopyalamak için**
+
+```bash
+grep -oP 'winId=\K[^&]*' tum_arsiv_linkleri.txt | xclip -selection clipboard 
+```
