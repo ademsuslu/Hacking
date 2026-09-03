@@ -31,3 +31,25 @@ Bu `query=:relevance:allCategories:menu-men-inco:isInPromo:true` bir faceted sea
    WHERE category = "menu-men-inco" 
    AND in_promo = true 
    ORDER BY relevance
+
+
+
+## saldırı için
+
+```
+Adım 1: Karakterleri test et
+:relevance:allCategories:menu-men-inco:isInPromo=true'
+:relevance:allCategories:menu-men-inco:isInPromo=true"
+:relevance:allCategories:menu-men-inco:isInPromo=true;
+:relevance:allCategories:menu-men-inco:isInPromo=true)
+
+Adım 2: Değerleri manipüle et
+:relevance:ENUM_ME:menu-men-inco
+:relevance:allCategories:ADMIN_CATEGORY
+:relevance:allCategories:menu-men-inco:isInPromo=1
+
+Adım 3: Format değiştir
+:relevance::menu-men-inco  (double colon)
+?query=relevance;allCategories;menu-men-inco
+?query=relevance|allCategories|menu-men-inco
+```
