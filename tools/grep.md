@@ -1,3 +1,11 @@
+## belirli bir listemiz varsa bu listeden https:// ile başlayan ve o kısımdan sonuna kadar alır 
+
+```bash
+cat path.txt | grep -o 'https://[^ ]*'
+```
+
+
+
 ## liste icindeki uzantiya gore satirlari silme
 
 **satırın sonunda .svg,.png.. ile biten bütün satırları siler ve kalanları yeni_liste.txt dosyasına yazar**
