@@ -7,8 +7,8 @@ POST / HTTP/2
 Host: targets.com
 Content-Type: multipart/form-data; boundary=----geckoformboundaryc2fa72a9baca788c110271be15486937
 Content-Length: 401
-Origin: https://b6c991c5dfcc1f65fd98c70dbe368fda.ctf.hacker101.com
-Referer: https://b6c991c5dfcc1f65fd98c70dbe368fda.ctf.hacker101.com/
+Origin: https://targets.com
+Referer: https://targets.com/
 Upgrade-Insecure-Requests: 1
 Sec-Fetch-Dest: document
 Sec-Fetch-Mode: navigate
