@@ -118,6 +118,13 @@ REST API'de de `fields` aynı şeyi yapıyor.
 
 **En sık zafiyet.**
 
+
+bu istekler idor verebilir
+```
+?fields=owner.uri,owner.name,team_data.team_name,team_membership.permission_level,team_data.logo_uri,team_data.pctures.uri,untranslated_user_role.user_role
+```
+
+
 ```
 Gizli alanları request edebilirim
 
