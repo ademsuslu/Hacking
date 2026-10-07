@@ -1,3 +1,19 @@
+## sqli (concatenation):
+
+`'||Column_name--+`
+
+Then:
+
+`'||table_name.column_name--+` using dot notation.
+
+So:
+
+`'||not_valid_column_name--+` → returns an error
+`'||valid_column_name--+` → success
+`'||valid_table.valid_column--+` → success
+
+
+
 ## Real Life from hacker one
 
 ```sql
