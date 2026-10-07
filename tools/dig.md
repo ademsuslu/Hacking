@@ -13,80 +13,88 @@ dig google.com
 ```
 Bu komut, **google.com** alan adının A (IPv4 adresi) kaydını getirir.
 
-## **Önemli `dig` Parametreleri**
-| Komut | Açıklama |
-|--------|------------|
-| `dig google.com` | Google'ın IP adresini çözümler (varsayılan olarak A kaydı). |
-| `dig google.com MX` | Google'ın **Mail Exchange (MX)** kayıtlarını listeler. |
-| `dig google.com NS` | Alan adının **ad sunucularını (Name Servers - NS)** gösterir. |
-| `dig google.com TXT` | Alan adının **TXT kayıtlarını** gösterir (SPF, DKIM gibi doğrulamalar için kullanılır). |
-| `dig google.com ANY` | Tüm DNS kayıtlarını getirir (bazı sunucular kısıtlamış olabilir). |
-| `dig @1.1.1.1 google.com` | **Cloudflare DNS** sunucusunu kullanarak sorgu yapar. |
-| `dig +short google.com` | Sadece IP adresini gösterir. |
-| `dig +trace google.com` | Alan adının çözüleme sürecini detaylı gösterir. |
+# 🛡️ Bug Bounty İçin DNS Kayıtları Rehberi & Gelişmiş Subdomain Takeover Mantığı
 
-## **Örnek Çıktı**
-```bash
-$ dig google.com
-```
-```txt
-; <<>> DiG 9.16.1-Ubuntu <<>> google.com
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 12345
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+Bug bounty süreçlerinde (özellikle keşif/recon aşamasında) karşına çıkacak kritik DNS kayıtları, bunların işlevleri ve **Subdomain Takeover** zafiyetiyle olan doğrudan bağları aşağıda listelenmiştir.
 
-;; QUESTION SECTION:
-;google.com.            IN      A
+---
 
-;; ANSWER SECTION:
-google.com.     299     IN      A       142.250.74.206
+## 1. Temel DNS Kayıt Türleri
 
-;; Query time: 30 msec
-;; SERVER: 192.168.1.1#53(192.168.1.1)
-;; WHEN: Fri Mar 28 12:00:00 UTC 2025
-;; MSG SIZE  rcvd: 55
-```
-Bu çıktıda **google.com** alan adının **142.250.74.206** IP adresine çözümlendiğini görebiliriz.
+### 📌 CNAME (Canonical Name)
+* **Nedir?:** Bir subdomain'i doğrudan bir IP'ye değil, başka bir alan adına (domain) yönlendirir. Takma ad (alias) oluşturur.
+* **Hacker Gözüyle:** Subdomain Takeover zafiyetlerinin **%90'ının kaynağıdır.** Şirketler genellikle AWS, GitHub Pages, Zendesk, Shopify gibi üçüncü parti (third-party) servisleri kullanmak için CNAME kaydı açarlar.
 
-Eğer daha fazla detaylı inceleme yapmak istiyorsan, belirli bir DNS sunucusunu kullanarak sorgular yapabilir veya `+trace` seçeneğini deneyebilirsin.
+### 📌 A (Address) / AAAA (Quad-A)
+* **Nedir?:** Alan adını doğrudan bir IPv4 (`A`) veya IPv6 (`AAAA`) adresine bağlar.
+* **Hacker Gözüyle:** Eğer bir subdomain bir IP'ye bakıyorsa ve o IP boşa çıktıysa (örneğin şirket sunucuyu kapatmış ama DNS kaydını silmemişse), o IP'yi bulut sağlayıcıdan yakalayarak sunucuyu ele geçirebilirsin.
 
-# Linux'ta Avanced `dig` Komutu
+### 📌 NS (Name Server)
+* **Nedir?:** O subdomain veya domain'in DNS kayıtlarını hangi sunucunun yönettini söyler.
+* **Hacker Gözüyle:** **"Subdomain Delegation Takeover"** adı verilen en yüksek ödüllü zafiyet türüne yol açar. Alt alan adının tüm DNS yönetim haklarını ele geçirmeyi sağlar.
 
-**zone transfer ile transfer edileni görürüz**
+### 📌 MX (Mail Exchange)
+* **Nedir?:** E-posta sunucularını belirtir.
+* **Hacker Gözüyle:** Boşta kalmış kurumsal e-posta servislerine yönlendirilmiş MX kayıtları üzerinden **Mail Takeover** yapılarak şirkete gelen e-postalar çalınabilir.
 
-```bash
-dig -t TXT key.z.hackycorp.com
+### 📌 TXT (Text)
+* **Nedir?:** Kimlik doğrulama metinleri içerir (SPF, DKIM, DMARC, Google Site Verification).
+* **Hacker Gözüyle:** `SPF` ve `DMARC` kayıtlarındaki eksiklikler incelenerek **Email Spoofing** (şirket adına sahte mail atma) zafiyeti aranır.
 
-; <<>> DiG 9.20.15-2-Debian <<>> -t TXT key.z.hackycorp.com
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 2794
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+---
 
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-;; QUESTION SECTION:
-;key.z.hackycorp.com.           IN      TXT
+## 💀 Subdomain Takeover Çeşitleri ve Çalışma Mantığı
 
-;; ANSWER SECTION:
-key.z.hackycorp.com.    43200   IN      TXT     "9f883f22-6ea5-4631-bbe8-95841ad63f56"
+Subdomain Takeover, en basit tanımıyla bir **"Yetim DNS Kaydı (Dangling DNS)"** problemidir. Bir servis kapatılsa bile DNS panelinde kaydının unutulmasıyla tetiklenir.
 
-;; Query time: 144 msec
-;; SERVER: 192.168.1.1#53(192.168.1.1) (UDP)
-;; WHEN: Tue Dec 23 14:00:49 +03 2025
-;; MSG SIZE  rcvd: 97
-```
+### Yöntem 1: CNAME Tabanlı Bulut Servisi Takeover (En Yaygın)
+1. **Senaryo:** `firma.com`, dökümantasyon sayfası için GitHub Pages kullanmaya karar verir ve `://firma.com` için bir **CNAME** kaydı oluşturup bunu `firma.github.io` adresine yönlendirir.
+2. **Hata:** İki yıl sonra şirket projeyi iptal eder ve GitHub üzerindeki o sayfayı **siler**. Ancak DNS panelindeki CNAME kaydını kaldırmayı unutur.
+3. **Saldırı:** Saldırgan kendi kişisel GitHub hesabında yeni bir depo açar ve "Custom Domain" kısmına `://firma.com` yazar. GitHub, CNAME kaydını doğrulayarak sayfayı saldırganın hesabına bağlar.
 
-**Şirketlerin gizleyebileceği verileri görmek için**
-```bash
-dig AXFR z.hackerone.com # => fail
-dig -t SOA z.hackerone.com # => ;z.hackycorp.com.               IN      SOA
-dig -t AXFR z.hackerone.com @z.hackerone.com # => z.hackerone.com 
-```
-**araştır**
-```bash
-dig -t NS z.hackycorp.com
-dig AXFR int @z.hackycorp.com
+### Yöntem 2: A / AAAA Tabanlı IP Recycling Takeover
+1. **Senaryo:** Şirket `://firma.com` adresini geçici bir bulut sunucusunun (AWS EC2, DigitalOcean Droplet vb.) IP adresine (`A` kaydı ile örn: `34.23.45.67`) bağlar.
+2. **Hata:** Proje bittiğinde şirket AWS sunucusunu **siler/kapatır** ancak DNS panelindeki `A` kaydını temizlemez. Statik IP kullanılmadıysa, sunucu silindiğinde o IP havuzu serbest kalır ve başka müşterilere verilebilir hale gelir.
+3. **Saldırı:** Saldırgan bulut sağlayıcı üzerinde sürekli yeni sunucular ayağa kaldırıp kapatarak (veya IP kiralama betikleri yazarak) `34.23.45.67` IP'sinin kendi hesabına atanmasını sağlar. IP eşleştiği an subdomain otomatik olarak saldırganın sunucusuna çıkar.
 
-```
+### Yöntem 3: NS Tabanlı Nameserver Delegation Takeover (Kritik/Yüksek Ödül)
+1. **Senaryo:** Büyük şirketler, alt departmanların (örn: pazarlama) kendi DNS kayıtlarını yönetebilmesi için `://firma.com` adresine **NS kayıtları** tanımlayarak yetkiyi AWS Route 53 veya Azure DNS gibi bulut servislerine devreder.
+2. **Hata:** Pazarlama ekibi işi bitince AWS Route 53 üzerindeki DNS Bölgesini (Hosted Zone) siler. Ancak ana şirketin ağ yöneticisi ana panelden bu NS kayıtlarını kaldırmaz.
+3. **Saldırı:** AWS Route 53 gibi servisler açılan her bölgeye rastgele isim sunucuları atar. Saldırgan kendi AWS hesabında sürekli `://firma.com` adıyla yeni bölgeler açar. Ne zaman ki bulut sağlayıcının ona atadığı NS sunucuları ile şirketin boştaki NS kayıtları çakışırsa, **tüm subdomain yönetimi ve alt subdomain açma yetkisi** saldırgana geçer.
+
+### Yöntem 4: MX Tabanlı Mail Takeover
+1. **Senaryo:** Şirket kurumsal e-posta altyapısı veya bülten/pazarlama e-posta sunucuları için üçüncü parti bir servis kullanıyordur ve `MX` kaydını oraya yönlendirmiştir.
+2. **Hata:** Şirket servis aboneliğini iptal eder fakat DNS panelindeki `MX` kaydını silmeyi unutur.
+3. **Saldırı:** Saldırgan söz konusu e-posta sağlayıcısında bir hesap açar ve şirketin alan adını kendi profiline tanımlar. `MX` kaydı zaten oraya baktığı için, o domaine gönderilen tüm kurumsal veya şifre sıfırlama gibi kritik e-postalar saldırganın gelen kutusuna düşer.
+
+---
+
+## 💡 Hızlı Karşılaştırma Tablosu
+
+| Kayıt Türü | Zafiyet Adı | Tespit Yöntemi | Zorluk Derecesi | Ödül Potansiyeli |
+| :--- | :--- | :--- | :--- | :--- |
+| **CNAME** | Cloud Service Takeover | `dig CNAME` -> 404/Bulut hata mesajı | Kolay | Medium / High |
+| **A / AAAA** | Bulut IP Geri Dönüşüm Takeover | `dig A` -> Sahipsiz bulut IP'si | Zor (IP yakalamak şans/otomasyon ister) | High |
+| **NS** | Nameserver Hijacking | `dig NS` -> Cevap vermeyen / Boşta kalan AWS/Azure NS'leri | Orta / Zor | Critical / High |
+| **MX** | Mail Hijacking | `dig MX` -> Yetim e-posta sunucu kayıtları | Orta | High |
+
+---
+
+## 🛠️ `dig` İle Pratik Avcılık Komutları
+
+* **Sadece CNAME kayıtlarını filtrelemek için:**
+  ```bash
+  dig CNAME ://subdomain.com +short
+  ```
+* **NS kayıtlarında sahipsiz yetki aramak için:**
+  ```bash
+  dig NS ://hedefdomain.com
+  ```
+* **E-posta zafiyetleri için MX kayıtlarına bakmak için:**
+  ```bash
+  dig MX hedefdomain.com
+  ```
+* **Hızlıca tüm kayıtları (Any) dökmek için:**
+  ```bash
+  dig ANY hedefdomain.com
+  ```
