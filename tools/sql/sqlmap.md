@@ -258,3 +258,20 @@ Görseldeki giden URI isteklerine bakıldığında mekanizmanın başarısı net
 *   `id=9061` için `h=4d7e0d72898ae7ea3593eb5ebf20c744` (SQLMap `id`yi 9061 yapınca, `h` parametresi de otomatik olarak 9061'in MD5 hash'ine dönüşmüş).
 
 Bu parametre sayesinde, arkada ne kadar karmaşık bir şifreleme mekanizması olursa olsun, araya özel bir Python satırı yazarak korumayı tamamen devre dışı bırakabiliriz.
+
+
+### WAF (Güvenlik Duvarı) Tespiti ve `--skip-waf` Parametresi
+
+SQLMap, hedef sisteme doğrudan saldırmadan önce arka planda bir güvenlik duvarı (WAF/IPS) olup olmadığını anlamak için otomatik bir ön test (Heuristic/Sezgisel Test) gerçekleştirir.
+
+#### 1. WAF Tespit Mekanizması Nasıl Çalışır?
+*   **Sahte Parametre Gönderimi:** SQLMap, taramanın en başında hedef sitede var olmayan rastgele bir parametre ismiyle (Örn: `?pfov=...`) bilerek çok bariz, "zararlı görünen" bir test kodu (payload) fırlatır.
+*   **Yanıt Analizi:** Eğer kullanıcı ile sunucu arasında bir koruma varsa, dönen HTTP yanıtı orijinal sayfadan çok farklı olur. Örneğin, piyasadaki en popüler WAF çözümlerinden biri olan **ModSecurity** aktifse, sunucu bu isteğe anında **`406 - Not Acceptable`** hatası döner.
+*   **WAF Kimliği Belirleme (Fingerprinting):** SQLMap, pozitif bir WAF tespiti yaptıktan sonra arkada tam olarak hangi koruma yazılımının çalıştığını bulmak için **`identYwaf`** adlı üçüncü parti bir kütüphane kullanır. Bu kütüphane içinde 80 farklı WAF çözümünün (Cloudflare, Sucuri, Imperva vb.) dijital imzalarını barındırır.
+
+#### 2. `--skip-waf` Parametresi (Gürültüyü Azaltma)
+Sızma testlerinde (Pentest) gizlilik ve minimum iz bırakmak (less noise) kritik öneme sahiptir. SQLMap'in en başında attığı o bariz zararlı sahte istek, WAF loglarında anında kırmızı alarm verilmesine neden olabilir.
+
+*   **İşlevi:** `--skip-waf` anahtarı kullanıldığında, SQLMap en baştaki o sezgisel WAF algılama ve kimlik tespit adımlarının tamamını pas geçer.
+*   **Kullanım Amacı:** Hedefte bir WAF olmadığını zaten biliyorsanız veya WAF loglarında gürültü çıkarmadan doğrudan asıl parametre testlerine geçmek istiyorsanız bu seçeneği komuta dahil etmelisiniz.
+
