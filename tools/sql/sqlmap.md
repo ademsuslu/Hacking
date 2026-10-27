@@ -75,3 +75,18 @@ SQLMap varsayılan olarak en yaygın kullanılan vektörleri ve sınırları (bo
 
 #### Payload Sayısı Karşılaştırması
 Varsayılan ayarlarda (`--level=1 --risk=1`) tek bir parametre için yaklaşık **72 adet** payload denenirken; en detaylı ve agresif modda (`--level=5 --risk=3`) denenen payload sayısı **7,865'e** kadar yükselir. Bu durum zafiyet bulma şansını artırır ancak tarama süresini ciddi şekilde uzatır ve hedef sistemde iz bırakma (gürültü çıkarma) olasılığını yükseltir.
+
+
+### Advanced Tuning (Gelişmiş İnce Ayar Seçenekleri)
+
+SQLMap'in kör (Blind) zafiyetleri tespit ederken doğru (TRUE) ve yanlış (FALSE) yanıtları daha kararlı bir şekilde ayırt edebilmesi ve taramayı özelleştirmesi için kullanılan gelişmiş parametreler:
+
+*   **`--code` (Durum Kodları):** Doğru ve yanlış yanıtlar arasındaki fark HTTP durum kodlarına yansıyorsa kullanılır. Örneğin, başarılı isteklerde `200`, başarısızlarda `500` dönüyorsa `--code=200` verilerek SQLMap'in sadece bu kodu başarı kriteri sayması sağlanır.
+*   **`--titles` (Sayfa Başlıkları):** SQLMap'in doğru ve yanlış yanıt ayrımını HTML sayfasının `<title>` (başlık) etiketindeki değişikliklere bakarak yapmasını sağlar.
+*   **`--string` (Metin Eşleşmesi):** Doğru (TRUE) dönen sayfalarda kesinlikle var olan ama yanlış (FALSE) sayfalarda kaybolan belirli bir kelimeyi (Örn: `success`, `hoşgeldiniz`) SQLMap'e hedef gösterir. Kullanımı: `--string=success`
+*   **`--text-only` (Sadece Düz Metin):** Sayfadaki gizli kodları (`<script>`, `<style>`, `<meta>` vb.) tamamen temizler ve karşılaştırmayı sadece kullanıcının ekranda gördüğü düz metinler üzerinden yapar. Dinamik arka plan kodlarının taramayı yanıltmasını engeller.
+*   **`--technique` (Zafiyet Teknikleri):** SQLMap'in yalnızca belirli SQLi tekniklerini denemesini zorlar. Örneğin zaman tabanlı (Time-based) testleri atlayıp sadece Boolean, Error ve Union testleri yapmak için `--technique=BEU` kullanılır. (B: Boolean, E: Error, U: Union, S: Stacked, T: Time-based).
+*   **UNION Sorgu Ayarları:**
+    *   `--union-cols`: UNION tabanlı saldırılarda denenecek kolon sayısını manuel belirler (Örn: `--union-cols=17`).
+    *   `--union-char`: Kolon tespitinde kullanılan varsayılan `NULL` değeri yerine özel bir karakter (Örn: `--union-char='a'`) kullanılmasını sağlar.
+    *   `--union-from`: Oracle gibi bazı veri tabanlarında zorunlu olan `FROM` tablosu ekini manuel belirtmek için kullanılır (Örn: `--union-from=users`).
