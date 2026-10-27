@@ -1,7 +1,8 @@
 # SQLMap usage
 
-### Technique 
 
+
+### Technique 
 
 + **B**: Boolean-based blind `AND 1=1`
 + **E**: Error-based `AND GTID_SUBSET(@@version,0)`
@@ -47,7 +48,7 @@ sqlmap 'http://www.example.com/' -H='Cookie:PHPSESSID=ab4530f4a7d10448457fa8b0ea
  sqlmap -u www.target.com --data='id=1' --method PUT
 ```
 
-# Handling SQLMap Errors
+## Handling SQLMap Errors
 
 **termianlde gösterir**
 + `--parse-errors` **parametresi veri tabanı hatalarının terminale yazar database tespiti için kullanılır**
@@ -55,8 +56,9 @@ sqlmap 'http://www.example.com/' -H='Cookie:PHPSESSID=ab4530f4a7d10448457fa8b0ea
 **dosyaya kaydeder**
 + `-t /file.txt` **parametresi veri tabanı hatalarını dosyaya yazar**
 
-# Prefix/Suffix
+## Prefix/Suffix
 + **prefix** payloadın başına ekler `sqlmap -u "www.example.com/?q=test" --prefix="%'))"`
 + **suffix** payloadın sonuna ekler `sqlmap -u "www.example.com/?q=test" --suffix="-- -"`
 
 
+# Level/Risk
