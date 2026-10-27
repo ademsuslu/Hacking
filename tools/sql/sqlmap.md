@@ -220,3 +220,41 @@ Kullanıcı komutta `--csrf-token` parametresini açıkça belirtmese bile, SQLM
 Bu soruya **`y` (Yes)** yanıtı verildiğinde, SQLMap CSRF korumasını tamamen devre dışı bırakarak taramayı başarıyla sürdürür.
 
 
+### `--randomize` Parametresi (Parametrik Değer Rastgeleleştirme)
+
+Bazı web uygulamaları, otomatik tarama araçlarını (botları) engellemek amacıyla her HTTP isteğinde belirli bir yan parametrenin tamamen benzersiz (unique) bir değer taşımasını zorunlu kılar. Eğer bu değer her istekte değişmezse sunucu isteği reddeder. SQLMap, bu korumayı aşmak için `--randomize` seçeneğini sunar.
+
+*   **İşlevi:** SQLMap'e hedef gösterilen parametrenin değerini, her bir HTTP isteği gönderilmeden hemen önce **rastgele ve benzersiz yeni bir sayısal değerle** otomatik olarak günceller.
+*   **CSRF Korumasından Farkı:** Anti-CSRF token mekanizmalarında SQLMap'in önce sayfadan yeni token'ı okuması (parse etmesi) gerekir. `--randomize` işleminde ise sayfadan veri okumaya gerek yoktur; SQLMap her istek öncesi kendi kafasından rastgele benzersiz bir sayı üreterek sunucuya fırlatır.
+
+#### Örnek Terminal Çıktısının Analizi:
+`sqlmap -u "http://www.example.com/?id=1&rp=29125" --randomize=rp --batch -v 5 | grep URI`
+
+*   **Hedef Analizi:** Test edilmek istenen asıl zafiyetli parametre `id` parametresidir. Ancak sistem, yanındaki `rp` (random parameter) değerinin her seferinde değişmesini şart koşmaktadır.
+*   **Çıktı İncelemesi (Giden İsteklerin Anatomisi):**
+    *   `id=1&rp=99954`
+    *   `id=1&rp=87216`
+    *   `id=9030&rp=36456`
+    *   `id=1%29%20AND...&rp=95185`
+
+Görüldüğü üzere, SQLMap `id` parametresine sızma kodlarını (payload'ları) denerken, her bir denemede `rp=` kısmındaki sayıları (`99954`, `87216`, `36456`, `95185`) tamamen rastgele olacak şekilde değiştirmiştir. Böylece hedef web sitesi durumu fark edememiş ve otomatik tarama engeline takılmadan zafiyet testi başarıyla tamamlanmıştır.
+
+### `--eval` Parametresi (Dinamik/Hesaplanmış Parametre Yönetimi)
+
+Bazı gelişmiş web uygulamaları, parametrelerin manipüle edilmesini (kurcalanmasını) engellemek için parametre değerlerinin birbirine bağımlı olmasını şart koşar. En yaygın senaryo, bir parametrenin değerinin (Örn: `id`), diğer bir parametrede hash doğrulaması (Örn: `h = MD5(id)`) olarak taşınmasıdır. SQLMap bu tarz matematiksel koruma mekanizmalarını aşmak için `--eval` seçeneğini kullanır.
+
+*   **İşlevi:** SQLMap'in her bir test isteğini sunucuya göndermeden hemen önce, belirtilen **Python kodunu canlı olarak çalıştırmasını (evaluate etmesini)** sağlar. Böylece değişen payload değerine göre bağımlı parametre yeniden hesaplanır.
+*   **Çalışma Mantığı:** SQLMap test etmek istediği parametreyi (Örn: `id`) değiştirir, ardından `--eval` içindeki Python kodu devreye girerek yeni `id` değerinin hash'ini alır ve `h` parametresine otomatik yazar.
+
+#### Örnek Komut Analizi:
+`sqlmap -u "http://example.com" --eval="import hashlib; h=hashlib.md5(id.encode()).hexdigest()"`
+
+*   **`import hashlib;`**: Python'un şifreleme kütüphanesini çağırır.
+*   **`h=hashlib.md5(id.encode()).hexdigest()`**: SQLMap'in o anki denediği dinamik `id` değerini alır, MD5 hash'ini hesaplar ve çıkan sonucu otomatik olarak URL'deki `h=` parametresinin yerine yerleştirir.
+
+#### Çıktı İncelemesi (Giden İsteklerin Anatomisi):
+Görseldeki giden URI isteklerine bakıldığında mekanizmanın başarısı netçe görülmektedir:
+*   `id=1` için `h=c4ca4238a0b923820dcc509a6f75849b` (İlk orijinal değer)
+*   `id=9061` için `h=4d7e0d72898ae7ea3593eb5ebf20c744` (SQLMap `id`yi 9061 yapınca, `h` parametresi de otomatik olarak 9061'in MD5 hash'ine dönüşmüş).
+
+Bu parametre sayesinde, arkada ne kadar karmaşık bir şifreleme mekanizması olursa olsun, araya özel bir Python satırı yazarak korumayı tamamen devre dışı bırakabiliriz.
