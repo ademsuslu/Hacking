@@ -54,3 +54,9 @@ sqlmap 'http://www.example.com/' -H='Cookie:PHPSESSID=ab4530f4a7d10448457fa8b0ea
 
 **dosyaya kaydeder**
 + `-t /file.txt` **parametresi veri tabanı hatalarını dosyaya yazar**
+
+# Prefix/Suffix
++ **prefix** payloadın başına ekler `sqlmap -u "www.example.com/?q=test" --prefix="%'))"`
++ **suffix** payloadın sonuna ekler `sqlmap -u "www.example.com/?q=test" --suffix="-- -"`
+
+
