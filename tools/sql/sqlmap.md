@@ -301,3 +301,20 @@ Tamper betikleri, SQLMap istekleri hedef sunucuya göndermeden hemen önce paylo
 | **`space2plus`** | Tüm boşluk karakterlerini artı (`+`) işaretiyle değiştirir. | Boşluk $\rightarrow$ `+` |
 | **`symboliclogical`** | `AND` ve `OR` mantıksal ifadelerini sembolik hallerine dönüştürür. | `AND` $\rightarrow$ `&&` / `OR` $\rightarrow$ `\|\|` |
 | **`versionedkeywords`** | Fonksiyon olmayan tüm anahtar kelimeleri MySQL yorum satırına hapseder. | `UNION` $\rightarrow$ `/*!50000UNION*/` |
+
+
+### Çeşitli WAF Atlatma Yöntemleri (Miscellaneous Bypasses)
+
+Gelişmiş zafiyet filtreleri ve WAF çözümleri, `UNION`, `SELECT` veya `FROM` gibi kara listeye (blacklist) alınmış SQL anahtar kelimelerini paketlerin içinde bütün olarak arar. SQLMap, bu kelimeleri parçalayarak koruma mekanizmalarına yakalanmadan sunucuya iletmek için iki ileri düzey bypass parametresi sunar:
+
+#### 1. Chunked Transfer Encoding (`--chunked`)
+HTTP protokolünün veri aktarım özelliğini bir silaha dönüştürür. Özellikle POST isteklerinin gövdesini (body) sunucuya göndermeden önce küçük veri bloklarına ("chunks") böler.
+
+*   **Çalışma Mantığı:** Kara listeye alınmış bir SQL kelimesi, bu blokların tam birleşme sınırlarından bölünür. WAF her bir bloğu tek tek incelediği için zararlı kelimeyi bütün olarak göremez ve pakete izin verir. Ancak arka plandaki web sunucusu bu blokları birleştirdiğinde SQL enjeksiyon kodu eksiksiz bir şekilde çalışır.
+
+#### 2. HTTP Parameter Pollution - HPP (`--hpp`)
+HTTP Parametre Kirliliği anlamına gelen bu yöntem, enjeksiyon kodlarını (payload) aynı isimdeki birden fazla parametreye bölerek dağıtmayı hedefler.
+
+*   **Çalışma Mantığı:** Tek bir `id` parametresine tüm kodu yazmak yerine, sunucunun parametreleri birleştirme huyundan faydalanılır.
+    *   *Dağıtılmış İstek Örneği:* `?id=1&id=UNION&id=SELECT&id=username,password&id=FROM&id=users`
+*   **Arka Plan Davranışı:** Araya giren WAF, her bir `id` parametresini bağımsız ve zararsız zanneder. Ancak hedef web platformu (Özellikle ASP ve ASP.NET mimarileri) bu parametreleri arka planda virgülle veya doğrudan birleştirerek `UNION SELECT username,password FROM users` haline getirir ve kod tetiklenir.
