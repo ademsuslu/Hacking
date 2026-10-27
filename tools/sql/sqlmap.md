@@ -275,3 +275,29 @@ Sızma testlerinde (Pentest) gizlilik ve minimum iz bırakmak (less noise) kriti
 *   **İşlevi:** `--skip-waf` anahtarı kullanıldığında, SQLMap en baştaki o sezgisel WAF algılama ve kimlik tespit adımlarının tamamını pas geçer.
 *   **Kullanım Amacı:** Hedefte bir WAF olmadığını zaten biliyorsanız veya WAF loglarında gürültü çıkarmadan doğrudan asıl parametre testlerine geçmek istiyorsanız bu seçeneği komuta dahil etmelisiniz.
 
+### Tamper Scripts (WAF/IPS Bypass Mekanizması)
+
+Tamper betikleri, SQLMap istekleri hedef sunucuya göndermeden hemen önce payload içeriğini dinamik olarak değiştiren özel Python script'leridir. Temel amaç, zafiyet filtrelerine yakalanmamak için SQL komutlarını alternatif yazım şekillerine dönüştürmektir.
+
+*   **Zincirleme Kullanım:** Tamper betikleri virgülle ayrılarak arka arkaya eklenebilir (Örn: `--tamper=between,randomcase`). SQLMap bunları kendi öncelik sırasına göre işler.
+*   **Tüm Listeyi Görme:** SQLMap içinde gömülü olan tüm tamper script'lerini listelemek için `--list-tampers` parametresi kullanılır.
+
+#### En Popüler Tamper Script'leri ve İşlevleri
+
+| Tamper Script | Açıklama / Görevi | Dönüşüm Örneği |
+| :--- | :--- | :--- |
+| **`apostrophemask`** | Tek tırnak (`'`) işaretini URL encoding karşılığı ile maskeler. | `'` $\rightarrow$ `%27` |
+| **`base64encode`** | Payload içindeki tüm karakterleri Base64 formatına çevirir. | `SELECT` $\rightarrow$ `U0VMRUNU` |
+| **`between`** | Büyüktür (`>`) ve eşittir (`=`) operatörlerini `BETWEEN` yapısıyla değiştirir. | `id > 1` $\rightarrow$ `id NOT BETWEEN 0 AND 1` |
+| **`charencode`** | Payload'daki tüm karakterleri URL encode moduna sokar. | `SELECT` $\rightarrow$ `%53%45%4c%45%43%54` |
+| **`commalesslimit`** | MySQL'deki virgüllü `LIMIT` yapısını, virgülsüz `OFFSET` yapısına çevirir. | `LIMIT 1,2` $\rightarrow$ `LIMIT 2 OFFSET 1` |
+| **`equaltolike`** | Tüm eşittir (`=`) işaretlerini `LIKE` operatörü ile değiştirir. | `id = 1` $\rightarrow$ `id LIKE 1` |
+| **`modsecurityversioned`**| Tüm sorguyu ModSecurity WAF'ı atlatmak için versiyonlu yorum satırına alır.| `1 AND 1=1` $\rightarrow$ `1 /*!30874AND 1=1*/` |
+| **`percentage`** | Her karakterin başına yüzde (`%`) işareti ekler. | `SELECT` $\rightarrow$ `%S%E%L%E%C%T` |
+| **`randomcase`** | SQL anahtar kelimelerindeki harfleri rastgele büyük/küçük yapar. | `SELECT` $\rightarrow$ `SeLeCt` |
+| **`space2comment`** | Tüm boşluk karakterlerini (` `) MySQL yorum satırları (`/**/`) ile değiştirir. | `SELECT id FROM` $\rightarrow$ `SELECT/**/id/**/FROM` |
+| **`space2dash`** | Boşlukları tire işareti (`--`), rastgele metin ve yeni satır (`\n`) ile değiştirir. | Boşluk $\rightarrow$ `--\n` |
+| **`space2hash`** | Boşlukları MySQL'e özel diyez (`#`) yorum işareti ve yeni satırla değiştirir. | Boşluk $\rightarrow$ `#\n` |
+| **`space2plus`** | Tüm boşluk karakterlerini artı (`+`) işaretiyle değiştirir. | Boşluk $\rightarrow$ `+` |
+| **`symboliclogical`** | `AND` ve `OR` mantıksal ifadelerini sembolik hallerine dönüştürür. | `AND` $\rightarrow$ `&&` / `OR` $\rightarrow$ `\|\|` |
+| **`versionedkeywords`** | Fonksiyon olmayan tüm anahtar kelimeleri MySQL yorum satırına hapseder. | `UNION` $\rightarrow$ `/*!50000UNION*/` |
