@@ -194,3 +194,29 @@ SQLMap'te verileri tek tek tablolar halinde çekmek yerine, hedef veri tabanlar�
 
 #### Neden Kullanılmalı?
 Sistem veri tabanları genellikle sızma testlerinde (pentest) hedef alınan kullanıcı verilerini barındırmaz ve çok büyüktür. `--exclude-sysdbs` anahtarı eklenerek bu tabloların atlanması, tarama süresini ciddi derecede kısaltır, ağ trafiğini azaltır ve sadece siber güvenlik uzmanının işine yarayacak anlamlı verilere (hedef kullanıcı verilerine) odaklanılmasını sağlar.
+
+
+
+
+---
+
+
+# Advanced SQLMap usage
+
+### Anti-CSRF Token Bypass (CSRF Korumasını Atlama)
+
+Web uygulamaları, otomatik botları ve tarayıcıları engellemek için form doldurma işlemlerine tek kullanımlık ve dinamik `Anti-CSRF token` (güvenlik anahtarı) ekler. SQLMap, bu korumayı aşmak ve taramaya devam edebilmek için her istekte yeni token değerini yakalama özelliğine sahiptir.
+
+#### Kullanılan Parametre ve İşlevi:
+*   **`--csrf-token`**: SQLMap'e hedef sitenin kullandığı CSRF parametresinin adını belirtmek için kullanılır. 
+*   **Çalışma Mantığı:** Bu parametre aktif edildiğinde, SQLMap bir istek gönderdikten sonra hedef sitenin verdiği yanıttan (HTML kodundan) bir sonraki istek için üretilen **taze (yeni) token değerini otomatik olarak bulur, ayrıştırır (parse)** ve bir sonraki SQL enjeksiyon payload'ı ile birlikte sunucuya gönderir.
+
+#### Akıllı Otomatik Algılama (Auto-Detection):
+Kullanıcı komutta `--csrf-token` parametresini açıkça belirtmese bile, SQLMap gönderilen istek parametreleri arasında `csrf`, `xsrf` veya `token` gibi yaygın kelimeleri (infixes) fark ederse terminalde kullanıcıya otomatik bir uyarı yönlendirir:
+
+> *"POST parameter 'csrf-token' appears to hold anti-CSRF token. Do you want sqlmap to automatically update it in further requests? [y/N]"*
+> *(POST parametresi olan 'csrf-token' bir anti-CSRF koruması gibi görünüyor. SQLMap'in sonraki isteklerde bunu otomatik olarak güncellemesini ister misiniz?)*
+
+Bu soruya **`y` (Yes)** yanıtı verildiğinde, SQLMap CSRF korumasını tamamen devre dışı bırakarak taramayı başarıyla sürdürür.
+
+
