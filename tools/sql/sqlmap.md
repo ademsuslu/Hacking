@@ -90,3 +90,13 @@ SQLMap'in kör (Blind) zafiyetleri tespit ederken doğru (TRUE) ve yanlış (FAL
     *   `--union-cols`: UNION tabanlı saldırılarda denenecek kolon sayısını manuel belirler (Örn: `--union-cols=17`).
     *   `--union-char`: Kolon tespitinde kullanılan varsayılan `NULL` değeri yerine özel bir karakter (Örn: `--union-char='a'`) kullanılmasını sağlar.
     *   `--union-from`: Oracle gibi bazı veri tabanlarında zorunlu olan `FROM` tablosu ekini manuel belirtmek için kullanılır (Örn: `--union-from=users`).
+
+
+### advanced usage
+
++ `--no-cast` **Veriyi olduğu gibi, ham haliyle çek, zorlama**
+
++ `--threads=5` **komutu, siteye aynı anda 5 farklı koldan istek atarak veri çekme hızını 5 katına çıkarır**
+
+
++ `--fresh-queries` **Geçmiş hafızanı unut, her şeyi sıfırdan ve canlı olarak baştan sorgula**
