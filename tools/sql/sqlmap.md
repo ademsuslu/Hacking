@@ -100,3 +100,73 @@ SQLMap'in kör (Blind) zafiyetleri tespit ederken doğru (TRUE) ve yanlış (FAL
 
 
 + `--fresh-queries` **Geçmiş hafızanı unut, her şeyi sıfırdan ve canlı olarak baştan sorgula**
+
+
+
+
+## Database Enumeration
+
+
+### kullanılan Temel Parametreler ve Amaçları:
+
+*   **`--banner`**: Hedef veri tabanının tam sürüm bilgisini, işletim sistemini ve kullanılan web sunucusu teknolojisini sızdırır.
+*   **`--current-user`**: Veri tabanı sorgularını arka planda çalıştıran aktif veri tabanı kullanıcısının adını verir.
+*   **`--current-db`**: Web uygulamasının o an doğrudan bağlı olduğu ve işlem yaptığı aktif veri tabanının adını gösterir.
+*   **`--is-dba`**: Aktif veri tabanı kullanıcısının en üst yetkilere (DBA - Database Administrator / Veri Tabanı Yöneticisi) sahip olup olmadığını kontrol eder.
+
+#### Örnek Terminal Çıktısının Analizi:
+Görseldeki çıktıda, tüm bu parametrelerin tek seferde birleştirilerek hedef sisteme uygulandığı görülmektedir:
+*   **Kullanılan Komut:** `sqlmap -u "http://example.com" --banner --current-user --current-db --is-dba`
+*   **Sızdırılan Bilgiler:**
+    *   **Banner/Sürüm:** `5.1.41-3-bpo50+1` (Eski ve zafiyet barındırma ihtimali yüksek bir MySQL sürümü).
+    *   **Aktif Kullanıcı:** `root@%`
+    *   **Aktif Veri Tabanı:** `testdb`
+    *   **DBA Durumu:** `current user is DBA: True` (Kullanıcı en üst yetkilere sahip).
+
+
+## Table/Row Enumeration
+
+
+*   **Kullanılan Komut:** `sqlmap -u "http://www.example.com/?id=1" --dump -T users -D testdb -C name,surname`
+*   **Sızdırılan Bilgiler:**
+    *   **name,surname** `john:doe` 
+
+### `--start` ve `--stop` Parametreleri (Satır Sınırlandırma)
+
+SQLMap veri tabanındaki bir tabloyu indirirken (dump), tablonun tamamı yerine sadece belirli satır aralıklarını çekmek için bu parametreler kullanılır. Özellikle çok büyük veriye sahip tablolarda zaman ve ağ trafiğinden tasarruf sağlar.
+
+*   **`--start=2`**: Veri çekme işlemine kaçıncı satırdan (kayıttan) başlanacağını belirtir. (Bu örnekte veri çekmeye 2. satırdan başlar).
+*   **`--stop=3`**: Veri çekme işleminin kaçıncı satırda bitirileceğini belirtir. (Bu örnekte 3. satırı da çekip işlemi sonlandırır).
+
+#### Örnek Senaryo Analizi:
+`sqlmap -u "http://www.example.com/?id=1" --dump -T users -D testdb --start=2 --stop=3`
+
+Bu komut çalıştırıldığında SQLMap, `testdb` veri tabanının içindeki `users` tablosuna gider; ancak tüm kullanıcı listesini indirmek yerine **yalnızca 2. ve 3. satırdaki (toplam 2 adet) kullanıcı kayıtlarını** çeker ve ekrana basar.
+
+
+---
+
+### `WHERE` ve `name LIKE 'f%'` 
+
+
+Name bilgisi `f` ile başlayanları çeker
+
+#### Örnek Senaryo Analizi:
+
+` sqlmap -u "http://www.example.com/?id=1" --dump -T users -D testdb --where="name LIKE 'f%'"` **name: fluffy**
+
+
+
+
+
+### Toplu Veri İndirme (Bulk Data Retrieval) ve Filtreleme Seçenekleri
+
+SQLMap'te verileri tek tek tablolar halinde çekmek yerine, hedef veri tabanlarının tüm içeriğini tek bir komutla indirmek ve bunu yaparken taramayı optimize etmek için aşağıdaki parametreler kullanılır:
+
+*   **Toplu Veri Tabanı İndirme (`--dump -D <veri_tabanı>`)**: Belirli bir tablo adı (`-T`) belirtmeden sadece veri tabanı adını verip `--dump` parametresini kullanırsanız, SQLMap o veri tabanının içindeki **tüm tabloları ve verileri** sırayla otomatik olarak indirir.
+    *   *Örnek:* `--dump -D testdb`
+*   **Her Şeyi İndirme (`--dump-all`)**: Hedef sunucuda aktif kullanıcının erişebildiği **tüm veri tabanlarını ve bunların içindeki tüm tabloları** istisnasız bir şekilde tamamen indirir.
+*   **Sistem Veri Tabanlarını Muaf Tutma (`--exclude-sysdbs`)**: `--dump-all` gibi toplu indirme komutları kullanıldığında, SQLMap'in veri tabanı yönetim sistemine ait varsayılan sistem tablolarını (Örn: MySQL için `information_schema`, `performance_schema`, `sys`, `mysql`) taramasını engeller. 
+
+#### Neden Kullanılmalı?
+Sistem veri tabanları genellikle sızma testlerinde (pentest) hedef alınan kullanıcı verilerini barındırmaz ve çok büyüktür. `--exclude-sysdbs` anahtarı eklenerek bu tabloların atlanması, tarama süresini ciddi derecede kısaltır, ağ trafiğini azaltır ve sadece siber güvenlik uzmanının işine yarayacak anlamlı verilere (hedef kullanıcı verilerine) odaklanılmasını sağlar.
