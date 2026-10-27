@@ -61,4 +61,17 @@ sqlmap 'http://www.example.com/' -H='Cookie:PHPSESSID=ab4530f4a7d10448457fa8b0ea
 + **suffix** payloadın sonuna ekler `sqlmap -u "www.example.com/?q=test" --suffix="-- -"`
 
 
-# Level/Risk
+# Level/Risk (Tarama Hassasiyeti ve Agresiflik)
+
+SQLMap varsayılan olarak en yaygın kullanılan vektörleri ve sınırları (boundaries) test eder. Ancak daha karmaşık senaryolar ve korumalı sistemler için `--level` ve `--risk` seçenekleri kullanılır:
+
+*   **`--level` (Değer Aralığı: 1-5, Varsayılan: 1):** SQLMap'in test edeceği payload (vektör ve sınır) havuzunun genişliğini belirler. Level değeri arttıkça test edilen kombinasyon sayısı artar.
+    *   *Level 2:* HTTP Cookie verilerini de test etmeye başlar.
+    *   *Level 3:* HTTP User-Agent ve Referer başlıklarını (headers) test sürecine dahil eder.
+    *   *Level 5:* Çok daha geniş ve nadir kullanılan sınır (boundary) kombinasyonlarını dener.
+*   **`--risk` (Değer Aralığı: 1-3, Varsayılan: 1):** Hedef veri tabanına gönderilen payload'ların "agresiflik" ve "risk" seviyesini belirler.
+    *   *Risk 2:* Ağır yük getiren zaman tabanlı (time-based) SQL enjeksiyon testlerini artırır.
+    *   *Risk 3:* Veri tabanındaki mevcut verileri modifiye edebilecek (Örn: `OR` tabanlı tehlikeli sorgular, `UPDATE` veya `DELETE` tetiklemeleri) payload'ları devreye sokar. Veri kaybına veya servis kesintisine (DoS) yol açma riski taşır.
+
+#### Payload Sayısı Karşılaştırması
+Varsayılan ayarlarda (`--level=1 --risk=1`) tek bir parametre için yaklaşık **72 adet** payload denenirken; en detaylı ve agresif modda (`--level=5 --risk=3`) denenen payload sayısı **7,865'e** kadar yükselir. Bu durum zafiyet bulma şansını artırır ancak tarama süresini ciddi şekilde uzatır ve hedef sistemde iz bırakma (gürültü çıkarma) olasılığını yükseltir.
