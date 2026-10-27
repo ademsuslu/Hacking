@@ -1,3 +1,4 @@
+# SQLMap usage
 
 ### Technique 
 
@@ -46,3 +47,4 @@ sqlmap 'http://www.example.com/' -H='Cookie:PHPSESSID=ab4530f4a7d10448457fa8b0ea
  sqlmap -u www.target.com --data='id=1' --method PUT
 ```
 
+# Handling SQLMap Errors
