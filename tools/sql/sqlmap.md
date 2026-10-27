@@ -1,7 +1,5 @@
 # SQLMap usage
 
-
-
 ### Technique 
 
 + **B**: Boolean-based blind `AND 1=1`
@@ -10,7 +8,6 @@
 + **S**: Stacked queries `; DROP TABLE users`
 + **T**: Time-based blind `AND 1=IF(2>1,SLEEP(5),0)`
 + **Q**: Inline queries `SELECT (SELECT @@version) from`
-
 
 #### Out-of-band SQL Injection
 
@@ -61,7 +58,7 @@ sqlmap 'http://www.example.com/' -H='Cookie:PHPSESSID=ab4530f4a7d10448457fa8b0ea
 + **suffix** payloadın sonuna ekler `sqlmap -u "www.example.com/?q=test" --suffix="-- -"`
 
 
-# Level/Risk (Tarama Hassasiyeti ve Agresiflik)
+### Level/Risk (Tarama Hassasiyeti ve Agresiflik)
 
 SQLMap varsayılan olarak en yaygın kullanılan vektörleri ve sınırları (boundaries) test eder. Ancak daha karmaşık senaryolar ve korumalı sistemler için `--level` ve `--risk` seçenekleri kullanılır:
 
@@ -106,7 +103,6 @@ SQLMap'in kör (Blind) zafiyetleri tespit ederken doğru (TRUE) ve yanlış (FAL
 
 ## Database Enumeration
 
-
 ### kullanılan Temel Parametreler ve Amaçları:
 
 *   **`--banner`**: Hedef veri tabanının tam sürüm bilgisini, işletim sistemini ve kullanılan web sunucusu teknolojisini sızdırır.
@@ -124,6 +120,34 @@ Görseldeki çıktıda, tüm bu parametrelerin tek seferde birleştirilerek hede
     *   **DBA Durumu:** `current user is DBA: True` (Kullanıcı en üst yetkilere sahip).
 
 
+## Advanced database enumeration
+
+* `--schema` **Veri tabanının iskelet haritası.**
+* `--search` **Veri tabanının iskelet haritası.**
+*   **Kritik Yan Parametreler:** Bu arama komutu tek başına kullanılmaz; neyi aradığınızı belirtmek için şu anahtarlardan biriyle birleştirilmelidir:
+    *   `-C`: Belirli bir **sütun (column)** ismi aramak için.
+    *   `-T`: Belirli bir **tablo (table)** ismi aramak için.
+    *   `-D`: Belirli bir **veri tabanı (database)** ismi aramak için.
+### Şifre Listeleme ve Kırma (Password Enumeration and Cracking)
+
+SQLMap, veri tabanından sızdırdığı şifreli verileri (hash) otomatik olarak tanıma ve entegre sözlük saldırısı (dictionary attack) ile çözme yeteneğine sahiptir.
+
+#### 1. Senaryo: Uygulama Kullanıcı Şifrelerini Kırma (Üst Kısım)
+`--passwords` veya `--dump` komutu sırasında SQLMap bir şifre sütunu bulduğunda şu adımları izler:
+*   **Format Tespiti:** Verilerin hash formatında olduğunu anlar ve kullanıcıya sorar: *"Geri planda kırmak için bu hash'leri geçici bir dosyaya kaydedeyim mi?"* (`do you want to store hashes...`)
+*   **Sözlük (Dictionary) Seçimi:** SQLMap kendi içinde varsayılan bir kelime listesi (wordlist) barındırır. Kullanıcıya bu listeyi mi (`default dictionary file`), yoksa özel bir listeyi mi kullanmak istediğini sorar.
+*   **Kırma İşlemi (Cracking):** Tıpkı Hashcat gibi çoklu işlemci çekirdeklerini kullanarak arka arkaya denemeler yapar. Görseldeki örnekte `testdb` içindeki hash'leri çözerek gerçek şifreleri bulmuştur:
+    *   `secretan` şifresini çözmüş.
+    *   `superman` şifresini çözmüş.
+    *   `ZalewskI` şifresini çözmüş.
+
+#### 2. Senaryo: Veri Tabanı Yönetici Şifrelerini Kırma (Alt Kısım)
+`--passwords` anahtarı doğrudan kullanıldığında, web uygulamasının kullanıcıları yerine **veri tabanının kendi yönetimsel kullanıcılarının (Örn: `root`, `debian-sys-maint`)** şifre hash'lerini hedef alır.
+
+*   **MySQL Root Şifresi:** Görselin en altında görüldüğü üzere, veri tabanı servisinin ana yöneticisi olan `root` kullanıcısının MySQL hash yapısını (`*A4B26...`) sızdırmış ve bunu kırmaya çalışmıştır. 
+*   **Blast Radius (Etki Alanı):** Eğer buradaki `root` şifresi kırılırsa, saldırgan sadece web sitesine değil, doğrudan veri tabanı sunucusunun kendisine (`3306` portu üzerinden) tam yetkiyle erişim sağlama şansı yakalar.
+
+
 ## Table/Row Enumeration
 
 
@@ -131,7 +155,7 @@ Görseldeki çıktıda, tüm bu parametrelerin tek seferde birleştirilerek hede
 *   **Sızdırılan Bilgiler:**
     *   **name,surname** `john:doe` 
 
-### `--start` ve `--stop` Parametreleri (Satır Sınırlandırma)
+#### `--start` ve `--stop` Parametreleri (Satır Sınırlandırma)
 
 SQLMap veri tabanındaki bir tabloyu indirirken (dump), tablonun tamamı yerine sadece belirli satır aralıklarını çekmek için bu parametreler kullanılır. Özellikle çok büyük veriye sahip tablolarda zaman ve ağ trafiğinden tasarruf sağlar.
 
@@ -144,9 +168,9 @@ SQLMap veri tabanındaki bir tabloyu indirirken (dump), tablonun tamamı yerine 
 Bu komut çalıştırıldığında SQLMap, `testdb` veri tabanının içindeki `users` tablosuna gider; ancak tüm kullanıcı listesini indirmek yerine **yalnızca 2. ve 3. satırdaki (toplam 2 adet) kullanıcı kayıtlarını** çeker ve ekrana basar.
 
 
----
 
-### `WHERE` ve `name LIKE 'f%'` 
+
+### `WHERE` ve `name LIKE 'f%'` LIKE COMMAND
 
 
 Name bilgisi `f` ile başlayanları çeker
