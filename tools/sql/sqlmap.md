@@ -49,4 +49,8 @@ sqlmap 'http://www.example.com/' -H='Cookie:PHPSESSID=ab4530f4a7d10448457fa8b0ea
 
 # Handling SQLMap Errors
 
+**termianlde gösterir**
 + `--parse-errors` **parametresi veri tabanı hatalarının terminale yazar database tespiti için kullanılır**
+
+**dosyaya kaydeder**
++ `-t /file.txt` **parametresi veri tabanı hatalarını dosyaya yazar**
