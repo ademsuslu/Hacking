@@ -207,6 +207,9 @@ Sistem veri tabanları genellikle sızma testlerinde (pentest) hedef alınan kul
 
 Web uygulamaları, otomatik botları ve tarayıcıları engellemek için form doldurma işlemlerine tek kullanımlık ve dinamik `Anti-CSRF token` (güvenlik anahtarı) ekler. SQLMap, bu korumayı aşmak ve taramaya devam edebilmek için her istekte yeni token değerini yakalama özelliğine sahiptir.
 
+**example csrf token değer ne ise giden data içinde --csrf-token="t0ken" olarakda onu ayarladık** `sqlmap -u "http://154.57.164.70:37262/case8.php" --data="id=1&t0ken=0KC0b782mpivTYZwoS2NhkdTjVF54m8sQffLHlGEI" --csrf-token="t0ken" --batch -D testdb -T flag8 --dump
+`
+
 #### Kullanılan Parametre ve İşlevi:
 *   **`--csrf-token`**: SQLMap'e hedef sitenin kullandığı CSRF parametresinin adını belirtmek için kullanılır. 
 *   **Çalışma Mantığı:** Bu parametre aktif edildiğinde, SQLMap bir istek gönderdikten sonra hedef sitenin verdiği yanıttan (HTML kodundan) bir sonraki istek için üretilen **taze (yeni) token değerini otomatik olarak bulur, ayrıştırır (parse)** ve bir sonraki SQL enjeksiyon payload'ı ile birlikte sunucuya gönderir.
