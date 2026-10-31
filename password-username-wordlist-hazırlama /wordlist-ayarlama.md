@@ -27,7 +27,9 @@ awk 'length($0) >= 12 && /[a-z]/ && /[A-Z]/ && /[0-9]/ && /^[a-zA-Z0-9]+$/' /usr
 + **j.smith**
 + **jane.s**
 
-#### tools
+> [!CAUTION]
+> ilk olarak  **`username-anarchy`** ile usernames cıkartılır, sonra **`cupp`** ilede password cıkartılır
+> sonra iki wordlist ile saldırı yapılır
 
 ##### username-anarchy
 
