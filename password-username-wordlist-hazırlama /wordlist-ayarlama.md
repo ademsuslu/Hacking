@@ -18,3 +18,41 @@ awk 'length($0) >= 12 && /[a-z]/ && /[A-Z]/ && /[0-9]/ && /^[a-zA-Z0-9]+$/' /usr
 + `grep '[A-Z]'`: İçinde en az bir tane büyük harf olanları seçer.
 + `grep '[0-9]'`: İçinde en az bir tane rakam olanları seçer.
 + `>` işareti: Çıkan temiz listeyi custom_wordlist.txt adında yeni bir dosyaya kaydeder.
+
+
+### Username anarşisi
+
+#### example **janesmith**
++ **janesmith**
++ **j.smith**
++ **jane.s**
+
+#### tools
+
+##### username-anarchy
+
+**installation**
+```bash
+git clone https://github.com/urbanadventurer/username-anarchy.git
+cd username-anarchy
+```
+
+**usage**
+
+```bash
+./username-anarchy Jane Smith > jane_smith_usernames.txt
+```
+
+
+##### cup
+
+**installation**
+```bash
+sudo apt install cupp -y
+```
+
+**usage**
+
+```bash
+cupp -i
+```
