@@ -1,5 +1,16 @@
 # SMB
 
+# Footprinting the Service
+
+```bash
+sudo nmap 10.129.14.128 -sV -sC -p139,445
+
+PORT    STATE SERVICE     VERSION
+139/tcp open  netbios-ssn Samba smbd 4.6.2
+445/tcp open  netbios-ssn Samba smbd 4.6.2
+MAC Address: 00:00:00:00:00:00 (VMware)
+```
+
 ## Genel Bakış
 
 **SMB (Server Message Block)**, dosyalara, dizinlere ve yazıcılar, yönlendiriciler veya ağa açılmış arayüzler gibi diğer ağ kaynaklarına erişimi düzenleyen bir istemci-sunucu protokolüdür. TCP/IP üzerinde çalışan bir istek-yanıt (request-response) protokolüdür.
