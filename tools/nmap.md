@@ -1,5 +1,16 @@
 # Nmap Kullanımı ve Port Taramaları
 
+## CP-SYN taraması (-sS), SYN bayrağına sahip tek bir paket gönderir bu nedenle üç adımlı el sıkışma (three-way handshake) sürecini tamamlamaz ve sonuç olarak taranan portla tam bir TCP bağlantısı kurulmamış olur.
+
++ Hedefimiz bize `SYN-ACK` bayraklı bir paket gönderirse, Nmap portun açık olduğunu tespit eder.
++ Eğer hedef, `RST` bayraklı bir paketle yanıt verirse, bu durum portun kapalı olduğunun bir göstergesidir.
++ Nmap herhangi bir yanıt paketi alamazsa, portu `filtered` olarak işaretler.
+
+```bash
+nmap -sS localhost
+```
+
+
 
 ## 0. **Hızlı biraz detaylı tarama**
 ```bash
