@@ -1,3 +1,20 @@
+# TCPDUMP
+
+ağdaki tüm trafiği canlı canlı dinlemenizi ve kaydetmenizi sağlayan en popüler komut satırı paket analiz aracıdır (Packet Sniffer).
+
+---
+
+```bash
+sudo tcpdump -i eth0 host 10.10.14.2 and 10.129.2.28
+```
+
+
+• **`tcpdump`:** Kullanacağımız ağ dinleme programının adıdır.
+• **`-i eth0 (Interface)`:** Dinlemek istediğiniz ağ kartını seçer. Bilgisayarınızın eth0 isimli (genelde kablolu ağ) kartından geçen trafiğe odaklan der.
+• **`host 10.10.14.2`**: Trafikte içinde sadece bu IP adresinin (ister gönderen olsun ister alan) geçtiği paketleri yakala der.
+
+
+
 # tcpdump kullanımı
 
 ### ctfler için ilk shell aldıkdan sonra kullabilir
