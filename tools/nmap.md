@@ -117,4 +117,11 @@ Scriptleri nereden buluruz?:
 ```bash
 ls -l /usr/share/nmap/scripts/*ftp*
 ```
----
+## 13. sadece ping atma
+
+```
+ nmap 10.129.2.0/24 -sn -oA tnet | grep for | cut -d" " -f5
+```
++ `-sn` sadece ping atar port taraması yapmaz
++ `10.129.2.0/24` burada `10.129.2.0`-`10.129.2.255` arası ping atar
++ `-oA tnet` output olarak `-oA` olduğu için All yani 3 farklı cıktı verir **namp** **gnmap** **xml** `tnet` cıktı dosyasının ismi
