@@ -80,6 +80,27 @@ Subdomain Takeover, en basit tanımıyla bir **"Yetim DNS Kaydı (Dangling DNS)"
 
 ---
 
+## 🛠️ `dig` Version query
+
+* **DNS sunucusundan bir alan adının tüm kayıtlarını tek seferde istemek için kullanılan sorgu türüdür.**
+  ```bash
+   dig axfr inlanefreight.htb @10.129.14.128
+  ```
+  
+## 🛠️ `dig` Version query
+
+* **Sadece Version kayıtlarını filtrelemek için:**
+  ```bash
+   dig CH TXT version.bind 10.129.120.85
+  ```
+
+## 🛠️ `dig` Nameserver query
+
+* **Sadece nameserver kayıtlarını filtrelemek için:**
+  ```bash
+   dig ns inlanefreight.htb @10.129.14.128
+  ```
+
 ## 🛠️ `dig` İle Pratik Avcılık Komutları
 
 * **Sadece CNAME kayıtlarını filtrelemek için:**
