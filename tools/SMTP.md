@@ -197,6 +197,12 @@ Connection closed by foreign host.
 mynetworks = 0.0.0.0/0
 ```
 
+## smtp'de user enumeration
+
+```bash
+smtp-user-enum -M VRFY -U /usr/share/seclists/Usernames/top-usernames-shortlist.txt -t target-ip 
+```
+
 ## Footprinting the Service
 
 ### nmap
