@@ -1,14 +1,19 @@
 # SMPT (simple mail tranfer protokol)
 
+
+
+
 **Basit Posta Aktarım Protokolü (SMTP), bir IP ağı üzerinden e-posta göndermek için kullanılan bir protokoldür.**
 **SMTP genellikle, e-postaların alınıp gönderilmesini sağlayan `IMAP` veya `POP3` protokolleriyle birlikte kullanılır.**
 ### smtp ports
 + **Default:** `25`
 + **Yeni SMTP sunucuları** `587`
 + **Bazen** `465`
-
-
 --- 
+
+## IMAP&POP3 mailleri okumak için
+[IMAP&POP3](https://github.com/ademsuslu/Hacking/edit/main/tools/imap¾pop3.md)
+
 
 ## Default Configration
 <details>
