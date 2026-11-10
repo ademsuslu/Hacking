@@ -59,6 +59,7 @@ snmpwalk -v2c -c public 10.129.14.128
 ```bash
 onesixtyone -c /usr/share/seclists/Discovery/SNMP/snmp.txt 10.129.47.188
 ```
+**string:[backup] budur** `backup`
 
 **buldugmuz bu string ile**
 
