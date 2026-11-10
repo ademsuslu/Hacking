@@ -36,8 +36,8 @@
 | `STAT` | Sunucudaki kayıtlı e-posta sayısını ister. |
 | `LIST` | Tüm e-postaların sayısını ve boyutunu ister. |
 | `RETR id` | Belirtilen ID'ye sahip e-postayı teslim etmesini ister. |
-| `DELE id` | Belirtilen ID'ye sahip e-postayı silmesini ister. |
-| `CAPA` | Sunucunun desteklediği yetenekleri gösterir. |
+| `DELETE id` | Belirtilen ID'ye sahip e-postayı silmesini ister. |
+| `CAPABILITY` | Sunucunun desteklediği yetenekleri gösterir. |
 | `RSET` | Gönderilen bilgileri sıfırlamasını ister. |
 | `QUIT` | POP3 sunucusuyla bağlantıyı kapatır. |
 
