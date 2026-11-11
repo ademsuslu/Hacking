@@ -24,4 +24,3 @@ enum4linux-ng 10.10.11.45 -A -C
 - Kullanıcı listesi
 - Parola politikası (lockout eşiği)
 
-> Not: Yalnızca yetkili olduğun hedeflerde kullan.
