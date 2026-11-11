@@ -16,3 +16,9 @@ SMB         10.129.14.128   445    DEVSMB           notes           READ,WRITE  
 SMB         10.129.14.128   445    DEVSMB           IPC$                            IPC Service (DEVSM)
 
 ```
+
+**Brute Forcing**
+
+```bash
+crackmapexec smb 10.10.110.17 -u /tmp/userlist.txt -p 'Company01!' --local-auth
+```
