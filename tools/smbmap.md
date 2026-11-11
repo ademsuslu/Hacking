@@ -17,7 +17,7 @@ smbmap -H 10.129.14.128
 ```
 
 
-**yada**
+**dizinleri listeleme**
 
 + `-r` recursive
 ```bash
@@ -33,5 +33,23 @@ smbmap -H 10.129.14.128 -r home
         dr--r--r               0 Mon Nov  2 00:54:57 2020    TPLRNSMWHQ
         dr--r--r               0 Mon Nov  2 00:56:51 2020    WDJEQFZPNO
         dr--r--r               0 Fri Feb 22 07:44:02 2019    WindowsImageBackup
+```
+
+
+**dosya indirme**
+
+
+
+```bash
+smbmap -H 10.129.14.128 --download "notes\note.txt"
+```
+
+**dosya yükleme**
+
+
+
+```bash
+smbmap -H 10.129.14.128 --upload test.txt "notes\test.txt"
+
 ```
 
