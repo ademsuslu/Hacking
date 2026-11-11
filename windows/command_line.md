@@ -1,3 +1,96 @@
+# Windows Shell'lerde Dosya Paylaşımı ve Arama Komutları
+
+Windows iki komut satırı arayüzü sunar: **CMD** ve **PowerShell**. Bu notta, paylaşılan bir klasörde dosya arama ve içerik tarama komutlarına odaklanılmıştır.
+
+---
+
+## Windows CMD
+
+### `dir` ile Paylaşım Listeleme
+
+```cmd
+C:\htb> dir \\192.168.220.129\Finance\
+```
+
+### Dosya Sayma
+
+```cmd
+dir n: /a-d /s /b | find /c ":\"
+```
+
+| Parametre | Açıklama |
+|-----------|----------|
+| `dir` | Dizin listeleme komutu |
+| `n:` | Aranacak sürücü veya dizin |
+| `/a-d` | Dizinleri hariç tutar, sadece dosyaları listeler |
+| `/s` | Alt dizinlerdeki dosyaları da listeler |
+| `/b` | Sade format (başlık ve özet bilgisi olmadan) |
+
+`find /c ":\"` komutu, `dir` çıktısındaki satır sayısını sayar.
+
+### Dosya Adına Göre Arama
+
+```cmd
+dir n:\*cred* /s /b
+dir n:\*secret* /s /b
+```
+
+Aranan kelimeler: `cred`, `password`, `users`, `secrets`, `key`
+Kaynak kod uzantıları: `.cs`, `.c`, `.go`, `.java`, `.php`, `.py`, `.aspx`, `.html`
+
+### İçerik Arama (`findstr`)
+
+```cmd
+findstr /s /i cred n:\*.*
+```
+
+| Parametre | Açıklama |
+|-----------|----------|
+| `/s` | Alt dizinlerde arar |
+| `/i` | Büyük/küçük harf duyarsız |
+
+---
+
+## Windows PowerShell
+
+### Dizin Listeleme (`Get-ChildItem` / `gci`)
+
+```powershell
+Get-ChildItem \\192.168.220.129\Finance\
+```
+
+### Dosya Sayma
+
+```powershell
+PS N:\> (Get-ChildItem -File -Recurse | Measure-Object).Count
+```
+
+### Dosya Adına Göre Arama (`-Include`)
+
+```powershell
+Get-ChildItem -Recurse -Path N:\ -Include *cred* -File
+```
+
+### İçerik Arama (`Select-String`)
+
+```powershell
+Get-ChildItem -Recurse -Path N:\ | Select-String "cred" -List
+```
+
+`Select-String`, Linux'taki `grep` ve CMD'deki `findstr` komutlarının PowerShell karşılığıdır.
+
+---
+
+## Özet Karşılaştırma
+
+| İşlem | CMD | PowerShell |
+|-------|-----|------------|
+| Listeleme | `dir` | `Get-ChildItem` / `gci` |
+| Dosya adı arama | `dir *cred* /s /b` | `Get-ChildItem -Recurse -Include *cred*` |
+| İçerik arama | `findstr /s /i cred` | `Select-String "cred"` |
+| Sayma | `dir /a-d /s /b \| find /c ":\"` | `(Get-ChildItem -File -Recurse \| Measure-Object).Count` |
+
+---
 
 ### Sistemde hangi dosyaları kullanabiliriz kontrol etmek için aşağıdaki dizini listeleyiniz
 
