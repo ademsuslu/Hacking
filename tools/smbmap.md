@@ -15,3 +15,23 @@ smbmap -H 10.129.14.128
         IPC$                                                    NO ACCESS       IPC Service (DEVSM)
 
 ```
+
+
+**yada**
+
++ `-r` recursive
+```bash
+smbmap -H 10.129.14.128 -r home
+
+
+
+        dr--r--r               0 Mon Nov  2 00:57:44 2020    .
+        dr--r--r               0 Mon Nov  2 00:57:44 2020    ..
+        dr--r--r               0 Mon Nov  2 00:57:44 2020    LDOUJZWBSG
+        fw--w--w             116 Tue Apr 16 07:43:19 2019    note.txt
+        fr--r--r               0 Fri Feb 22 07:43:28 2019    SDT65CB.tmp
+        dr--r--r               0 Mon Nov  2 00:54:57 2020    TPLRNSMWHQ
+        dr--r--r               0 Mon Nov  2 00:56:51 2020    WDJEQFZPNO
+        dr--r--r               0 Fri Feb 22 07:44:02 2019    WindowsImageBackup
+```
+
