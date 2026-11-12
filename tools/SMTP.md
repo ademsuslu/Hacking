@@ -12,7 +12,7 @@
 --- 
 
 ## IMAP&POP3 mailleri okumak için
-[IMAP&POP3](https://github.com/ademsuslu/Hacking/edit/main/tools/imap¾pop3.md)
+[IMAP&POP3](https://github.com/ademsuslu/Hacking/edit/main/tools/imap%26pop3.md)
 
 
 ## Default Configration
