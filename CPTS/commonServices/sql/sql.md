@@ -60,6 +60,8 @@ sqsh -S 10.129.203.7 -U julio -P 'MyPassword!' -h
 
 # sqsh ile htbdbuser Oturumunda Yapılabilecekler
 
+**her komut'dan sonra `GO` ile commandı execute et** 
+
 | Komut | Ne yapar | Bu oturumda durum |
 |-------|----------|-------------------|
 | `SELECT SYSTEM_USER` | Bağlı login adını gösterir | `htbdbuser` |
