@@ -3,13 +3,7 @@
 
 **Default Ports**
 
-+ `25`
-+ `143`
-+ `110`
-+ `465`
-+ `587`
-+ `993`
-+ `995`
++ `25`, `143`, `110`, `465`, `587`, `993`,`995`
 
 + Bir posta sunucusunu tanımlamak için Mail eXchanger (MX) DNS kaydını kullanabiliriz
 
