@@ -9,7 +9,7 @@
 
 ---
 
-> [!NOTE] Kullanıcının sahip olduğu ayrıcalıklara bağlı olarak, bir SQL Server üzerinde aşağıdakiler gibi çeşitli işlemler gerçekleştirebiliriz:
+> [!TIP] Kullanıcının sahip olduğu ayrıcalıklara bağlı olarak, bir SQL Server üzerinde aşağıdakiler gibi çeşitli işlemler gerçekleştirebiliriz:
 >  + [ ] Veritabanı içeriğini okuma veya değiştirme
 >  + [ ] Sunucu yapılandırmasını okuma veya değiştirme
 >  + [ ] Komut yürütme
