@@ -188,7 +188,10 @@ USER john
 ##### otomatize user enum
 
 ```bash
-smtp-user-enum -M RCPT -U userlist.txt -D inlanefreight.htb -t 10.129.203.7
+cd /opt/SMTPeek/target/release
+
+ ./smtpeek -u /root/htb-academy/users.list -d inlanefreight.htb -c 5 10.129.203.7
+
 ```
 
 ## Cloud Enumeration
