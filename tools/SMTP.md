@@ -205,7 +205,10 @@ mynetworks = 0.0.0.0/0
 ## smtp'de user enumeration
 
 ```bash
-smtp-user-enum -M VRFY -U /usr/share/seclists/Usernames/Names/names.txt -t target-ip 
+cd /opt/SMTPeek/target/release
+
+ ./smtpeek -u /root/htb-academy/users.list -d inlanefreight.htb -c 5 10.129.203.7
+
 ```
 
 ## Footprinting the Service
