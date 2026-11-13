@@ -94,7 +94,7 @@ sqsh -S 10.129.203.7 -U julio -P 'MyPassword!' -h
 
 | Komut | Ne yapar | Kullanımı |
 |-------|----------|-----------|
-| `SELECT ... FROM sys.server_permissions ... WHERE permission_name='IMPERSONATE'` | Taklit izinlerini gösterir | Grantee tarafına join yaparak okunur |
+| `SELECT b.name AS grantee, a.permission_name, c.name AS grantor FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantee_principal_id = b.principal_id INNER JOIN sys.server_principals c ON a.grantor_principal_id = c.principal_id WHERE a.permission_name = 'IMPERSONATE'` | Taklit izinlerini gösterir | Grantee tarafına join yaparak okunur |
 | `EXECUTE AS LOGIN = '<login>'` | Başka bir login olarak çalışmaya geçer | Önce `USE master`, sonra çalıştır |
 | `REVERT` | `EXECUTE AS` ile geçilen kimliği bırakır | Yetkiyi geri almak için kullanılır |
 
