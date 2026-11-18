@@ -1,6 +1,10 @@
 # SMPT (simple mail tranfer protokol)
 
+## Kalide Python ile smpt listener açma
 
+```bash
+python3 -m aiosmtpd -n -l 10.10.17.42:8888
+```
 
 
 **Basit Posta Aktarım Protokolü (SMTP), bir IP ağı üzerinden e-posta göndermek için kullanılan bir protokoldür.**
