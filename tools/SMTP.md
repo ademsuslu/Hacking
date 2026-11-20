@@ -1,12 +1,5 @@
 # SMPT (simple mail tranfer protokol)
 
-## Kalide Python ile smpt listener açma
-
-```bash
-python3 -m aiosmtpd -n -l 10.10.17.42:8888
-```
-
-
 **Basit Posta Aktarım Protokolü (SMTP), bir IP ağı üzerinden e-posta göndermek için kullanılan bir protokoldür.**
 **SMTP genellikle, e-postaların alınıp gönderilmesini sağlayan `IMAP` veya `POP3` protokolleriyle birlikte kullanılır.**
 ### smtp ports
@@ -282,6 +275,132 @@ Completed NSE at 02:29, 0.00s elapsed
 Read data files from: /usr/bin/../share/nmap
 Nmap done: 1 IP address (1 host up) scanned in 0.48 seconds
            Raw packets sent: 2 (72B) | Rcvd: 2 (72B)
+```
+
+
+## Kalide Python ile smpt listener açma
+
+
+1. **openssl ile pem ouştur:**
+
+```bash
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 1 -nodes \
+  -subj "/CN=10.10.17.42" -addext "subjectAltName=IP:10.10.17.42"
+```
+
+2. **listener aç**
+**listener server codes**
+```python
+cat server.py 
+import logging, os, ssl
+from aiosmtpd.controller import Controller
+from aiosmtpd.handlers import Debugging
+from aiosmtpd.smtp import AuthResult, LoginPassword
+
+logging.basicConfig(level=logging.DEBUG)
+
+HOST = "10.10.17.42"
+PORT = 9999
+USER = os.environ.get("SMTP_USER", "suslu7616")
+PASS = os.environ.get("SMTP_PASS", "suslu7616")
+
+def authenticator(server, session, envelope, mechanism, auth_data):
+    if not isinstance(auth_data, LoginPassword):
+        return AuthResult(success=False, handled=False)
+    ok = (auth_data.login.decode() == USER and
+          auth_data.password.decode() == PASS)
+    return AuthResult(success=ok)
+
+ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+ctx.load_cert_chain("cert.pem", "key.pem")
+
+controller = Controller(
+    Debugging(),
+    hostname=HOST,
+    port=PORT,
+    tls_context=ctx,
+    require_starttls=False,
+    authenticator=authenticator,
+    auth_require_tls=False,
+)
+controller.start()
+input("Çalışıyor. Durdurmak için Enter...")
+controller.stop()
+
+```
+
+
+**listener**
+
+```bash
+python3 server.py
+DEBUG:asyncio:Using selector: EpollSelector
+INFO:mail.log:Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)
+INFO:mail.log:Peer: ('10.10.17.42', 51690)
+INFO:mail.log:('10.10.17.42', 51690) handling connection
+DEBUG:mail.log:('10.10.17.42', 51690) << b'220 suslusec Python SMTP 1.4.6'
+INFO:mail.log:('10.10.17.42', 51690) EOF received
+INFO:mail.log:('10.10.17.42', 51690) Connection lost during _handle_client()
+Çalışıyor. Durdurmak için Enter...INFO:mail.log:('10.10.17.42', 51690) connection lost
+INFO:mail.log:Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)
+INFO:mail.log:Peer: ('10.13.37.14', 43402)
+INFO:mail.log:('10.13.37.14', 43402) handling connection
+DEBUG:mail.log:('10.13.37.14', 43402) << b'220 suslusec Python SMTP 1.4.6'
+DEBUG:mail.log:_handle_client readline: b'ehlo [172.22.0.3]\r\n'
+INFO:mail.log:('10.13.37.14', 43402) >> b'ehlo [172.22.0.3]'
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250-suslusec'
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250-SIZE 33554432'
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250-8BITMIME'
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250-SMTPUTF8'
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250-STARTTLS'
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250-AUTH LOGIN PLAIN'
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250 HELP'
+DEBUG:mail.log:_handle_client readline: b'AUTH PLAIN ********\r\n'
+INFO:mail.log:('10.13.37.14', 43402) >> b'AUTH PLAIN ********'
+DEBUG:mail.log:Using builtin auth_ hook for 'PLAIN'
+DEBUG:mail.log:auth_PLAIN returned AuthResult(success=True, handled=True, message=None, auth_data=...)
+WARNING:mail.log:Session.login_data is deprecated and will be removed in version 2.0
+DEBUG:mail.log:('10.13.37.14', 43402) << b'235 2.7.0 Authentication successful'
+DEBUG:mail.log:_handle_client readline: b'mail FROM:<no-reply@faradaysec.com> size=133\r\n'
+INFO:mail.log:('10.13.37.14', 43402) >> b'mail FROM:<no-reply@faradaysec.com> size=133'
+INFO:mail.log:('10.13.37.14', 43402) sender: no-reply@faradaysec.com
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250 OK'
+DEBUG:mail.log:_handle_client readline: b'rcpt TO:<vamomanao@faradaysec.com>\r\n'
+INFO:mail.log:('10.13.37.14', 43402) >> b'rcpt TO:<vamomanao@faradaysec.com>'
+INFO:mail.log:('10.13.37.14', 43402) recip: vamomanao@faradaysec.com
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250 OK'
+DEBUG:mail.log:_handle_client readline: b'data\r\n'
+INFO:mail.log:('10.13.37.14', 43402) >> b'data'
+DEBUG:mail.log:('10.13.37.14', 43402) << b'354 End data with <CR><LF>.<CR><LF>'
+DEBUG:mail.log:DATA readline: b'Subject: Minus qui autem volu\r\n'
+DEBUG:mail.log:DATA readline: b'\r\n'
+DEBUG:mail.log:DATA readline: b'An event was reported at Barnie:\r\n'
+DEBUG:mail.log:DATA readline: b'Quas quidem labore d\r\n'
+DEBUG:mail.log:DATA readline: b'Here is your gift FARADAY{ehlo_@nd_w3lcom3!}\r\n'
+DEBUG:mail.log:DATA readline: b'.\r\n'
+---------- MESSAGE FOLLOWS ----------
+mail options: ['SIZE=133']
+
+Subject: Minus qui autem volu
+X-Peer: ('10.13.37.14', 43402)
+
+An event was reported at Barnie:
+Quas quidem labore d
+Here is your gift FARADAY{ehlo_@nd_w3lcom3!}
+------------ END MESSAGE ------------
+DEBUG:mail.log:('10.13.37.14', 43402) << b'250 OK'
+DEBUG:mail.log:_handle_client readline: b'quit\r\n'
+INFO:mail.log:('10.13.37.14', 43402) >> b'quit'
+DEBUG:mail.log:('10.13.37.14', 43402) << b'221 Bye'
+INFO:mail.log:('10.13.37.14', 43402) connection lost
+INFO:mail.log:('10.13.37.14', 43402) Connection lost during _handle_client()
+
+
+```
+3. **serveri çalıştır**
+
+```bash
+python3 server.py
 ```
 
 
