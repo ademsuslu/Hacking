@@ -287,6 +287,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.48 seconds
 openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 1 -nodes \
   -subj "/CN=10.10.17.42" -addext "subjectAltName=IP:10.10.17.42"
 ```
+**buradaki ip adresleri bizim local ip adresleri `/CN=my-local-vpn` `subjectAltName=IP:my-local-vpn`**
 
 2. **listener aç**
 **listener server codes**
