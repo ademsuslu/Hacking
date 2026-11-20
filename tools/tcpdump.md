@@ -63,3 +63,10 @@ tcpdump -i br-1b6b4b93c636 -A -s 0 tcp
 •  `-A`  → paket içeriğini ASCII olarak yazdırır (düz metin cred'leri görmek için).                                                                      
 •  `-s 0`  → paketi tam boyutta yakalar (kırpma yok).                         
 •  tcp  → sadece TCP filtresi. 
+
+
+
+##  tcp dump ile porttan dinleme
+```bash
+sudo tcpdump -i any -A port 9999
+```
