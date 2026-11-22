@@ -1,4 +1,16 @@
 # Hashcat ile hash passwd cracking
+## hazır payloads
+
+1. **Blowfish/bcrypt**
+
+```bash
+hashcat -m 3200 hash.txt rockyou.txt
+```
+2. **md5**
+
+```bash
+hashcat -m 0 -a 0 hash.txt /usr/share/wordlists/rockyou.txt
+```
 
 ## önce formatını öğren
 
