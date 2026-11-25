@@ -1,3 +1,7 @@
+## subdomain için kullanılabilicek listeler 
+
+- `/usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt`
+
 ## passsword fuzz
 ```bash
 ffuf -w /usr/share/wordlists/rockyou.txt  -d "username=booth&password=FUZZ" -u http://10.113.152.207/login  -H "Content-Type: application/x-www-form-urlencoded" -fs 3567
